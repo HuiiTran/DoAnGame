@@ -18,10 +18,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\gamedev-intro-tutorials-master\04-Collision\Sprites.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\gamedev-intro-tutorials-master\04-Collision\Textures.cpp">
+    <ClCompile Include="..\..\gamedev-intro-tutorials-master\04-Collision\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\gamedev-intro-tutorials-master\04-Collision\Animation.cpp">
@@ -63,14 +60,14 @@
     <ClCompile Include="..\..\gamedev-intro-tutorials-master\04-Collision\Sprite.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\gamedev-intro-tutorials-master\04-Collision\main.cpp">
+    <ClCompile Include="..\..\gamedev-intro-tutorials-master\04-Collision\Sprites.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\gamedev-intro-tutorials-master\04-Collision\Textures.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\gamedev-intro-tutorials-master\04-Collision\Textures.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\gamedev-intro-tutorials-master\04-Collision\Animation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -123,6 +120,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\gamedev-intro-tutorials-master\04-Collision\Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\gamedev-intro-tutorials-master\04-Collision\Textures.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
