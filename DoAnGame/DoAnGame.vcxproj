@@ -131,7 +131,43 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="..\..\gamedev-intro-tutorials-master\04-Collision\Animation.cpp" />
+    <ClCompile Include="..\..\gamedev-intro-tutorials-master\04-Collision\Animations.cpp" />
+    <ClCompile Include="..\..\gamedev-intro-tutorials-master\04-Collision\Brick.cpp" />
+    <ClCompile Include="..\..\gamedev-intro-tutorials-master\04-Collision\Coin.cpp" />
+    <ClCompile Include="..\..\gamedev-intro-tutorials-master\04-Collision\Collision.cpp" />
+    <ClCompile Include="..\..\gamedev-intro-tutorials-master\04-Collision\debug.cpp" />
+    <ClCompile Include="..\..\gamedev-intro-tutorials-master\04-Collision\Game.cpp" />
+    <ClCompile Include="..\..\gamedev-intro-tutorials-master\04-Collision\GameObject.cpp" />
+    <ClCompile Include="..\..\gamedev-intro-tutorials-master\04-Collision\Goomba.cpp" />
+    <ClCompile Include="..\..\gamedev-intro-tutorials-master\04-Collision\main.cpp" />
+    <ClCompile Include="..\..\gamedev-intro-tutorials-master\04-Collision\Mario.cpp" />
+    <ClCompile Include="..\..\gamedev-intro-tutorials-master\04-Collision\Platform.cpp" />
+    <ClCompile Include="..\..\gamedev-intro-tutorials-master\04-Collision\SampleKeyEventHandler.cpp" />
+    <ClCompile Include="..\..\gamedev-intro-tutorials-master\04-Collision\Sprite.cpp" />
+    <ClCompile Include="..\..\gamedev-intro-tutorials-master\04-Collision\Sprites.cpp" />
+    <ClCompile Include="..\..\gamedev-intro-tutorials-master\04-Collision\Textures.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\gamedev-intro-tutorials-master\04-Collision\Animation.h" />
+    <ClInclude Include="..\..\gamedev-intro-tutorials-master\04-Collision\AnimationFrame.h" />
+    <ClInclude Include="..\..\gamedev-intro-tutorials-master\04-Collision\Animations.h" />
+    <ClInclude Include="..\..\gamedev-intro-tutorials-master\04-Collision\AssetIDs.h" />
+    <ClInclude Include="..\..\gamedev-intro-tutorials-master\04-Collision\Brick.h" />
+    <ClInclude Include="..\..\gamedev-intro-tutorials-master\04-Collision\Coin.h" />
+    <ClInclude Include="..\..\gamedev-intro-tutorials-master\04-Collision\Collision.h" />
+    <ClInclude Include="..\..\gamedev-intro-tutorials-master\04-Collision\debug.h" />
+    <ClInclude Include="..\..\gamedev-intro-tutorials-master\04-Collision\Game.h" />
+    <ClInclude Include="..\..\gamedev-intro-tutorials-master\04-Collision\GameObject.h" />
+    <ClInclude Include="..\..\gamedev-intro-tutorials-master\04-Collision\Goomba.h" />
+    <ClInclude Include="..\..\gamedev-intro-tutorials-master\04-Collision\KeyEventHandler.h" />
+    <ClInclude Include="..\..\gamedev-intro-tutorials-master\04-Collision\Mario.h" />
+    <ClInclude Include="..\..\gamedev-intro-tutorials-master\04-Collision\Platform.h" />
+    <ClInclude Include="..\..\gamedev-intro-tutorials-master\04-Collision\SampleKeyEventHandler.h" />
+    <ClInclude Include="..\..\gamedev-intro-tutorials-master\04-Collision\Sprite.h" />
+    <ClInclude Include="..\..\gamedev-intro-tutorials-master\04-Collision\Sprites.h" />
+    <ClInclude Include="..\..\gamedev-intro-tutorials-master\04-Collision\Texture.h" />
+    <ClInclude Include="..\..\gamedev-intro-tutorials-master\04-Collision\Textures.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
