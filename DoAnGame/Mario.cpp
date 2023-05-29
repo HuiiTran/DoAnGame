@@ -7,7 +7,7 @@
 #include "Goomba.h"
 #include "Coin.h"
 #include "Portal.h"
-
+#include "QuestionBrick.h"
 #include "Collision.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -54,6 +54,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithCoin(e);
 	else if (dynamic_cast<CPortal*>(e->obj))
 		OnCollisionWithPortal(e);
+	else if (dynamic_cast<CQuestionBrick*>(e->obj))
+		OnCollisionWithQuestionBrick(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -89,7 +91,21 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		}
 	}
 }
+void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
+{
+	CQuestionBrick* questionbrick = dynamic_cast<CQuestionBrick*>(e->obj);
+	if (e->ny > 0 && questionbrick->IsEmpty() == false)
+	{
+		questionbrick->SetEmpty(true);
+		float questionbrick_x, questionbrick_y;
 
+		questionbrick->GetPosition(questionbrick_x, questionbrick_y);
+		questionbrick->SetPosition(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
+
+
+
+	}
+}
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {
 	e->obj->Delete();
