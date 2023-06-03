@@ -5,6 +5,7 @@ coin.txt
 cloud.txt
 brick.txt
 questionbrick.txt
+mushroom.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -15,22 +16,22 @@ questionbrick.txt
 0	120	10
 
 #COIN
-4	100	120
-4	120	120
-4	140	120
-4	160	120
-4	180	120
+4	100	120	0
+4	120	120	0
+4	140	120	0
+4	160	120	0
+4	180	120	0
 
 
-4	100	100
-4	120	100
-4	140	100
-4	160	100
-4	180	100
+4	100	100	0
+4	120	100	0
+4	140	100	0
+4	160	100	0
+4	180	100	0
 
 #QuestionBrick
-6	100	100
-6	117	100
+6	100	100	0
+6	117	100	1
 
 
 #Platform

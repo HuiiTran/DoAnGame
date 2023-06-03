@@ -23,7 +23,11 @@ class CQuestionBrick : public CGameObject
 	bool isEmpty = false;
 	float beforeHit_y;
 public:
-	CQuestionBrick(float x, float y, int type = 0) : CGameObject(x, y) { this->brick_type = type; this->beforeHit_y = y; }
+	CQuestionBrick(float x, float y, int type = 0) : CGameObject(x, y) 
+	{ 
+		this->brick_type = type;
+		this->beforeHit_y = y; 
+	}
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
@@ -31,6 +35,5 @@ public:
 	void SetEmpty(bool state) { this->isEmpty = state; }
 	bool IsEmpty() { return this->isEmpty; }
 	int GetBrickType() { return this->brick_type; }
-
 };
 

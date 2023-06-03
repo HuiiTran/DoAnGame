@@ -15,3 +15,19 @@ void CCoin::GetBoundingBox(float& l, float& t, float& r, float& b)
 	r = l + COIN_BBOX_WIDTH;
 	b = t + COIN_BBOX_HEIGHT;
 }
+void CCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
+	distanceUp += vy;
+	if (this->isFly == true && isInQuestionB == 1)
+	{
+		if (distanceUp > COIN_UP) {
+			vy = -vy;
+		}
+		else if (distanceUp < 0) {
+			this->Delete();
+		}
+
+	}
+	CGameObject::Update(dt, coObjects);
+	CCollision::GetInstance()->Process(this, dt, coObjects);
+}

@@ -9,7 +9,7 @@
 #include "Portal.h"
 #include "Coin.h"
 #include "Platform.h"
-
+#include "MushRoom.h"
 #include "SampleKeyEventHandler.h"
 
 using namespace std;
@@ -118,9 +118,18 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y); break;
-	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
-	case OBJECT_TYPE_QUESTIONBRICK: obj = new CQuestionBrick(x, y); break;
-
+	case OBJECT_TYPE_COIN: 
+	{
+		int coin_type = (int)atoi(tokens[3].c_str());
+		obj = new CCoin(x, y,coin_type); 
+		break;
+	}
+	case OBJECT_TYPE_QUESTIONBRICK: 
+	{
+		int block_type = (int)atoi(tokens[3].c_str());
+		obj = new CQuestionBrick(x, y, block_type); 
+		break;
+	}
 	case OBJECT_TYPE_PLATFORM:
 	{
 

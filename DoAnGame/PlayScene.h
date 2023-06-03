@@ -37,9 +37,12 @@ public:
 	LPGAMEOBJECT GetPlayer() { return player; }
 
 	void Clear();
+	
 	void PurgeDeletedObjects();
 
 	static bool IsGameObjectDeleted(const LPGAMEOBJECT& o);
+
+	void AddObjectToScene(LPGAMEOBJECT obj) { this->objects.push_back(obj); }
 };
 
 typedef CPlayScene* LPPLAYSCENE;

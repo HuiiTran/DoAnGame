@@ -5,6 +5,8 @@ brick.txt
 coin.txt
 goomba.txt
 cloud.txt
+questionbrick.txt
+mushroom.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -46,12 +48,13 @@ cloud.txt
 1	352	164
 
 #COIN
-4	100	120
-4	120	120
-4	140	120
-4	160	120
-4	180	120
+4	100	120	0
+4	120	120	0
+4	140	120	0
+4	160	120	0
+4	180	120	0
 
+6	74	145	1
 #Goomba
 2	300	10
 
