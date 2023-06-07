@@ -22,13 +22,13 @@ void CLeaf::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	if (state == LEAF_FALL_STATE || state == LEAF_CHANGE_DIREC_STATE)
 	{
-		if (GetTickCount64() - change_direction > 500)
+		if (GetTickCount64() - change_direction > 400)
 		{
 			vx = nx * LEAF_SPEED;
 			vy = -LEAF_BACK_Y;
 		}
 
-		if (GetTickCount64() - change_direction > 1500)
+		if (GetTickCount64() - change_direction > 1200)
 		{
 			SetState(LEAF_CHANGE_DIREC_STATE);
 		}

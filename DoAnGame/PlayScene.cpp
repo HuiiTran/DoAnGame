@@ -10,6 +10,7 @@
 #include "Coin.h"
 #include "Platform.h"
 #include "MushRoom.h"
+#include "ColorBlock.h"
 #include "SampleKeyEventHandler.h"
 
 using namespace std;
@@ -148,7 +149,23 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		break;
 	}
+	case OBJECT_TYPE_COLORBLOCK:
+	{
+		float cell_width = (float)atof(tokens[3].c_str());
+		float cell_height = (float)atof(tokens[4].c_str());
+		int length = atoi(tokens[5].c_str());
+		int sprite_begin = atoi(tokens[6].c_str());
+		int sprite_middle = atoi(tokens[7].c_str());
+		int sprite_end = atoi(tokens[8].c_str());
 
+		obj = new CColorBlock(
+			x, y,
+			cell_width, cell_height, length,
+			sprite_begin, sprite_middle, sprite_end
+		);
+
+		break;
+	}
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());

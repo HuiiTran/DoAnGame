@@ -9,14 +9,14 @@
 #define LEAF_BBOX_WIDTH 16
 #define LEAF_BBOX_HEIGHT 16
 
-#define LEAF_GRAVITY 0.00025f
+#define LEAF_GRAVITY 0.0004f
 #define LEAF_SPEED 0.03f
 #define LEAF_UP 0.2f
 #define LEAF_BACK_Y	0.01f
 
-#define LEAF_FLY_STATE 2
-#define LEAF_FALL_STATE 3
-#define LEAF_CHANGE_DIREC_STATE 4
+#define LEAF_FLY_STATE 1
+#define LEAF_FALL_STATE 2
+#define LEAF_CHANGE_DIREC_STATE 3
 
 class CLeaf : public CGameObject
 {

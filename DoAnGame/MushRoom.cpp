@@ -1,19 +1,32 @@
 #include "MushRoom.h"
-
+#include "Mario.h"
 void CMushRoom::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
-	if (this->type == 0)
-		animations->Get(ID_ANI_MUSHROOM)->Render(x, y);
-	else
-		animations->Get(ID_ANI_MUSHROOM_LIFEUP)->Render(x, y);
+	if (state == MUSHROOM_APPEAR_STATE || state == MUSHROOM_MOVING_STATE) {
+		if (this->type == 0)
+			animations->Get(ID_ANI_MUSHROOM)->Render(x, y);
+		else
+			animations->Get(ID_ANI_MUSHROOM_LIFEUP)->Render(x, y);
+	}
 }
 void CMushRoom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	vy += ay * dt;
-	vx += ax * dt;
+	if (state == MUSHROOM_APPEAR_STATE)
+	{
+		if (GetTickCount64() - appear_start > 300)
+		{
+			SetState(MUSHROOM_MOVING_STATE);
+			return;
+		}
+	}
+	if (state == MUSHROOM_MOVING_STATE) 
+	{
+		vy += ay * dt;
+	}
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
+	
 }
 void CMushRoom::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
@@ -24,10 +37,8 @@ void CMushRoom::GetBoundingBox(float& l, float& t, float& r, float& b)
 }
 void CMushRoom::OnNoCollision(DWORD dt)
 {
-	
 	x += vx * dt;
 	y += vy * dt;
-	
 }
 void CMushRoom::OnCollisionWith(LPCOLLISIONEVENT e)
 {
@@ -44,14 +55,18 @@ void CMushRoom::OnCollisionWith(LPCOLLISIONEVENT e)
 }
 void CMushRoom::SetState(int state)
 {
-	CGameObject::SetState(state);
+	
 	switch (state)
 	{
 	case MUSHROOM_APPEAR_STATE:
-		appear_start = GetTickCount64();
+		StartAppear();
 		vy = -MUSHROOM_SPEED;
 		break;
 	case MUSHROOM_MOVING_STATE:
+		ay = MUSHROOM_GRAVITY;
+		vy = 0;
+		vx = MUSHROOM_SPEED;
 		break;
 	}
+	CGameObject::SetState(state);
 }

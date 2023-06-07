@@ -10,7 +10,7 @@
 #define COIN_BBOX_WIDTH 10
 #define COIN_BBOX_HEIGHT 16
 
-#define COIN_UP 2.0f
+#define COIN_UP 3.0f
 #define COIN_DOWN 0.007f
 #define COIN_SPEED 0.169f
 class CCoin : public CGameObject {

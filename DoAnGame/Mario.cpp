@@ -121,19 +121,25 @@ void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 			questionbrick->SetPosition(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
 			coin++;
 		}
-		if (questionbrick->GetBrickType() == 1) //mushroom
+		if ((questionbrick->GetBrickType() == 1 && this->level == MARIO_LEVEL_SMALL) || (questionbrick->GetBrickType() == 2 && this->level == MARIO_LEVEL_SMALL)) //mushroom
 		{
 			questionbrick->SetEmpty(true);
 			float questionbrick_x, questionbrick_y;
 			LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
 
 			questionbrick->GetPosition(questionbrick_x, questionbrick_y);
-			questionbrick->SetPosition(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
-			
-			CMushRoom* newMush = new CMushRoom(questionbrick_x, questionbrick_y - 2 * QUESTIONBRICK_BBOX_HEIGTH - 10 , 0 );
+			questionbrick->Delete();
+
+			CMushRoom* newMush = new CMushRoom(questionbrick_x, questionbrick_y - 5 , 0 );
 			thisscene->AddObjectToScene(newMush);
+			
+			CQuestionBrick* newbrick = new CQuestionBrick(questionbrick_x, questionbrick_y);
+			newbrick->SetEmpty(true);
+			thisscene->AddObjectToScene(newbrick);
+			newbrick->SetPosition(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
+			
 		}
-		if (questionbrick->GetBrickType() == 2) //leaf
+		if ((questionbrick->GetBrickType() == 2 && this->level == MARIO_LEVEL_BIG) || (questionbrick->GetBrickType() == 1 && this->level == MARIO_LEVEL_BIG)) //leaf
 		{
 			questionbrick->SetEmpty(true);
 			float questionbrick_x, questionbrick_y;
@@ -153,9 +159,16 @@ void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 
 			questionbrick->GetPosition(questionbrick_x, questionbrick_y);
 			questionbrick->SetPosition(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
+			questionbrick->Delete();
 
-			CMushRoom* newMush = new CMushRoom(questionbrick_x, questionbrick_y - 2 *  QUESTIONBRICK_BBOX_HEIGTH , 1);
+			CMushRoom* newMush = new CMushRoom(questionbrick_x, questionbrick_y - 5, 1);
 			thisscene->AddObjectToScene(newMush);
+
+			CQuestionBrick* newbrick = new CQuestionBrick(questionbrick_x, questionbrick_y);
+			newbrick->SetEmpty(true);
+			thisscene->AddObjectToScene(newbrick);
+			newbrick->SetPosition(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
+			
 		}
 
 

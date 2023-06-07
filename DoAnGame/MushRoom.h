@@ -6,8 +6,8 @@
 #define ID_ANI_MUSHROOM 13000
 #define ID_ANI_MUSHROOM_LIFEUP 13001
 
-#define MUSHROOM_MOVING_STATE 100
-#define MUSHROOM_APPEAR_STATE 200
+#define MUSHROOM_APPEAR_STATE 1
+#define MUSHROOM_MOVING_STATE 2
 
 #define MUSHROOM_BBOX_WIDTH 16
 #define MUSHROOM_BBOX_HEIGHT 16
@@ -26,9 +26,8 @@ protected:
 public:
 	CMushRoom(float x, float y, int type = 0) : CGameObject(x, y)
 	{
-		this->ax = 0;
-		this->ay = MUSHROOM_GRAVITY;
-		this->vx = MUSHROOM_SPEED;
+		this->vx = 0;
+		this->vy = 0;
 		this->type = type;
 		appear_start = -1;
 		SetState(MUSHROOM_APPEAR_STATE);
@@ -44,6 +43,8 @@ public:
 	void OnCollisionWith(LPCOLLISIONEVENT e);
 
 	int Gettype() { return this->type; }
-	void SetState(int state);
+
+	virtual void SetState(int state);
+	void StartAppear() { appear_start = GetTickCount64(); }
 };
 

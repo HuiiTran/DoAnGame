@@ -7,6 +7,7 @@ goomba.txt
 cloud.txt
 questionbrick.txt
 mushroom.txt
+leaf.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type

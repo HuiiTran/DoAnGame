@@ -111,6 +111,7 @@ class CMario : public CGameObject
 	int level; 
 	int untouchable; 
 	ULONGLONG untouchable_start;
+	ULONGLONG wait;
 	BOOLEAN isOnPlatform;
 	int coin; 
 
@@ -135,6 +136,7 @@ public:
 		level = MARIO_LEVEL_SMALL;//MARIO_LEVEL_BIG;
 		untouchable = 0;
 		untouchable_start = -1;
+		wait = -1;
 		isOnPlatform = false;
 		coin = 0;
 	}
@@ -154,6 +156,7 @@ public:
 
 	void SetLevel(int l);
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
+	void StartWait() { wait = GetTickCount64(); }
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 };
