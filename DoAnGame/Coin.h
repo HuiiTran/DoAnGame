@@ -12,7 +12,7 @@
 
 #define COIN_UP 2.0f
 #define COIN_DOWN 0.007f
-#define COIN_SPEED 0.16855f
+#define COIN_SPEED 0.169f
 class CCoin : public CGameObject {
 	int isInQuestionB = 0; //0: normal, 1: in questionbrick
 	bool isFly = false;

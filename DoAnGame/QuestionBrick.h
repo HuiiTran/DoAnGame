@@ -14,7 +14,7 @@
 #define	QUESTIONBRICK_STATE_EMPTY 200
 
 
-#define QUESTIONBRICK_UP 19
+#define QUESTIONBRICK_UP 20
 #define QUESTIONBRICK_DOWN 0.007f
 
 class CQuestionBrick : public CGameObject

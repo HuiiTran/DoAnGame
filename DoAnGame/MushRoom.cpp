@@ -1,10 +1,12 @@
 #include "MushRoom.h"
-#include "QuestionBrick.h"
+
 void CMushRoom::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
-	animations->Get(ID_ANI_MUSHROOM)->Render(x, y);
-	//RenderBoundingBox();
+	if (this->type == 0)
+		animations->Get(ID_ANI_MUSHROOM)->Render(x, y);
+	else
+		animations->Get(ID_ANI_MUSHROOM_LIFEUP)->Render(x, y);
 }
 void CMushRoom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -22,8 +24,10 @@ void CMushRoom::GetBoundingBox(float& l, float& t, float& r, float& b)
 }
 void CMushRoom::OnNoCollision(DWORD dt)
 {
+	
 	x += vx * dt;
 	y += vy * dt;
+	
 }
 void CMushRoom::OnCollisionWith(LPCOLLISIONEVENT e)
 {
@@ -36,5 +40,18 @@ void CMushRoom::OnCollisionWith(LPCOLLISIONEVENT e)
 	else if (e->nx != 0)
 	{
 		vx = -vx;
+	}
+}
+void CMushRoom::SetState(int state)
+{
+	CGameObject::SetState(state);
+	switch (state)
+	{
+	case MUSHROOM_APPEAR_STATE:
+		appear_start = GetTickCount64();
+		vy = -MUSHROOM_SPEED;
+		break;
+	case MUSHROOM_MOVING_STATE:
+		break;
 	}
 }

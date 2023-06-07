@@ -140,6 +140,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Goomba.cpp" />
+    <ClCompile Include="Leaf.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="MushRoom.cpp" />
@@ -166,6 +167,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Goomba.h" />
     <ClInclude Include="KeyEventHandler.h" />
+    <ClInclude Include="Leaf.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="MushRoom.h" />
     <ClInclude Include="Platform.h" />

@@ -10,6 +10,7 @@
 #include "QuestionBrick.h"
 #include "Collision.h"
 #include "MushRoom.h"
+#include "Leaf.h"
 
 #include "PlayScene.h"
 
@@ -61,6 +62,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithQuestionBrick(e);
 	else if (dynamic_cast<CMushRoom*>(e->obj))
 		OnCollisionWithMushRoom(e);
+	else if (dynamic_cast<CLeaf*>(e->obj))
+		OnCollisionWithLeaf(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -96,6 +99,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		}
 	}
 }
+
 void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 {
 	CQuestionBrick* questionbrick = dynamic_cast<CQuestionBrick*>(e->obj);
@@ -124,14 +128,33 @@ void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 			LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
 
 			questionbrick->GetPosition(questionbrick_x, questionbrick_y);
-			//questionbrick->SetPosition(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
+			questionbrick->SetPosition(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
 			
-			CQuestionBrick* newBrick = new CQuestionBrick(questionbrick_x, questionbrick_y );
-			questionbrick->Delete();
-			newBrick->SetEmpty(true);	
-			thisscene->AddObjectToScene(newBrick);
+			CMushRoom* newMush = new CMushRoom(questionbrick_x, questionbrick_y - 2 * QUESTIONBRICK_BBOX_HEIGTH - 10 , 0 );
+			thisscene->AddObjectToScene(newMush);
+		}
+		if (questionbrick->GetBrickType() == 2) //leaf
+		{
+			questionbrick->SetEmpty(true);
+			float questionbrick_x, questionbrick_y;
+			LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
 
-			CMushRoom* newMush = new CMushRoom(questionbrick_x, questionbrick_y - 2 * QUESTIONBRICK_BBOX_HEIGTH - 5 );
+			questionbrick->GetPosition(questionbrick_x, questionbrick_y);
+			questionbrick->SetPosition(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
+
+			CLeaf* newLeaf = new CLeaf(questionbrick_x, questionbrick_y - 2 * QUESTIONBRICK_BBOX_HEIGTH - QUESTIONBRICK_UP);
+			thisscene->AddObjectToScene(newLeaf);
+		}
+		if (questionbrick->GetBrickType() == 3) //life up
+		{
+			questionbrick->SetEmpty(true);
+			float questionbrick_x, questionbrick_y;
+			LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+
+			questionbrick->GetPosition(questionbrick_x, questionbrick_y);
+			questionbrick->SetPosition(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
+
+			CMushRoom* newMush = new CMushRoom(questionbrick_x, questionbrick_y - 2 *  QUESTIONBRICK_BBOX_HEIGTH , 1);
 			thisscene->AddObjectToScene(newMush);
 		}
 
@@ -141,13 +164,26 @@ void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithMushRoom(LPCOLLISIONEVENT e)
 {
 	CMushRoom* mushroom = dynamic_cast<CMushRoom*>(e->obj);
-	mushroom->Delete();
 	
-	if (this->level == MARIO_LEVEL_SMALL)
+	if (mushroom->Gettype() == 0)
 	{
-		y -= 10;
-		level = MARIO_LEVEL_BIG;
+		if (this->level == MARIO_LEVEL_SMALL)
+			{
+				y -= 10;
+				level = MARIO_LEVEL_BIG;
+			}
 	}
+	else
+	{
+
+	}
+	mushroom->Delete();
+}
+void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)
+{
+	CLeaf* leaf = dynamic_cast<CLeaf*>(e->obj);
+
+	leaf->Delete();
 }
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {
