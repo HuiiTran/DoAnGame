@@ -11,8 +11,8 @@
 
 #define LEAF_GRAVITY 0.0004f
 #define LEAF_SPEED 0.03f
-#define LEAF_UP 0.2f
-#define LEAF_BACK_Y	0.01f
+#define LEAF_UP 0.15f
+#define LEAF_BACK_Y	0.005f
 
 #define LEAF_FLY_STATE 1
 #define LEAF_FALL_STATE 2
@@ -35,7 +35,7 @@ public:
 		this->vx = LEAF_SPEED;
 		fly_up = -1;
 		change_direction = -1;
-		state = LEAF_FLY_STATE;
+		SetState(LEAF_FLY_STATE);
 	}
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

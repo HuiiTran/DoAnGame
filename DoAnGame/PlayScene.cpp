@@ -11,6 +11,7 @@
 #include "Platform.h"
 #include "MushRoom.h"
 #include "ColorBlock.h"
+#include "BackGround.h"
 #include "SampleKeyEventHandler.h"
 
 using namespace std;
@@ -118,7 +119,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(x,y); break;
+	case OBJECT_TYPE_BRICK: 
+	{
+		int brick_type = (int)atoi(tokens[3].c_str());
+		obj = new CBrick(x, y, brick_type); 
+		break;
+	}
 	case OBJECT_TYPE_COIN: 
 	{
 		int coin_type = (int)atoi(tokens[3].c_str());
@@ -159,6 +165,23 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int sprite_end = atoi(tokens[8].c_str());
 
 		obj = new CColorBlock(
+			x, y,
+			cell_width, cell_height, length,
+			sprite_begin, sprite_middle, sprite_end
+		);
+
+		break;
+	}
+	case OBJECT_TYPE_BACKGROUND:
+	{
+		float cell_width = (float)atof(tokens[3].c_str());
+		float cell_height = (float)atof(tokens[4].c_str());
+		int length = atoi(tokens[5].c_str());
+		int sprite_begin = atoi(tokens[6].c_str());
+		int sprite_middle = atoi(tokens[7].c_str());
+		int sprite_end = atoi(tokens[8].c_str());
+
+		obj = new CBackGround(
 			x, y,
 			cell_width, cell_height, length,
 			sprite_begin, sprite_middle, sprite_end

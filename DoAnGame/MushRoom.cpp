@@ -3,7 +3,8 @@
 void CMushRoom::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
-	if (state == MUSHROOM_APPEAR_STATE || state == MUSHROOM_MOVING_STATE) {
+	if (state == MUSHROOM_APPEAR_STATE_LEFT || state == MUSHROOM_APPEAR_STATE_RIGHT || state == MUSHROOM_MOVING_STATE_LEFT || state == MUSHROOM_MOVING_STATE_RIGHT)
+	{
 		if (this->type == 0)
 			animations->Get(ID_ANI_MUSHROOM)->Render(x, y);
 		else
@@ -12,15 +13,23 @@ void CMushRoom::Render()
 }
 void CMushRoom::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (state == MUSHROOM_APPEAR_STATE)
+	if (state == MUSHROOM_APPEAR_STATE_LEFT)
 	{
 		if (GetTickCount64() - appear_start > 300)
 		{
-			SetState(MUSHROOM_MOVING_STATE);
+			SetState(MUSHROOM_MOVING_STATE_LEFT);
 			return;
 		}
 	}
-	if (state == MUSHROOM_MOVING_STATE) 
+	else if (state == MUSHROOM_APPEAR_STATE_RIGHT)
+	{
+		if (GetTickCount64() - appear_start > 300)
+		{
+			SetState(MUSHROOM_MOVING_STATE_RIGHT);
+			return;
+		}
+	}
+	if (state == MUSHROOM_MOVING_STATE_LEFT || state == MUSHROOM_MOVING_STATE_RIGHT) 
 	{
 		vy += ay * dt;
 	}
@@ -58,11 +67,20 @@ void CMushRoom::SetState(int state)
 	
 	switch (state)
 	{
-	case MUSHROOM_APPEAR_STATE:
+	case MUSHROOM_APPEAR_STATE_LEFT:
 		StartAppear();
 		vy = -MUSHROOM_SPEED;
 		break;
-	case MUSHROOM_MOVING_STATE:
+	case MUSHROOM_APPEAR_STATE_RIGHT:
+		StartAppear();
+		vy = -MUSHROOM_SPEED;
+		break;
+	case MUSHROOM_MOVING_STATE_LEFT:
+		ay = MUSHROOM_GRAVITY;
+		vy = 0;
+		vx = -MUSHROOM_SPEED;
+		break;
+	case MUSHROOM_MOVING_STATE_RIGHT:
 		ay = MUSHROOM_GRAVITY;
 		vy = 0;
 		vx = MUSHROOM_SPEED;

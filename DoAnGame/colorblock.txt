@@ -1,8 +1,8 @@
-# id	left	top	right	bottom	texture_id
+# id	left	top	right	bottom	texture_id 0 pink
 [SPRITES]
-101000	459	115	474	130	20
-102000	459	115	474	130	20
-103000	459	115	474	130	20
+101000	456	113	474	131	20
+102000	456	113	474	131	20
+103000	456	113	474	131	20
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]

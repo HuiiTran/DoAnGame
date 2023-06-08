@@ -7,7 +7,6 @@ void CQuestionBrick::Render()
 		animations->Get(ID_ANI_QUESTIONBRICK)->Render(x, y);
 	else
 		animations->Get(ID_ANI_EMPTY)->Render(x, y);
-	//RenderBoundingBox();
 }
 
 void CQuestionBrick::GetBoundingBox(float& l, float& t, float& r, float& b)
