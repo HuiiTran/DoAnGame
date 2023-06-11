@@ -9,7 +9,7 @@ void CLeaf::Render()
 	if (nx > 0)
 		Id = ID_ANI_LEAF_RIGHT;
 	sprites->Get(Id)->Draw(x, y);
-
+	//RenderBoundingBox();
 	
 }
 void CLeaf::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

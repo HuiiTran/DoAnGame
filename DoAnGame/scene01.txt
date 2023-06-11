@@ -10,6 +10,7 @@ leaf.txt
 ground.txt
 colorblock.txt
 background.txt
+koopa.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type

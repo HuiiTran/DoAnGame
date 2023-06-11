@@ -21,6 +21,7 @@
 
 #define MARIO_STATE_DIE				-10
 #define MARIO_STATE_IDLE			0
+
 #define MARIO_STATE_WALKING_RIGHT	100
 #define MARIO_STATE_WALKING_LEFT	200
 
@@ -33,8 +34,18 @@
 #define MARIO_STATE_SIT				600
 #define MARIO_STATE_SIT_RELEASE		601
 
+#define MARIO_STATE_HOLDING			700
+//#define MARIO_STATE_HOLDING
 
 #pragma region ANIMATION_ID
+#define ID_ANI_MARIO_KICKING_RIGHT 220
+#define ID_ANI_MARIO_KICKING_LEFT 221
+
+#define ID_ANI_MARIO_HOLD_RIGHT 330
+#define ID_ANI_MARIO_HOLD_LEFT 331
+
+#define ID_ANI_MARIO_HOLD_RIGHT_IDLE 340
+#define ID_ANI_MARIO_HOLD_LEFT_IDLE 341
 
 #define ID_ANI_MARIO_IDLE_RIGHT 400
 #define ID_ANI_MARIO_IDLE_LEFT 401
@@ -57,6 +68,8 @@
 #define ID_ANI_MARIO_BRACE_RIGHT 1000
 #define ID_ANI_MARIO_BRACE_LEFT 1001
 
+
+
 #define ID_ANI_MARIO_DIE 999
 
 // SMALL MARIO
@@ -78,6 +91,44 @@
 #define ID_ANI_MARIO_SMALL_JUMP_RUN_RIGHT 1600
 #define ID_ANI_MARIO_SMALL_JUMP_RUN_LEFT 1601
 
+#define ID_ANI_MARIO_SMALL_HOLD_RIGHT 1700
+#define ID_ANI_MARIO_SMALL_HOLD_LEFT 1701
+
+#define ID_ANI_MARIO_SMALL_HOLD_RIGHT_IDLE 1710
+#define ID_ANI_MARIO_SMALL_HOLD_LEFT_IDLE 1711
+
+#define ID_ANI_MARIO_SMALL_KICKING_RIGHT 1800
+#define ID_ANI_MARIO_SMALL_KICKING_LEFT 1801
+//Tanooki MARIO
+#define ID_ANI_MARIO_TANOOKI_IDLE_RIGHT 2100
+#define ID_ANI_MARIO_TANOOKI_IDLE_LEFT 2101
+
+#define ID_ANI_MARIO_TANOOKI_WALKING_RIGHT 2200
+#define ID_ANI_MARIO_TANOOKI_WALKING_LEFT 2201
+
+#define ID_ANI_MARIO_TANOOKI_RUNNING_RIGHT 2300
+#define ID_ANI_MARIO_TANOOKI_RUNNING_LEFT 2301
+
+#define ID_ANI_MARIO_TANOOKI_BRACE_RIGHT 2400
+#define ID_ANI_MARIO_TANOOKI_BRACE_LEFT 2401
+
+#define ID_ANI_MARIO_TANOOKI_JUMP_WALK_RIGHT 2500
+#define ID_ANI_MARIO_TANOOKI_JUMP_WALK_LEFT 2501
+
+#define ID_ANI_MARIO_TANOOKI_JUMP_RUN_RIGHT 2600
+#define ID_ANI_MARIO_TANOOKI_JUMP_RUN_LEFT 2601
+
+#define ID_ANI_MARIO_TANOOKI_SIT_RIGHT 2700
+#define ID_ANI_MARIO_TANOOKI_SIT_LEFT 2701
+
+#define ID_ANI_MARIO_TANOOKI_HOLD_RIGHT 2800
+#define ID_ANI_MARIO_TANOOKI_HOLD_LEFT 2801
+
+#define ID_ANI_MARIO_TANOOKI_HOLD_RIGHT_IDLE 2880
+#define ID_ANI_MARIO_TANOOKI_HOLD_LEFT_IDLE 2881
+
+#define ID_ANI_MARIO_TANOOKI_KICKING_RIGHT	2900
+#define ID_ANI_MARIO_TANOOKI_KICKING_LEFT 2901
 #pragma endregion
 
 #define GROUND_Y 160.0f
@@ -87,6 +138,7 @@
 
 #define	MARIO_LEVEL_SMALL	1
 #define	MARIO_LEVEL_BIG		2
+#define MARIO_LEVEL_TANOOKI	3
 
 #define MARIO_BIG_BBOX_WIDTH  14
 #define MARIO_BIG_BBOX_HEIGHT 24
@@ -98,15 +150,21 @@
 #define MARIO_SMALL_BBOX_WIDTH  13
 #define MARIO_SMALL_BBOX_HEIGHT 12
 
+#define MARIO_TANOOKI_BBOX_WIDTH  14
+#define MARIO_TANOOKI_BBOX_HEIGHT 24
 
 #define MARIO_UNTOUCHABLE_TIME 2500
 
 class CMario : public CGameObject
 {
 	BOOLEAN isSitting;
+	BOOLEAN isHolding;
+
+	CGameObject* holdingObject;
 	float maxVx;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
+
 
 	int level; 
 	int untouchable; 
@@ -121,9 +179,11 @@ class CMario : public CGameObject
 	void OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithMushRoom(LPCOLLISIONEVENT e);
 	void OnCollisionWithLeaf(LPCOLLISIONEVENT e);
+	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 
 	int GetAniIdBig();
 	int GetAniIdSmall();
+	int GetAniIdTanooki();
 
 public:
 	CMario(float x, float y) : CGameObject(x, y)
@@ -132,6 +192,9 @@ public:
 		maxVx = 0.0f;
 		ax = 0.0f;
 		ay = MARIO_GRAVITY; 
+
+		isHolding = false;
+		holdingObject = NULL;
 
 		level = MARIO_LEVEL_SMALL;//MARIO_LEVEL_BIG;
 		untouchable = 0;
@@ -155,8 +218,18 @@ public:
 	void OnCollisionWith(LPCOLLISIONEVENT e);
 
 	void SetLevel(int l);
+	int GetLevel() { return this->level; }
+
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 	void StartWait() { wait = GetTickCount64(); }
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+
+	bool GetisHolding() { return this->isHolding; }
+	void SetisHolding(BOOLEAN isHolding) { this->isHolding = isHolding;}
+	CGameObject* GetHoldingObject() {
+		return this->holdingObject;
+	}
+	void SetHoldingObject(CGameObject* holdingObject);
+	void DecreaseLevel();
 };

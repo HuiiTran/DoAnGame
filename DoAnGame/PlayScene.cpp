@@ -12,6 +12,8 @@
 #include "MushRoom.h"
 #include "ColorBlock.h"
 #include "BackGround.h"
+#include "Koopa.h"
+#include "InvisibleBlock.h"
 #include "SampleKeyEventHandler.h"
 
 using namespace std;
@@ -118,7 +120,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
+	case OBJECT_TYPE_INVISIBLEBLOCK: obj = new CInvisibleBlock(x, y); break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
+	case OBJECT_TYPE_KOOPA:	obj = new CKoopa(x, y); break;
 	case OBJECT_TYPE_BRICK: 
 	{
 		int brick_type = (int)atoi(tokens[3].c_str());
