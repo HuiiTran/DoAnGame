@@ -12,6 +12,7 @@
 #include "MushRoom.h"
 #include "Leaf.h"
 #include "Koopa.h"
+#include "FireBall.h"
 #include "PlayScene.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -126,6 +127,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithLeaf(e);
 	else if (dynamic_cast<CKoopa*>(e->obj))
 		OnCollisionWithKoopa(e);
+	else if (dynamic_cast<CFireBall*>(e->obj))
+		OnCollisionWithFireBall(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -237,7 +240,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			if (koopa->GetState() == KOOPA_STATE_SHELL)
 			{
 				if (isHolding) {
-					koopa->SetPosition(x + nx * 24, y);
+					koopa->SetPosition(x + nx * 15, y);
 					koopa->SetIsHolded(true);
 					SetHoldingObject(koopa);
 				}
@@ -378,6 +381,11 @@ void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 	CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
 }
 
+void CMario::OnCollisionWithFireBall(LPCOLLISIONEVENT e)
+{
+	e->obj->Delete();
+	DecreaseLevel();
+}
 
 void CMario::SetHoldingObject(CGameObject* holdingObject)
 {
