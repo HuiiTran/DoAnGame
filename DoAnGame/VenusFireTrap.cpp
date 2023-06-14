@@ -3,16 +3,7 @@
 #include "Pipe.h"
 void CVenusFireTrap::OnNoCollision(DWORD dt)
 {
-	x += vx * dt;
 	y += vy * dt;
-}
-
-void CVenusFireTrap::OnCollisionWith(LPCOLLISIONEVENT e)
-{
-	if (dynamic_cast<CPipe*>(e->obj))
-	{
-
-	}
 }
 
 void CVenusFireTrap::GetBoundingBox(float& l, float& t, float& r, float& b)
@@ -187,7 +178,7 @@ void CVenusFireTrap::SetState(int state)
 			else
 				zone = 2;
 		}
-		CFireBall* fireball = new CFireBall(x, y, zone, this->nx);
+		CFireBall* fireball = new CFireBall(x, y - 5, zone, this->nx);
 		thisscene->AddObjectToScene(fireball);
 
 		StopFire();

@@ -5,7 +5,7 @@
 #define	VENUSFIRETRAP_GRAVITY 0.04f
 
 #define VENUSFIRETRAP_BBOX_WIDTH 16
-#define VENUSFIRETRAP_BBOX_HEIGHT 36
+#define VENUSFIRETRAP_BBOX_HEIGHT	32
 
 #define ID_ANI_VENUSFIRETRAP_SHOOTING_LEFT_UP 160010
 #define ID_ANI_VENUSFIRETRAP_SHOOTING_RIGHT_UP 160020
@@ -48,7 +48,7 @@ public:
 	virtual int IsCollidable() { return 0; }
 
 	virtual void OnNoCollision(DWORD dt);
-	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
+	//virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

@@ -2,6 +2,7 @@
 
 #include "GameObject.h"
 #include "AssetIDs.h"
+#include "VenusFireTrap.h"
 
 #define KOOPA_GRAVITY 0.002f
 #define KOOPA_WALKING_SPEED 0.05f
@@ -60,6 +61,7 @@ protected:
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithInvisibleBlock(LPCOLLISIONEVENT e);
+	void OnCollisionWithVenusFireTrap(LPCOLLISIONEVENT e);
 public:
 	CKoopa(float x, float y, bool isHaveWing = false);
 	virtual void SetState(int state);

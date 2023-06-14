@@ -6,6 +6,7 @@
 #include "Mario.h"
 #include "MushRoom.h"
 #include "Leaf.h"
+#include "Effect.h"
 
 CKoopa::CKoopa(float x, float y, bool isHaveWing) :CGameObject(x, y)
 {
@@ -52,6 +53,9 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		else if (dynamic_cast<CQuestionBrick*>(e->obj)) {
 			OnCollisionWithQuestionBrick(e);
 		}
+		else if (dynamic_cast<CVenusFireTrap*>(e->obj)) {
+			OnCollisionWithVenusFireTrap(e);
+		}
 	}
 	if (dynamic_cast<CInvisibleBlock*>(e->obj) && state == KOOPA_STATE_WALKING) {
 		OnCollisionWithInvisibleBlock(e);
@@ -78,7 +82,7 @@ void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 	{
 		if (goomba->GetState() != GOOMBA_STATE_DIE)
 		{
-			
+			goomba->SetState(GOOMBA_STATE_DIE_JUMP);
 		}
 	}
 }
@@ -169,6 +173,15 @@ void CKoopa::OnCollisionWithInvisibleBlock(LPCOLLISIONEVENT e)
 	}
 
 }
+void CKoopa::OnCollisionWithVenusFireTrap(LPCOLLISIONEVENT e)
+{
+	float Tx, Ty;
+	e->obj->GetPosition(Tx, Ty);
+	e->obj->Delete();
+	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+	CEffect* effect = new CEffect(Tx, Ty);
+	thisscene->AddObjectToScene(effect);
+}
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
@@ -223,7 +236,6 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CKoopa::Render()
 {
 	int aniId = -1;
-	bool flip = false;
 
 	switch (state)
 	{

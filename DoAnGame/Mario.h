@@ -6,14 +6,21 @@
 
 #include "debug.h"
 
-#define MARIO_WALKING_SPEED		0.1f
+#define MARIO_WALKING_SPEED		0.08f
 #define MARIO_RUNNING_SPEED		0.2f
 
-#define MARIO_ACCEL_WALK_X	0.0005f
-#define MARIO_ACCEL_RUN_X	0.0007f
+#define MARIO_LEVEL_RUN_SPEED 0.01f
+#define LEVEL_RUN_MAX 7
+
+
+#define MARIO_ACCEL_WALK_X	0.0003f
+#define MARIO_ACCEL_RUN_X	0.0002f
 
 #define MARIO_JUMP_SPEED_Y		0.5f
 #define MARIO_JUMP_RUN_SPEED_Y	0.6f
+
+#define TIME_TO_LEVEL_RUN 140
+#define TIME_PREPARE_LEVEL_RUN 650
 
 #define MARIO_GRAVITY			0.002f
 
@@ -56,6 +63,9 @@
 #define ID_ANI_MARIO_RUNNING_RIGHT 600
 #define ID_ANI_MARIO_RUNNING_LEFT 601
 
+#define ID_ANI_MARIO_RUNNING_RIGHT_FAST 610
+#define ID_ANI_MARIO_RUNNING_LEFT_FAST 611
+
 #define ID_ANI_MARIO_JUMP_WALK_RIGHT 700
 #define ID_ANI_MARIO_JUMP_WALK_LEFT 701
 
@@ -82,6 +92,9 @@
 #define ID_ANI_MARIO_SMALL_RUNNING_RIGHT 1300
 #define ID_ANI_MARIO_SMALL_RUNNING_LEFT 1301
 
+#define ID_ANI_MARIO_SMALL_RUNNING_RIGHT_FAST 1310
+#define ID_ANI_MARIO_SMALL_RUNNING_LEFT_FAST 1311
+
 #define ID_ANI_MARIO_SMALL_BRACE_RIGHT 1400
 #define ID_ANI_MARIO_SMALL_BRACE_LEFT 1401
 
@@ -99,7 +112,15 @@
 
 #define ID_ANI_MARIO_SMALL_KICKING_RIGHT 1800
 #define ID_ANI_MARIO_SMALL_KICKING_LEFT 1801
+
+#define ID_ANI_MARIO_SMALL_TO_BIG_RIGHT 1810
+#define ID_ANI_MARIO_SMALL_TO_BIG_LEFT 1811
+
 //Tanooki MARIO
+
+#define ID_ANI_MARIO_CHANGE_TO_TANOOKI_RIGHT 2120
+#define	ID_ANI_MARIO_CHANGE_TO_TANOOKI_LEFT 2121
+
 #define ID_ANI_MARIO_TANOOKI_IDLE_RIGHT 2100
 #define ID_ANI_MARIO_TANOOKI_IDLE_LEFT 2101
 
@@ -108,6 +129,9 @@
 
 #define ID_ANI_MARIO_TANOOKI_RUNNING_RIGHT 2300
 #define ID_ANI_MARIO_TANOOKI_RUNNING_LEFT 2301
+
+#define ID_ANI_MARIO_TANOOKI_RUNNING_RIGHT 2310
+#define ID_ANI_MARIO_TANOOKI_RUNNING_LEFT 2311
 
 #define ID_ANI_MARIO_TANOOKI_BRACE_RIGHT 2400
 #define ID_ANI_MARIO_TANOOKI_BRACE_LEFT 2401
@@ -150,16 +174,21 @@
 #define MARIO_SMALL_BBOX_WIDTH  13
 #define MARIO_SMALL_BBOX_HEIGHT 12
 
-#define MARIO_TANOOKI_BBOX_WIDTH  14
+#define MARIO_TANOOKI_BBOX_WIDTH  16
 #define MARIO_TANOOKI_BBOX_HEIGHT 24
 
 #define MARIO_UNTOUCHABLE_TIME 2500
 
 class CMario : public CGameObject
 {
+	BOOLEAN isOnPlatform;
 	BOOLEAN isSitting;
 	BOOLEAN isHolding;
-
+	BOOLEAN isKicking;
+	BOOLEAN isChanging;
+	BOOLEAN isDecreaseLevel;
+	BOOLEAN isRunning;
+	
 	CGameObject* holdingObject;
 	float maxVx;
 	float ax;				// acceleration on x 
@@ -168,9 +197,15 @@ class CMario : public CGameObject
 
 	int level; 
 	int untouchable; 
+	int level_run = 0;
+
 	ULONGLONG untouchable_start;
 	ULONGLONG wait;
-	BOOLEAN isOnPlatform;
+	ULONGLONG start_kick;
+	ULONGLONG start_change;
+	ULONGLONG start_prepare_run;
+	ULONGLONG stop_level_run;
+	ULONGLONG start_level_run;
 	int coin; 
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
@@ -181,6 +216,7 @@ class CMario : public CGameObject
 	void OnCollisionWithLeaf(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 	void OnCollisionWithFireBall(LPCOLLISIONEVENT e);
+	void OnCollisionWithVenusFireTrap(LPCOLLISIONEVENT e);
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdTanooki();
@@ -202,6 +238,16 @@ public:
 		wait = -1;
 		isOnPlatform = false;
 		coin = 0;
+
+		isKicking = false;
+		start_kick = -1;
+
+		isChanging = false;
+		isDecreaseLevel = false;
+		start_change = -1;
+
+		level_run = 0;
+		isRunning = false;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -213,6 +259,7 @@ public:
 	}
 
 	int IsBlocking() { return (state != MARIO_STATE_DIE && untouchable==0); }
+	bool IsBrace() { return (ax * vx < 0); } // return if there is a brace or not
 
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);

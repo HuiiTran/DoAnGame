@@ -16,6 +16,7 @@
 #include "InvisibleBlock.h"
 #include "VenusFireTrap.h"
 #include "Pipe.h"
+#include "BlockingObject.h"
 #include "SampleKeyEventHandler.h"
 
 using namespace std;
@@ -123,6 +124,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
 	case OBJECT_TYPE_INVISIBLEBLOCK: obj = new CInvisibleBlock(x, y); break;
+	case OBJECT_TYPE_BLOCKINGOBJECT: obj = new CBlockingObject(x, y); break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
 	case OBJECT_TYPE_KOOPA:	obj = new CKoopa(x, y); break;
 	case OBJECT_TYPE_VENUSFIRETRAP: obj = new CVenusFireTrap(x, y); break;

@@ -11,7 +11,7 @@
 #define COIN_BBOX_HEIGHT 16
 
 #define COIN_UP 3.0f
-#define COIN_DOWN 0.007f
+
 #define COIN_SPEED 0.169f
 class CCoin : public CGameObject {
 	int isInQuestionB = 0; //0: normal, 1: in questionbrick
@@ -26,7 +26,7 @@ public:
 	}
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
-	void OnNoCollision(DWORD dt) { y -= vy * dt; }
+	void OnNoCollision(DWORD dt);
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 	int GetCoinInQuestionB(){	return this->isInQuestionB;	}
 	virtual void SetFly(bool state) { this->isFly = state; }

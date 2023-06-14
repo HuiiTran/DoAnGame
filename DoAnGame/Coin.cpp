@@ -26,8 +26,12 @@ void CCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else if (distanceUp < 0) {
 			this->Delete();
 		}
-
 	}
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
+}   
+
+void CCoin::OnNoCollision(DWORD dt)
+{
+	y -= vy * dt;
 }

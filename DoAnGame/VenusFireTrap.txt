@@ -15,6 +15,8 @@
 #RIGHT SHOOTING RED UP
 160021	496	144	511	175	90
 160020	512	144	527	175	90
+#Delete
+
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
