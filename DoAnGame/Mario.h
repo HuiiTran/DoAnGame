@@ -6,7 +6,7 @@
 
 #include "debug.h"
 
-#define MARIO_WALKING_SPEED		0.08f
+#define MARIO_WALKING_SPEED		0.09f
 #define MARIO_RUNNING_SPEED		0.2f
 
 #define MARIO_LEVEL_RUN_SPEED 0.01f
@@ -130,8 +130,8 @@
 #define ID_ANI_MARIO_TANOOKI_RUNNING_RIGHT 2300
 #define ID_ANI_MARIO_TANOOKI_RUNNING_LEFT 2301
 
-#define ID_ANI_MARIO_TANOOKI_RUNNING_RIGHT 2310
-#define ID_ANI_MARIO_TANOOKI_RUNNING_LEFT 2311
+#define ID_ANI_MARIO_TANOOKI_RUNNING_RIGHT_FAST 2310
+#define ID_ANI_MARIO_TANOOKI_RUNNING_LEFT_FAST 2311
 
 #define ID_ANI_MARIO_TANOOKI_BRACE_RIGHT 2400
 #define ID_ANI_MARIO_TANOOKI_BRACE_LEFT 2401
@@ -217,6 +217,7 @@ class CMario : public CGameObject
 	void OnCollisionWithKoopa(LPCOLLISIONEVENT e);
 	void OnCollisionWithFireBall(LPCOLLISIONEVENT e);
 	void OnCollisionWithVenusFireTrap(LPCOLLISIONEVENT e);
+	void OnCollisionWithFlyGoomba(LPCOLLISIONEVENT e);
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdTanooki();

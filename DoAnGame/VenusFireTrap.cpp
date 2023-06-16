@@ -1,6 +1,7 @@
 #include "VenusFireTrap.h"
 #include "FireBall.h"
 #include "Pipe.h"
+#include "debug.h"
 void CVenusFireTrap::OnNoCollision(DWORD dt)
 {
 	y += vy * dt;
@@ -16,6 +17,7 @@ void CVenusFireTrap::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void CVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	//DebugOut(L"%d", state);
 	if (state == VENUSFIRETRAP_STATE_WAITING)
 	{
 		LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
@@ -134,7 +136,7 @@ void CVenusFireTrap::Render()
 	}
 	CSprites* sprites = CSprites::GetInstance();
 	sprites->Get(current_ani)->Draw(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CVenusFireTrap::SetState(int state)

@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "AssetIDs.h"
 #include "VenusFireTrap.h"
+#include "FallWarning.h"
 
 #define KOOPA_GRAVITY 0.002f
 #define KOOPA_WALKING_SPEED 0.05f
@@ -44,6 +45,7 @@ protected:
 	bool isRespawning;
 	bool isHolded;
 
+	CFallWarning* fallwarning;
 	
 	ULONGLONG die_start;
 	ULONGLONG respawn_start;
@@ -59,8 +61,9 @@ protected:
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
+	void OnCollisionWithFlyGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e);
-	void OnCollisionWithInvisibleBlock(LPCOLLISIONEVENT e);
+	//void OnCollisionWithInvisibleBlock(LPCOLLISIONEVENT e);
 	void OnCollisionWithVenusFireTrap(LPCOLLISIONEVENT e);
 public:
 	CKoopa(float x, float y, bool isHaveWing = false);

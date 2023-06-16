@@ -6,10 +6,12 @@
 #include "Mario.h"
 #include "MushRoom.h"
 #include "Leaf.h"
+#include "FlyGoomba.h"
 #include "Effect.h"
 
 CKoopa::CKoopa(float x, float y, bool isHaveWing) :CGameObject(x, y)
 {
+	fallwarning = new CFallWarning(x, y);
 	this->ax = 0;
 	this->ay = KOOPA_GRAVITY;
 	nx = -1;
@@ -56,10 +58,13 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		else if (dynamic_cast<CVenusFireTrap*>(e->obj)) {
 			OnCollisionWithVenusFireTrap(e);
 		}
+		else if (dynamic_cast<CFlyGoomba*>(e->obj)) {
+			OnCollisionWithFlyGoomba(e);
+		}
 	}
-	if (dynamic_cast<CInvisibleBlock*>(e->obj) && state == KOOPA_STATE_WALKING) {
+	/*if (dynamic_cast<CInvisibleBlock*>(e->obj) && state == KOOPA_STATE_WALKING) {
 		OnCollisionWithInvisibleBlock(e);
-	}
+	}*/
 
 	if (!e->obj->IsBlocking()) return;
 	
@@ -83,6 +88,19 @@ void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		if (goomba->GetState() != GOOMBA_STATE_DIE)
 		{
 			goomba->SetState(GOOMBA_STATE_DIE_JUMP);
+		}
+	}
+}
+
+void CKoopa::OnCollisionWithFlyGoomba(LPCOLLISIONEVENT e)
+{
+	CFlyGoomba* Flygoomba = dynamic_cast<CFlyGoomba*>(e->obj);
+
+	if (state == KOOPA_STATE_SHELL_SCROLL || state == KOOPA_STATE_SHELL_HOLD)
+	{
+		if (Flygoomba->GetState() != FLYGOOMBA_STATE_DIE)
+		{
+			Flygoomba->SetState(FLYGOOMBA_STATE_DIE_JUMP);
 		}
 	}
 }
@@ -164,15 +182,15 @@ void CKoopa::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 	}
 }
 
-void CKoopa::OnCollisionWithInvisibleBlock(LPCOLLISIONEVENT e)
-{
-	CInvisibleBlock* invisible = dynamic_cast<CInvisibleBlock*>(e->obj);
-	if (this->state != KOOPA_STATE_SHELL || this->state != KOOPA_STATE_SHELL_SCROLL || this->state != KOOPA_STATE_SHELL_HOLD)
-	{
-		this->SetState(KOOPA_STATE_CHANGE_DIRECT);
-	}
-
-}
+//void CKoopa::OnCollisionWithInvisibleBlock(LPCOLLISIONEVENT e)
+//{
+//	CInvisibleBlock* invisible = dynamic_cast<CInvisibleBlock*>(e->obj);
+//	if (this->state != KOOPA_STATE_SHELL || this->state != KOOPA_STATE_SHELL_SCROLL || this->state != KOOPA_STATE_SHELL_HOLD)
+//	{
+//		this->SetState(KOOPA_STATE_CHANGE_DIRECT);
+//	}
+//
+//}
 void CKoopa::OnCollisionWithVenusFireTrap(LPCOLLISIONEVENT e)
 {
 	float Tx, Ty;
@@ -220,7 +238,16 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (state == KOOPA_STATE_WALKING) 
 	{
-		isHolded = false;
+		float FWx, FWy;
+		if(vx > 0)
+			fallwarning->SetPosition(this->x + KOOPA_BBOX_WIDTH,this->y - KOOPA_BBOX_HEIGHT);
+		else
+			fallwarning->SetPosition(this->x - KOOPA_BBOX_WIDTH, this->y - KOOPA_BBOX_HEIGHT);
+		fallwarning->Update(dt, coObjects);
+
+		fallwarning->GetPosition(FWx, FWy);
+		if (FWy >= this->y + 1)
+			vx = -vx;
 	}
 
 	if (state == KOOPA_STATE_CHANGE_DIRECT)
@@ -235,6 +262,7 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CKoopa::Render()
 {
+	//fallwarning->RenderBoundingBox();
 	int aniId = -1;
 
 	switch (state)
@@ -263,7 +291,7 @@ void CKoopa::Render()
 		break;
 	}
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
-
+	
 	//RenderBoundingBox();
 }
 

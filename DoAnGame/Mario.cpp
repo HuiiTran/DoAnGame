@@ -14,12 +14,13 @@
 #include "Koopa.h"
 #include "FireBall.h"
 #include "VenusFireTrap.h"
+#include "FlyGoomba.h"
 #include "PlayScene.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	//int temp = (isRunning == true) ? 1 : 0;
-	DebugOutTitle(L"POWERUP %d", level_run);
+	
 	if (isChanging) // change form so make mario not moving
 	{
 		vx = 0;
@@ -183,6 +184,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithFireBall(e);
 	else if (dynamic_cast<CVenusFireTrap*>(e->obj))
 		OnCollisionWithVenusFireTrap(e);
+	else if (dynamic_cast<CFlyGoomba*>(e->obj))
+		OnCollisionWithFlyGoomba(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -218,7 +221,44 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		}
 	}
 }
-
+void CMario::OnCollisionWithFlyGoomba(LPCOLLISIONEVENT e)
+{
+	CFlyGoomba* flygoomba = dynamic_cast<CFlyGoomba*>(e->obj);
+	if (e->ny < 0)
+	{
+		if (flygoomba->GetState() != FLYGOOMBA_STATE_DIE)
+		{
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			if (flygoomba->GetState() == FLYGOOMBA_STATE_WING_FLY || flygoomba->GetState() == FLYGOOMBA_STATE_WING_JUMPFLY || flygoomba->GetState() == FLYGOOMBA_STATE_WING_WALKING)
+			{
+				flygoomba->SetState(FLYGOOMBA_STATE_WALKING);
+			}
+			else if (flygoomba->GetState() == FLYGOOMBA_STATE_WALKING)
+			{
+				flygoomba->SetState(FLYGOOMBA_STATE_DIE);
+			}
+		}
+	}
+	else
+	{
+		if (untouchable == 0)
+		{
+			if (flygoomba->GetState() != FLYGOOMBA_STATE_DIE)
+			{
+				if (level > MARIO_LEVEL_SMALL)
+				{
+					DecreaseLevel();
+					StartUntouchable();
+				}
+				else
+				{
+					DebugOut(L">>> Mario DIE >>> \n");
+					SetState(MARIO_STATE_DIE);
+				}
+			}
+		}
+	}
+}
 void CMario::DecreaseLevel()
 {
 	isDecreaseLevel = true;
@@ -312,10 +352,18 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 					koopa->SetState(KOOPA_STATE_SHELL_SCROLL);
 				}
 			}
-			else if (koopa->GetState() != KOOPA_STATE_DIE)
+			else if (koopa->GetState() != KOOPA_STATE_DIE || koopa->GetState() == KOOPA_STATE_RESPAWN)
 			{
-				DecreaseLevel();
-				StartUntouchable();
+				if (level > MARIO_LEVEL_SMALL)
+				{
+					DecreaseLevel();
+					StartUntouchable();
+				}
+				else
+				{
+					DebugOut(L">>> Mario DIE >>> \n");
+					SetState(MARIO_STATE_DIE);
+				}
 			}
 		}
 	}
@@ -446,15 +494,31 @@ void CMario::OnCollisionWithFireBall(LPCOLLISIONEVENT e)
 {
 	if (untouchable) return;
 	e->obj->Delete();
-	StartUntouchable();
-	DecreaseLevel();
+	if (level > MARIO_LEVEL_SMALL)
+	{
+		DecreaseLevel();
+		StartUntouchable();
+	}
+	else
+	{
+		DebugOut(L">>> Mario DIE >>> \n");
+		SetState(MARIO_STATE_DIE);
+	}
 	
 }
 void CMario::OnCollisionWithVenusFireTrap(LPCOLLISIONEVENT e)
 {
 	if (untouchable) return;
-	StartUntouchable();
-	DecreaseLevel();
+	if (level > MARIO_LEVEL_SMALL)
+	{
+		DecreaseLevel();
+		StartUntouchable();
+	}
+	else
+	{
+		DebugOut(L">>> Mario DIE >>> \n");
+		SetState(MARIO_STATE_DIE);
+	}
 	
 }
 void CMario::SetHoldingObject(CGameObject* holdingObject)
@@ -773,7 +837,13 @@ int CMario::GetAniIdTanooki()
 					if (ax < 0)
 						aniId = ID_ANI_MARIO_TANOOKI_BRACE_RIGHT;
 					else if (ax == MARIO_ACCEL_RUN_X)
-						aniId = ID_ANI_MARIO_TANOOKI_RUNNING_RIGHT;
+					{
+						if (level_run = LEVEL_RUN_MAX)
+							aniId = ID_ANI_MARIO_TANOOKI_RUNNING_RIGHT_FAST;
+						else
+							aniId = ID_ANI_MARIO_TANOOKI_RUNNING_RIGHT;
+
+					}
 					else if (ax == MARIO_ACCEL_WALK_X)
 						aniId = ID_ANI_MARIO_TANOOKI_WALKING_RIGHT;
 				}
@@ -782,7 +852,12 @@ int CMario::GetAniIdTanooki()
 					if (ax > 0)
 						aniId = ID_ANI_MARIO_TANOOKI_BRACE_LEFT;
 					else if (ax == -MARIO_ACCEL_RUN_X)
-						aniId = ID_ANI_MARIO_TANOOKI_RUNNING_LEFT;
+					{
+						if (level_run = LEVEL_RUN_MAX)
+							aniId = ID_ANI_MARIO_TANOOKI_RUNNING_LEFT_FAST;
+						else
+							aniId = ID_ANI_MARIO_TANOOKI_RUNNING_LEFT;
+					}
 					else if (ax == -MARIO_ACCEL_WALK_X)
 						aniId = ID_ANI_MARIO_TANOOKI_WALKING_LEFT;
 				}
@@ -825,7 +900,7 @@ void CMario::Render()
 		{
 			animations->Get(aniId)->Render(x, y);
 		}
-		else 
+		else if (untouchable )
 		{
 			int check = rand() % 2;
 			if (check == 0) 
@@ -840,7 +915,7 @@ void CMario::Render()
 
 	RenderBoundingBox();*/
 	
-	//DebugOutTitle(L"Coins: %d", coin);
+	DebugOutTitle(L"Coins: %d", coin);
 }
 
 void CMario::SetState(int state)

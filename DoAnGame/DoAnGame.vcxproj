@@ -141,7 +141,9 @@
     <ClCompile Include="ColorBlock.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="Effect.cpp" />
+    <ClCompile Include="FallWarning.cpp" />
     <ClCompile Include="FireBall.cpp" />
+    <ClCompile Include="FlyGoomba.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Goomba.cpp" />
@@ -176,7 +178,9 @@
     <ClInclude Include="ColorBlock.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="Effect.h" />
+    <ClInclude Include="FallWarning.h" />
     <ClInclude Include="FireBall.h" />
+    <ClInclude Include="FlyGoomba.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Goomba.h" />

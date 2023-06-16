@@ -11,6 +11,7 @@ ground.txt
 colorblock.txt
 background.txt
 koopa.txt
+flygoomba.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -97,6 +98,8 @@ koopa.txt
 7	350	50	16	15	11	101000	102000	103000
 7	350	20	16	15	11	101000	102000	103000
 
+13	300	130
+3	550	130
 #Portal 
 50	200	160	216	180	1
 
