@@ -6,8 +6,8 @@
 
 #include "debug.h"
 
-#define MARIO_WALKING_SPEED		0.1f
-#define MARIO_RUNNING_SPEED		0.15f
+#define MARIO_WALKING_SPEED		0.12f
+#define MARIO_RUNNING_SPEED		0.16f
 
 #define MARIO_LEVEL_RUN_SPEED 0.01f
 #define LEVEL_RUN_MAX 7

@@ -143,7 +143,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 		}
 	}
-	DebugOutTitle(L"Coins: %d", isFlying);
+	//DebugOutTitle(L"Coins: %d", isFlying);
 	//fly
 	if (isFlying)
 	{
@@ -1033,7 +1033,10 @@ void CMario::SetState(int state)
 			ay = MARIO_GRAVITY / 6;
 		}
 		else
+		{
 			vy = -MARIO_FALL_WITH_TAIL_Y;
+			ay = MARIO_GRAVITY / 4;
+		}
 		break;
 	case MARIO_STATE_DIE:
 		vy = -MARIO_JUMP_DEFLECT_SPEED;
