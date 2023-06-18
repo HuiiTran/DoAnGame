@@ -39,7 +39,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable_start = 0;
 		untouchable = 0;
 	}
-	isOnPlatform = false;
 
 	if (holdingObject != NULL)
 	{
@@ -118,7 +117,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		start_change = 0;
 	}
 	//running 
-	if ( !isRunning || !vx || IsBrace() || isOnPlatform)
+	if ( (!isRunning) || (!vx) || (IsBrace()) || ((!isOnPlatform) && (isFlying) && (vy > 0) ))
 	{
 		if (GetTickCount64() - stop_level_run > TIME_TO_LEVEL_RUN)
 		{
@@ -144,6 +143,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			}
 		}
 	}
+	DebugOutTitle(L"Coins: %d", isFlying);
+	//fly
+	if (isFlying)
+	{
+		if (isOnPlatform)
+		{
+			isFlying = false;
+			ay = MARIO_GRAVITY;
+		}
+	}
+
+	isOnPlatform = false;
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
@@ -347,6 +358,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 						koopa->SetSpeed(KOOPA_SHELL_SCROLL_SPEED, 0);
 					}
 					else {
+						
 						koopa->SetSpeed(-KOOPA_SHELL_SCROLL_SPEED, 0);
 					}
 					koopa->SetState(KOOPA_STATE_SHELL_SCROLL);
@@ -793,6 +805,23 @@ int CMario::GetAniIdTanooki()
 				else
 					aniId = ID_ANI_MARIO_TANOOKI_JUMP_WALK_LEFT;
 			}
+			if (isFlying)
+			{
+				if (level_run == LEVEL_RUN_MAX)
+				{
+					if (nx > 0)
+						aniId = ID_ANI_MARIO_TANOOKI_FLY_RIGHT;
+					else
+						aniId = ID_ANI_MARIO_TANOOKI_FLY_LEFT;
+				}
+				else
+				{
+					if (nx > 0)
+						aniId = ID_ANI_MARIO_TANOOKI_FALL_RIGHT;
+					else
+						aniId = ID_ANI_MARIO_TANOOKI_FALL_LEFT;
+				}
+			}
 		}
 		else if (holdingObject)
 		{
@@ -838,11 +867,10 @@ int CMario::GetAniIdTanooki()
 						aniId = ID_ANI_MARIO_TANOOKI_BRACE_RIGHT;
 					else if (ax == MARIO_ACCEL_RUN_X)
 					{
-						if (level_run = LEVEL_RUN_MAX)
+						if (level_run == LEVEL_RUN_MAX)
 							aniId = ID_ANI_MARIO_TANOOKI_RUNNING_RIGHT_FAST;
 						else
 							aniId = ID_ANI_MARIO_TANOOKI_RUNNING_RIGHT;
-
 					}
 					else if (ax == MARIO_ACCEL_WALK_X)
 						aniId = ID_ANI_MARIO_TANOOKI_WALKING_RIGHT;
@@ -853,7 +881,7 @@ int CMario::GetAniIdTanooki()
 						aniId = ID_ANI_MARIO_TANOOKI_BRACE_LEFT;
 					else if (ax == -MARIO_ACCEL_RUN_X)
 					{
-						if (level_run = LEVEL_RUN_MAX)
+						if (level_run == LEVEL_RUN_MAX)
 							aniId = ID_ANI_MARIO_TANOOKI_RUNNING_LEFT_FAST;
 						else
 							aniId = ID_ANI_MARIO_TANOOKI_RUNNING_LEFT;
@@ -911,11 +939,11 @@ void CMario::Render()
 		}
 	}
 
-	/*animations->Get(aniId)->Render(x, y);
+	//animations->Get(aniId)->Render(x, y);
 
-	RenderBoundingBox();*/
+	RenderBoundingBox();
 	
-	DebugOutTitle(L"Coins: %d", coin);
+
 }
 
 void CMario::SetState(int state)
@@ -991,8 +1019,22 @@ void CMario::SetState(int state)
 	case MARIO_STATE_IDLE:
 		ax = 0.0f;
 		vx = 0.0f;
+		if (isSitting) {
+			state = MARIO_STATE_SIT_RELEASE;
+		}
 		break;
 
+	case MARIO_STATE_FLY:
+		isFlying = true;
+		isOnPlatform = false;
+		if (level_run == LEVEL_RUN_MAX)
+		{
+			vy = -MARIO_FLY_Y;
+			ay = MARIO_GRAVITY / 6;
+		}
+		else
+			vy = -MARIO_FALL_WITH_TAIL_Y;
+		break;
 	case MARIO_STATE_DIE:
 		vy = -MARIO_JUMP_DEFLECT_SPEED;
 		vx = 0;

@@ -6,25 +6,28 @@
 
 #include "debug.h"
 
-#define MARIO_WALKING_SPEED		0.09f
-#define MARIO_RUNNING_SPEED		0.2f
+#define MARIO_WALKING_SPEED		0.1f
+#define MARIO_RUNNING_SPEED		0.15f
 
 #define MARIO_LEVEL_RUN_SPEED 0.01f
 #define LEVEL_RUN_MAX 7
 
 
-#define MARIO_ACCEL_WALK_X	0.0003f
-#define MARIO_ACCEL_RUN_X	0.0002f
+#define MARIO_ACCEL_WALK_X	0.00015f
+#define MARIO_ACCEL_RUN_X	0.00016f
 
 #define MARIO_JUMP_SPEED_Y		0.5f
-#define MARIO_JUMP_RUN_SPEED_Y	0.6f
+#define MARIO_JUMP_RUN_SPEED_Y	0.51f
 
-#define TIME_TO_LEVEL_RUN 140
+#define TIME_TO_LEVEL_RUN 150
 #define TIME_PREPARE_LEVEL_RUN 650
 
-#define MARIO_GRAVITY			0.002f
+#define MARIO_GRAVITY			0.0019f
 
 #define MARIO_JUMP_DEFLECT_SPEED  0.4f
+
+#define MARIO_FLY_Y 0.33f
+#define MARIO_FALL_WITH_TAIL_Y 0.0005f
 
 #define MARIO_STATE_DIE				-10
 #define MARIO_STATE_IDLE			0
@@ -42,6 +45,8 @@
 #define MARIO_STATE_SIT_RELEASE		601
 
 #define MARIO_STATE_HOLDING			700
+
+#define MARIO_STATE_FLY				800
 //#define MARIO_STATE_HOLDING
 
 #pragma region ANIMATION_ID
@@ -142,6 +147,12 @@
 #define ID_ANI_MARIO_TANOOKI_JUMP_RUN_RIGHT 2600
 #define ID_ANI_MARIO_TANOOKI_JUMP_RUN_LEFT 2601
 
+#define ID_ANI_MARIO_TANOOKI_FALL_RIGHT 2610
+#define ID_ANI_MARIO_TANOOKI_FALL_LEFT 2611
+
+#define ID_ANI_MARIO_TANOOKI_FLY_RIGHT 2620
+#define ID_ANI_MARIO_TANOOKI_FLY_LEFT 2621
+
 #define ID_ANI_MARIO_TANOOKI_SIT_RIGHT 2700
 #define ID_ANI_MARIO_TANOOKI_SIT_LEFT 2701
 
@@ -174,7 +185,7 @@
 #define MARIO_SMALL_BBOX_WIDTH  13
 #define MARIO_SMALL_BBOX_HEIGHT 12
 
-#define MARIO_TANOOKI_BBOX_WIDTH  16
+#define MARIO_TANOOKI_BBOX_WIDTH  17
 #define MARIO_TANOOKI_BBOX_HEIGHT 24
 
 #define MARIO_UNTOUCHABLE_TIME 2500
@@ -188,6 +199,7 @@ class CMario : public CGameObject
 	BOOLEAN isChanging;
 	BOOLEAN isDecreaseLevel;
 	BOOLEAN isRunning;
+	BOOLEAN isFlying;
 	
 	CGameObject* holdingObject;
 	float maxVx;
@@ -249,6 +261,8 @@ public:
 
 		level_run = 0;
 		isRunning = false;
+
+		isFlying = false;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -267,6 +281,7 @@ public:
 
 	void SetLevel(int l);
 	int GetLevel() { return this->level; }
+	void DecreaseLevel();
 
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 	void StartWait() { wait = GetTickCount64(); }
@@ -279,5 +294,9 @@ public:
 		return this->holdingObject;
 	}
 	void SetHoldingObject(CGameObject* holdingObject);
-	void DecreaseLevel();
+
+	void SetisKicking(bool isKicking) { this->isKicking = isKicking; }
+	void StartKick() { start_kick = GetTickCount64(); }
+
+	bool GetisOnPlatform() { return this->isOnPlatform; }
 };

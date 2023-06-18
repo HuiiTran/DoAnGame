@@ -262,7 +262,7 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CKoopa::Render()
 {
-	//fallwarning->RenderBoundingBox();
+	fallwarning->RenderBoundingBox();
 	int aniId = -1;
 
 	switch (state)
