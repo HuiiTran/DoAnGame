@@ -117,7 +117,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		start_change = 0;
 	}
 	//running 
-	if ( (!isRunning) || (!vx) || (IsBrace()) || ((!isOnPlatform) && (isFlying) && (vy > 0) ))
+	if ( (!isRunning) || (!vx) || (IsBrace() && !isFlying) || ((!isOnPlatform) && (isFlying) && (vy > 0) ))
 	{
 		if (GetTickCount64() - stop_level_run > TIME_TO_LEVEL_RUN)
 		{
@@ -209,7 +209,10 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		if (goomba->GetState() != GOOMBA_STATE_DIE)
 		{
 			goomba->SetState(GOOMBA_STATE_DIE);
-			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			if(isFlying)
+				vy = -MARIO_JUMP_DEFLECT_SPEED / 2;
+			else 
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
 		}
 	}
 	else // hit by Goomba
@@ -239,7 +242,10 @@ void CMario::OnCollisionWithFlyGoomba(LPCOLLISIONEVENT e)
 	{
 		if (flygoomba->GetState() != FLYGOOMBA_STATE_DIE)
 		{
-			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			if (isFlying)
+				vy = -MARIO_JUMP_DEFLECT_SPEED / 2;
+			else
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
 			if (flygoomba->GetState() == FLYGOOMBA_STATE_WING_FLY || flygoomba->GetState() == FLYGOOMBA_STATE_WING_JUMPFLY || flygoomba->GetState() == FLYGOOMBA_STATE_WING_WALKING)
 			{
 				flygoomba->SetState(FLYGOOMBA_STATE_WALKING);
@@ -304,7 +310,10 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 			koopa->GetPosition(koopaX, koopaY);
 			koopa->SetPosition(koopaX , koopaY - 10);
 			koopa->SetState(KOOPA_STATE_SHELL);
-			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			if (isFlying)
+				vy = -MARIO_JUMP_DEFLECT_SPEED / 2;
+			else
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
 		}
 		else
 		{
@@ -313,14 +322,20 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 				koopa->GetPosition(koopaX, koopaY);
 				koopa->SetPosition(koopaX + 5, koopaY - 10);
 				koopa->SetSpeed(KOOPA_SHELL_SCROLL_SPEED, 0);
-				vy = -MARIO_JUMP_DEFLECT_SPEED;
+				if (isFlying)
+					vy = -MARIO_JUMP_DEFLECT_SPEED / 2;
+				else
+					vy = -MARIO_JUMP_DEFLECT_SPEED;
 			}
 			else 
 			{
 				koopa->GetPosition(koopaX, koopaY);
 				koopa->SetPosition(koopaX - 5, koopaY - 10);
 				koopa->SetSpeed(-KOOPA_SHELL_SCROLL_SPEED, 0);
-				vy = -MARIO_JUMP_DEFLECT_SPEED;
+				if (isFlying)
+					vy = -MARIO_JUMP_DEFLECT_SPEED / 2;
+				else
+					vy = -MARIO_JUMP_DEFLECT_SPEED;
 			}
 			koopa->SetState(KOOPA_STATE_SHELL_SCROLL);
 		}
