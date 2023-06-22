@@ -18,7 +18,9 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		break;
 	case DIK_S:
 		if (mario->GetisOnPlatform())
+		{
 			mario->SetState(MARIO_STATE_JUMP);
+		}
 		else
 		{
 			if (mario->GetLevel() == MARIO_LEVEL_TANOOKI)
@@ -81,7 +83,10 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 		if (game->IsKeyDown(DIK_A))
 		{
 			mario->SetisHolding(true);
-			mario->SetState(MARIO_STATE_RUNNING_RIGHT);
+			if(!mario->GetHoldingObject())
+				mario->SetState(MARIO_STATE_RUNNING_RIGHT);
+			else
+				mario->SetState(MARIO_STATE_WALKING_RIGHT);
 		}
 		else if (game->IsKeyDown(DIK_S))
 		{
@@ -96,7 +101,10 @@ void CSampleKeyHandler::KeyState(BYTE *states)
 		if (game->IsKeyDown(DIK_A))
 		{
 			mario->SetisHolding(true);
-			mario->SetState(MARIO_STATE_RUNNING_LEFT);
+			if (!mario->GetHoldingObject())
+				mario->SetState(MARIO_STATE_RUNNING_LEFT);
+			else
+				mario->SetState(MARIO_STATE_WALKING_LEFT);
 		}
 		else if (game->IsKeyDown(DIK_S))
 		{

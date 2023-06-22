@@ -104,13 +104,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	//kick koopa
 	if (isKicking)
 	{
-		if (GetTickCount64() - start_kick > 100)
+		if (GetTickCount64() - start_kick > TIME_KICK)
 		{
 			isKicking = false;
 			start_kick = 0;
 		}
 	}
-	if (GetTickCount64() - start_change > 600)
+	if (GetTickCount64() - start_change > TIME_CHANGING)
 	{
 		isChanging = false;
 		isDecreaseLevel = false;
@@ -124,10 +124,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			if (level_run > 0)
 			{
 				level_run--;
-				stop_level_run = GetTickCount64();
 			}
-			start_prepare_run = GetTickCount64();
+			stop_level_run = GetTickCount64();
 		}
+			start_prepare_run = GetTickCount64();
 	}
 	else
 	{
@@ -151,6 +151,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		{
 			isFlying = false;
 			ay = MARIO_GRAVITY;
+			start_fly = 0;
+		}
+		else
+		{
+			if (start_fly == 0)
+				start_fly = GetTickCount64();
+			
+			if (GetTickCount64() - start_fly > TIME_FLY && level_run == LEVEL_RUN_MAX)
+			{
+				isFlying = false;
+				level_run = 0;
+				start_fly = 0;
+			}
 		}
 	}
 

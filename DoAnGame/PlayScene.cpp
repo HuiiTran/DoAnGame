@@ -40,6 +40,11 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 
 #define MAX_SCENE_LINE 1024
 
+#define MAX_Y_CAM -300
+#define MIN_Y_CAM	0
+#define MID_Y_CAM	-32
+
+
 void CPlayScene::_ParseSection_SPRITES(string line)
 {
 	vector<string> tokens = split(line);
@@ -339,13 +344,13 @@ void CPlayScene::Update(DWORD dt)
 
 	if (cx < 0) cx = 0;
 	DebugOutTitle(L"%f", cy);
-	if (cy > 0)
-		cy = 0;
-	else if (-32 < cy && cy < 0)
-		cy = 0;
+	if (cy > MIN_Y_CAM)
+		cy = MIN_Y_CAM;
+	else if (MID_Y_CAM < cy && cy < MIN_Y_CAM)
+		cy = MIN_Y_CAM;
 	else
-		cy = cy + 32;
-	if (cy < -256) cy = -256;
+		cy = cy - MID_Y_CAM;
+	if (cy < MAX_Y_CAM) cy = MAX_Y_CAM;
 	
 	CGame::GetInstance()->SetCamPos(cx, cy);
 

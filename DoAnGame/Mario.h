@@ -21,6 +21,9 @@
 
 #define TIME_TO_LEVEL_RUN 150
 #define TIME_PREPARE_LEVEL_RUN 650
+#define TIME_KICK 100
+#define TIME_CHANGING 550
+#define TIME_FLY 4000
 
 #define MARIO_GRAVITY			0.0019f
 
@@ -218,6 +221,7 @@ class CMario : public CGameObject
 	ULONGLONG start_prepare_run;
 	ULONGLONG stop_level_run;
 	ULONGLONG start_level_run;
+	ULONGLONG start_fly;
 	int coin; 
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
@@ -263,6 +267,7 @@ public:
 		isRunning = false;
 
 		isFlying = false;
+		start_fly = 0;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
