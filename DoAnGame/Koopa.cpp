@@ -11,7 +11,7 @@
 
 CKoopa::CKoopa(float x, float y, bool isHaveWing) :CGameObject(x, y)
 {
-	fallwarning = new CFallWarning(x, y);
+	fallwarning = new CFallWarning(x - KOOPA_BBOX_WIDTH + KOOPA_X_OFFSET, y - KOOPA_BBOX_HEIGHT + KOOPA_Y_OFFSET);
 	this->ax = 0;
 	this->ay = KOOPA_GRAVITY;
 	nx = -1;
@@ -240,13 +240,13 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		float FWx, FWy;
 		if(vx > 0)
-			fallwarning->SetPosition(this->x + KOOPA_BBOX_WIDTH,this->y - KOOPA_BBOX_HEIGHT);
+			fallwarning->SetPosition(this->x + KOOPA_BBOX_WIDTH - KOOPA_X_OFFSET,this->y - KOOPA_BBOX_HEIGHT  + KOOPA_Y_OFFSET);
 		else
-			fallwarning->SetPosition(this->x - KOOPA_BBOX_WIDTH, this->y - KOOPA_BBOX_HEIGHT);
+			fallwarning->SetPosition(this->x - KOOPA_BBOX_WIDTH + KOOPA_X_OFFSET, this->y - KOOPA_BBOX_HEIGHT + KOOPA_Y_OFFSET);
 		fallwarning->Update(dt, coObjects);
 
 		fallwarning->GetPosition(FWx, FWy);
-		if (FWy >= this->y + 1)
+		if (FWy >= this->y + 10)
 			vx = -vx;
 	}
 

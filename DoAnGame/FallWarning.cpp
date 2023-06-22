@@ -36,10 +36,10 @@ void CFallWarning::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CFallWarning::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
-	l = x - FALL_CELL_WIDTH / 2;
-	t = y - FALL_CELL_HEIGHT / 2;
-	r = l + FALL_CELL_WIDTH;
-	b = t + FALL_CELL_HEIGHT;
+	l = x - FALL_CELL_WIDTH / 4;
+	t = y - FALL_CELL_HEIGHT / 6;
+	r = l + FALL_CELL_WIDTH / 2;
+	b = t + FALL_CELL_HEIGHT / 3;
 }
 
 

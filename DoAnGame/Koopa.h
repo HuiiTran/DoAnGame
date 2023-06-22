@@ -35,6 +35,9 @@
 #define ID_ANI_KOOPA_WALKING_RIGHT 130010
 #define ID_ANI_KOOPA_WALKING_LEFT 130020
 
+#define KOOPA_Y_OFFSET	15
+#define KOOPA_X_OFFSET	15
+
 class CKoopa : public CGameObject
 {
 protected:
