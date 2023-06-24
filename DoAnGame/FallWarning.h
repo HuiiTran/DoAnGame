@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
-#define GRAVITY 0.002f
+#define GRAVITY 0.004f
 
 #define FALL_CELL_WIDTH	14
 #define FALL_CELL_HEIGHT 26

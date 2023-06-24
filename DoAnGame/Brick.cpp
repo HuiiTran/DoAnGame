@@ -5,6 +5,8 @@ void CBrick::Render()
 	CAnimations* animations = CAnimations::GetInstance();
 	if (type == 0)
 		animations->Get(ID_ANI_BRICK)->Render(x, y);
+	else if (type == 2)
+		animations->Get(ID_ANI_SHINING_BRICK)->Render(x, y);
 	else
 		animations->Get(ID_ANI_WOOD_BRICK)->Render(x, y);
 	//RenderBoundingBox();

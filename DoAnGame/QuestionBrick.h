@@ -3,9 +3,11 @@
 #include "GameObject.h"
 #include "Animation.h"
 #include "Animations.h"
+#include "Brick.h"
 
 #define ID_ANI_QUESTIONBRICK 12000
 #define ID_ANI_EMPTY 12001
+#define ID_ANI_SHINING_QUESTIONBRICK 12002
 
 #define QUESTIONBRICK_BBOX_WIDTH 16
 #define QUESTIONBRICK_BBOX_HEIGTH 16
@@ -19,7 +21,7 @@
 
 class CQuestionBrick : public CGameObject
 {
-	int brick_type; //0: coin , 1 mushroom, 2 leaf, 3 life up 
+	int brick_type; //0: coin , 1 mushroom, 2 leaf, 3 life up , 4 P
 	bool isEmpty = false;
 	float beforeHit_y;
 public:

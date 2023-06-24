@@ -3,10 +3,16 @@
 void CQuestionBrick::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
-	if(this->isEmpty == false)
-		animations->Get(ID_ANI_QUESTIONBRICK)->Render(x, y);
+	if (this->brick_type == 4 || brick_type == 3)
+		animations->Get(ID_ANI_SHINING_BRICK)->Render(x, y);
 	else
-		animations->Get(ID_ANI_EMPTY)->Render(x, y);
+	{
+		if (this->isEmpty == false)
+			animations->Get(ID_ANI_QUESTIONBRICK)->Render(x, y);
+		else
+			animations->Get(ID_ANI_EMPTY)->Render(x, y);
+	}
+	
 }
 
 void CQuestionBrick::GetBoundingBox(float& l, float& t, float& r, float& b)

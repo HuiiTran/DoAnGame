@@ -1,8 +1,17 @@
 # id	left	top	right	bottom	texture_id
 [SPRITES]
 20001	354	153	369	168	20
+#wood brick
 20002	1004	18	1019	33	50
+#shining brick
+20003	1038	1	1053	16	50
+20004	1055	1	1070	16	50
+20005	1072	1	1087	16	50
+20006	1089	1	1104	16	50
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 10000	20001	1000
+#wood brick
 10001	20002	1000
+#shining brick
+10002	20004	200	20005	200	20006	200
