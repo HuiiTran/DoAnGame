@@ -12,6 +12,11 @@ void CBrick::Render()
 	//RenderBoundingBox();
 }
 
+void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
+
+}
+
 void CBrick::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	l = x - BRICK_BBOX_WIDTH/2;

@@ -13,7 +13,6 @@ class CP_Power : public CGameObject
 protected:
 	bool isHit;
 public:
-
 	CP_Power(float x, float y) : CGameObject(x,y)
 	{
 		isHit = false;
