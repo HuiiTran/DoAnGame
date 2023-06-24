@@ -8,6 +8,7 @@
 #include "Leaf.h"
 #include "FlyGoomba.h"
 #include "Effect.h"
+#include "P_Power.h"
 
 CKoopa::CKoopa(float x, float y, bool isHaveWing) :CGameObject(x, y)
 {
@@ -178,6 +179,24 @@ void CKoopa::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 			thisscene->AddObjectToScene(newbrick);
 			newbrick->SetPosition(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
 
+		}
+		if (questionbrick->GetBrickType() == 4) //life up
+		{
+			questionbrick->SetEmpty(true);
+			float questionbrick_x, questionbrick_y;
+			LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+
+			questionbrick->GetPosition(questionbrick_x, questionbrick_y);
+			questionbrick->SetPosition(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
+			questionbrick->Delete();
+
+			CP_Power* ppower = new CP_Power(questionbrick_x, questionbrick_y - 16);
+			thisscene->AddObjectToScene(ppower);
+
+			CQuestionBrick* newbrick = new CQuestionBrick(questionbrick_x, questionbrick_y);
+			newbrick->SetEmpty(true);
+			thisscene->AddObjectToScene(newbrick);
+			newbrick->SetPosition(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
 		}
 	}
 }

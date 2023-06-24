@@ -16,6 +16,7 @@ fireball.txt
 VenusFireTrap.txt
 effect.txt
 flygoomba.txt
+P_Power.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
