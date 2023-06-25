@@ -8,6 +8,9 @@
 
 #define P_POWER_BBOX_WIDTH 16
 #define P_POWER_BBOX_HEIGHT 16
+
+#define P_POWER_BBOX_HEIGHT_HIT 8
+
 class CP_Power : public CGameObject
 {
 protected:
@@ -19,7 +22,7 @@ public:
 	}
 
 	virtual int IsCollidable() { return 1; };
-	virtual int IsBlocking() { return 1; };
+	virtual int IsBlocking() { return !isHit; };
 
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects){}

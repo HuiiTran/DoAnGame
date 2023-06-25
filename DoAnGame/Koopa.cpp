@@ -197,6 +197,8 @@ void CKoopa::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 
 			CP_Power* ppower = new CP_Power(questionbrick_x, questionbrick_y - 16);
 			thisscene->AddObjectToScene(ppower);
+			CEffect* effect = new CEffect(questionbrick_x, questionbrick_y - 16);
+			thisscene->AddObjectToScene(effect);
 
 			CQuestionBrick* newbrick = new CQuestionBrick(questionbrick_x, questionbrick_y);
 			newbrick->SetEmpty(true);

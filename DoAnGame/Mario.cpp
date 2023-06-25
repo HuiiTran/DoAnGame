@@ -16,6 +16,7 @@
 #include "VenusFireTrap.h"
 #include "FlyGoomba.h"
 #include "P_Power.h"
+#include "Effect.h"
 #include "PlayScene.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -211,6 +212,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithVenusFireTrap(e);
 	else if (dynamic_cast<CFlyGoomba*>(e->obj))
 		OnCollisionWithFlyGoomba(e);
+	else if (dynamic_cast<CP_Power*>(e->obj))
+		OnCollisionWithPPOWER(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -486,7 +489,7 @@ void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 			thisscene->AddObjectToScene(newbrick);
 			newbrick->SetPosition(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
 		}
-		if (questionbrick->GetBrickType() == 4) //life up
+		if (questionbrick->GetBrickType() == 4) //p_power change shining brick to coin
 		{
 			questionbrick->SetEmpty(true);
 			float questionbrick_x, questionbrick_y;
@@ -498,6 +501,8 @@ void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 
 			CP_Power* ppower = new CP_Power(questionbrick_x, questionbrick_y - 16);
 			thisscene->AddObjectToScene(ppower);
+			CEffect* effect = new CEffect(questionbrick_x, questionbrick_y - 16);
+			thisscene->AddObjectToScene(effect);
 
 			CQuestionBrick* newbrick = new CQuestionBrick(questionbrick_x, questionbrick_y);
 			newbrick->SetEmpty(true);
@@ -534,6 +539,12 @@ void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)
 		SetLevel(MARIO_LEVEL_TANOOKI);
 	}
 	leaf->Delete();
+}
+void CMario::OnCollisionWithPPOWER(LPCOLLISIONEVENT e)
+{
+	CP_Power* ppower = dynamic_cast<CP_Power*>(e->obj);
+	if(e->ny < 0)
+		ppower->SetisHit(true);
 }
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {

@@ -2,6 +2,7 @@
 [ASSETS]
 mushroom.txt
 mario.txt
+goomba.txt
 coin.txt
 cloud.txt
 brick.txt
@@ -11,7 +12,12 @@ ground.txt
 colorblock.txt
 background.txt
 koopa.txt
+fireball.txt
+VenusFireTrap.txt
+effect.txt
 flygoomba.txt
+P_Power.txt
+BreakBrickPiece.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -83,6 +89,7 @@ flygoomba.txt
 6	250	120	2
 6	230	120	3
 6	270	120	1
+6	300	120	4
 1	286	120	1
 
 #Platform
