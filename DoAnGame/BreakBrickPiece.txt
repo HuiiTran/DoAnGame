@@ -1,9 +1,7 @@
 # id	left	top	right	bottom	texture_id
 [SPRITES]
 #break brick piece
-170013	1089	103	1096	11	50
-
-
+170013	1089	103	1096	111	50
 
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]

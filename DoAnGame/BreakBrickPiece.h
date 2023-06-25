@@ -14,6 +14,8 @@
 
 #define PIECE_TIMEOUT 900
 
+#define PIECE_OFFSET	8
+
 class CBreakBrickPiece : public CGameObject
 {
 protected:
@@ -35,9 +37,16 @@ public:
 	void OnNoCollision(DWORD dt);
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
+	void GetBoundingBox(float& l, float& t, float& r, float& b) 
+	{
+		l = 8;
+		t = 8;
+		r = 8;
+		b = 8;
+	}
 
-	virtual int IsCollidable() { return 0; };
-	virtual int IsBlocking() { return 0; };
+	int IsCollidable() { return 0; };
+	int IsBlocking() { return 0; };
 	
 	void SetState(int state);
 

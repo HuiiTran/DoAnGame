@@ -14,9 +14,9 @@ void CBreakBrickPiece::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (GetTickCount64() - start_break > PIECE_TIMEOUT)
 	{
 		isDeleted = true;
-		CGameObject::Update(dt, coObjects);
-		CCollision::GetInstance()->Process(this, dt, coObjects);
 	}
+	CGameObject::Update(dt, coObjects);
+	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
 void CBreakBrickPiece::Render()

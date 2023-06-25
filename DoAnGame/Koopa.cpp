@@ -9,6 +9,7 @@
 #include "FlyGoomba.h"
 #include "Effect.h"
 #include "Brick.h"
+#include "BreakBrickPiece.h"
 #include "P_Power.h"
 
 CKoopa::CKoopa(float x, float y, bool isHaveWing) :CGameObject(x, y)
@@ -225,10 +226,29 @@ void CKoopa::OnCollisionWithVenusFireTrap(LPCOLLISIONEVENT e)
 }
 void CKoopa::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 {
+	float bX, bY;
+
+	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+
 	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+	brick->GetPosition(bX, bY);
 	if ((e->nx > 0 || e->nx < 0) && brick->GetType() == 2)
 	{
 		brick->Delete();
+		CBreakBrickPiece* piece_1 = new CBreakBrickPiece(bX, bY - PIECE_OFFSET);
+		piece_1->SetState(PIECE_STATE_LEFT);
+		CBreakBrickPiece* piece_2 = new CBreakBrickPiece(bX, bY + PIECE_OFFSET);
+		piece_2->SetState(PIECE_STATE_LEFT);
+		CBreakBrickPiece* piece_3 = new CBreakBrickPiece(bX, bY - PIECE_OFFSET);
+		piece_3->SetState(PIECE_STATE_RIGHT);
+		CBreakBrickPiece* piece_4 = new CBreakBrickPiece(bX, bY + PIECE_OFFSET);
+		piece_4->SetState(PIECE_STATE_RIGHT);
+
+		thisscene->AddObjectToScene(piece_1);
+		thisscene->AddObjectToScene(piece_2);
+		thisscene->AddObjectToScene(piece_3);
+		thisscene->AddObjectToScene(piece_4);
+
 	}
 }
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

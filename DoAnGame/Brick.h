@@ -13,8 +13,10 @@
 #define BRICK_BBOX_HEIGHT 16
 
 class CBrick : public CGameObject {
-public:
+protected:
 	int type = 0; //0 normal, 1 wood, 2 shining brick 
+public:
+
 	CBrick(float x, float y, int type = 0) : CGameObject(x, y) {
 		this->type = type;
 	}

@@ -14,7 +14,6 @@ void CBrick::Render()
 
 void CBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-
 }
 
 void CBrick::GetBoundingBox(float& l, float& t, float& r, float& b)
