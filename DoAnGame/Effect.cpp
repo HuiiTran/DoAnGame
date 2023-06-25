@@ -5,7 +5,6 @@ void CEffect::Render()
 	int aniId = -1;
 	if (type == 0)
 		aniId = ID_ANI_DISAPPEAR;
-
 	CAnimations* animations = CAnimations::GetInstance();
 	animations->Get(aniId)->Render(x, y);
 }

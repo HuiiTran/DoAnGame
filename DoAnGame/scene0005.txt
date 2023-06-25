@@ -17,6 +17,7 @@ VenusFireTrap.txt
 effect.txt
 flygoomba.txt
 P_Power.txt
+BreakBrickPiece.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type

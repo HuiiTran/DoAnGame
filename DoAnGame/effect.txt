@@ -1,9 +1,13 @@
 # id	left	top	right	bottom	texture_id
 [SPRITES]
+#smoke
 170010	542	19	559	37	20
 170011	559	19	574	37	20
 170012	574	19	589	37	20
 
+
+
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
+#smoke
 170000	170010	100	170011	100	170012	100

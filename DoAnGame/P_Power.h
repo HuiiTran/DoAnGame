@@ -19,7 +19,7 @@ public:
 	}
 
 	virtual int IsCollidable() { return 1; };
-	virtual int IsBlocking() { return 0; };
+	virtual int IsBlocking() { return 1; };
 
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects){}

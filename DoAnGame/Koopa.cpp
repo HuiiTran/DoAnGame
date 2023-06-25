@@ -8,6 +8,7 @@
 #include "Leaf.h"
 #include "FlyGoomba.h"
 #include "Effect.h"
+#include "Brick.h"
 #include "P_Power.h"
 
 CKoopa::CKoopa(float x, float y, bool isHaveWing) :CGameObject(x, y)
@@ -61,6 +62,9 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		}
 		else if (dynamic_cast<CFlyGoomba*>(e->obj)) {
 			OnCollisionWithFlyGoomba(e);
+		}
+		else if (dynamic_cast<CBrick*>(e->obj)) {
+			OnCollisionWithBrick(e);
 		}
 	}
 	/*if (dynamic_cast<CInvisibleBlock*>(e->obj) && state == KOOPA_STATE_WALKING) {
@@ -218,6 +222,14 @@ void CKoopa::OnCollisionWithVenusFireTrap(LPCOLLISIONEVENT e)
 	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
 	CEffect* effect = new CEffect(Tx, Ty);
 	thisscene->AddObjectToScene(effect);
+}
+void CKoopa::OnCollisionWithBrick(LPCOLLISIONEVENT e)
+{
+	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+	if ((e->nx > 0 || e->nx < 0) && brick->GetType() == 2)
+	{
+		brick->Delete();
+	}
 }
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
