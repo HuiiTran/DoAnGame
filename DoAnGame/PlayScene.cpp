@@ -344,13 +344,13 @@ void CPlayScene::Update(DWORD dt)
 
 	if (cx < 0) cx = 0;
 	DebugOutTitle(L"%f", cy);
-	if (cy > MIN_Y_CAM)
+	/*if (cy > MIN_Y_CAM)
 		cy = MIN_Y_CAM;
 	else if (MID_Y_CAM < cy && cy < MIN_Y_CAM)
 		cy = MIN_Y_CAM;
 	else
 		cy = cy - MID_Y_CAM;
-	if (cy < MAX_Y_CAM) cy = MAX_Y_CAM;
+	if (cy < MAX_Y_CAM) cy = MAX_Y_CAM;*/
 	
 	CGame::GetInstance()->SetCamPos(cx, cy);
 
