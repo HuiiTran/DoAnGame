@@ -14,10 +14,13 @@
 #define P_POWER_STATE_IDLE 1
 #define P_POWER_STATE_HIT 2
 
+#define P_POWER_HIT_TIMEOUT 700
+
 class CP_Power : public CGameObject
 {
 protected:
 	bool isHit;
+	ULONGLONG stop_change = -1;
 public:
 	CP_Power(float x, float y) : CGameObject(x,y)
 	{
@@ -29,10 +32,11 @@ public:
 	virtual int IsBlocking() { return !isHit; };
 
 	void Render();
-	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects){}
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 
 	void SetisHit(bool isHit) { this->isHit = isHit; }
+	bool GetisHit() { return this->isHit; }
 
 	void SetState(int state);
 };
