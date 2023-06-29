@@ -250,7 +250,6 @@ void CKoopa::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 		thisscene->AddObjectToScene(piece_2);
 		thisscene->AddObjectToScene(piece_3);
 		thisscene->AddObjectToScene(piece_4);
-
 	}
 }
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

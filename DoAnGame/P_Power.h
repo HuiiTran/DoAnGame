@@ -7,7 +7,7 @@
 
 
 #define P_POWER_BBOX_WIDTH 16
-#define P_POWER_BBOX_HEIGHT 16
+#define P_POWER_BBOX_HEIGHT 10
 
 #define P_POWER_BBOX_HEIGHT_HIT 8
 
@@ -29,5 +29,7 @@ public:
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 
 	void SetisHit(bool isHit) { this->isHit = isHit; }
+
+	void SetState(int state);
 };
 
