@@ -35,6 +35,7 @@ public:
 	virtual void Unload();
 
 	LPGAMEOBJECT GetPlayer() { return player; }
+	vector<LPGAMEOBJECT> GetListObjects() { return objects; }
 
 	void Clear();
 	
@@ -44,7 +45,7 @@ public:
 
 	void AddObjectToScene(LPGAMEOBJECT obj) { this->objects.push_back(obj); }
 
-	vector<LPGAMEOBJECT> GetListObjects() { return objects; }
+	
 };
 
 typedef CPlayScene* LPPLAYSCENE;

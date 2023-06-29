@@ -28,6 +28,7 @@ public:
 	virtual void AddObjectToScene(LPGAMEOBJECT obj) = 0;
 
 	virtual LPGAMEOBJECT GetPlayer() = 0;
+	virtual vector<LPGAMEOBJECT> GetListObjects() = 0;
 };
 typedef CScene * LPSCENE;
 

@@ -1,5 +1,5 @@
 #include "P_Power.h"
-
+#include "PlayScene.h"
 void CP_Power::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
@@ -20,5 +20,27 @@ void CP_Power::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void CP_Power::SetState(int state)
 {
+	CGameObject::SetState(state);
+	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+	switch (state)
+	{
+	case P_POWER_STATE_HIT:
+	{
+		vector<LPGAMEOBJECT> objects = thisscene->GetListObjects();
+		for (int i = 0; i < objects.size();i++)
+		{
+			if (dynamic_cast<CBrick*>(objects[i]))
+			{
+				if (objects[i]->GetState() == BRICK_STATE_IDLE)
+				{
+					objects[i]->SetState(BRICK_STATE_GOLD);
+				}
+			}
+		}
+		break;
+	}
+	default:
+		break;
+	}
 }
 

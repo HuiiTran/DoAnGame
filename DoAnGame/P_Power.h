@@ -11,6 +11,9 @@
 
 #define P_POWER_BBOX_HEIGHT_HIT 8
 
+#define P_POWER_STATE_IDLE 1
+#define P_POWER_STATE_HIT 2
+
 class CP_Power : public CGameObject
 {
 protected:
@@ -19,6 +22,7 @@ public:
 	CP_Power(float x, float y) : CGameObject(x,y)
 	{
 		isHit = false;
+		SetState(P_POWER_STATE_IDLE);
 	}
 
 	virtual int IsCollidable() { return 1; };

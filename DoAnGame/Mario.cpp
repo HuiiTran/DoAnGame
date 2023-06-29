@@ -543,8 +543,11 @@ void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithPPOWER(LPCOLLISIONEVENT e)
 {
 	CP_Power* ppower = dynamic_cast<CP_Power*>(e->obj);
-	if(e->ny < 0)
+	if (e->ny < 0)
+	{
 		ppower->SetisHit(true);
+		ppower->SetState(P_POWER_STATE_HIT);
+	}
 }
 void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {
