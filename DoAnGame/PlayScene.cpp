@@ -18,6 +18,7 @@
 #include "Pipe.h"
 #include "BlockingObject.h"
 #include "FlyGoomba.h"
+#include "HUD.h"
 #include "SampleKeyEventHandler.h"
 
 using namespace std;
@@ -41,10 +42,10 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define MAX_SCENE_LINE 1024
 
 #define MAX_Y_CAM -300
-#define MIN_Y_CAM	0
-#define MID_Y_CAM	-32
+#define MIN_Y_CAM	10
+#define MID_Y_CAM	-45
 
-#define UNDERGROUND_Y_CAM_MIN 50
+#define UNDERGROUND_Y_CAM_MIN 61
 #define UNDERGROUND_Y_CAM_MAX 205
 #define UNDERGROUND_X_CAM_MIN 1900
 #define UNDERGROUND_X_CAM_MAX 2200
@@ -349,10 +350,10 @@ void CPlayScene::Update(DWORD dt)
 	CGame *game = CGame::GetInstance();
 	cx -= game->GetBackBufferWidth() / 2;
 	cy -= game->GetBackBufferHeight() / 2;
-	DebugOutTitle(L"%f", cx);
+	DebugOutTitle(L"%f", cy);
 
 	if (cx < 0) cx = 0;
-	if (cx > 0 && cy < 50)
+	if (cx > 0 && cy < UNDERGROUND_Y_CAM_MIN)
 	{
 		if (cy > MIN_Y_CAM)
 			cy = MIN_Y_CAM;
@@ -383,6 +384,13 @@ void CPlayScene::Render()
 {
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
+
+	float camX, camY;
+	CGame* game = CGame::GetInstance();
+
+	game->GetCamPos(camX, camY);
+	CHUD* hud = new CHUD(camX + 150, camY + 210);
+	hud->Render();
 }
 
 /*
