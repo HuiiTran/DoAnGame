@@ -44,6 +44,14 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define MIN_Y_CAM	0
 #define MID_Y_CAM	-32
 
+#define UNDERGROUND_Y_CAM_MIN 50
+#define UNDERGROUND_Y_CAM_MAX 205
+#define UNDERGROUND_X_CAM_MIN 1900
+#define UNDERGROUND_X_CAM_MAX 2200
+
+#define UNDERGROUND_X_CAM_MIN_LIMIT 1960
+#define UNDERGROUND_X_CAM_MAX_LIMIT 2160
+
 
 void CPlayScene::_ParseSection_SPRITES(string line)
 {
@@ -341,17 +349,31 @@ void CPlayScene::Update(DWORD dt)
 	CGame *game = CGame::GetInstance();
 	cx -= game->GetBackBufferWidth() / 2;
 	cy -= game->GetBackBufferHeight() / 2;
+	DebugOutTitle(L"%f", cx);
 
 	if (cx < 0) cx = 0;
-	DebugOutTitle(L"%f", cy);
-	/*if (cy > MIN_Y_CAM)
-		cy = MIN_Y_CAM;
-	else if (MID_Y_CAM < cy && cy < MIN_Y_CAM)
-		cy = MIN_Y_CAM;
-	else
-		cy = cy - MID_Y_CAM;
-	if (cy < MAX_Y_CAM) cy = MAX_Y_CAM;*/
+	if (cx > 0 && cy < 50)
+	{
+		if (cy > MIN_Y_CAM)
+			cy = MIN_Y_CAM;
+		else if (MID_Y_CAM < cy && cy < MIN_Y_CAM)
+			cy = MIN_Y_CAM;
+		else
+			cy = cy - MID_Y_CAM;
+		if (cy < MAX_Y_CAM) cy = MAX_Y_CAM;
+	}
+	else if (cy > UNDERGROUND_Y_CAM_MIN && (cx > UNDERGROUND_X_CAM_MIN && cx < UNDERGROUND_X_CAM_MAX) )
+	{
+		cy = UNDERGROUND_Y_CAM_MAX;
+		if (cx > UNDERGROUND_X_CAM_MAX_LIMIT)
+			cx = UNDERGROUND_X_CAM_MAX_LIMIT;
+		else if (cx < UNDERGROUND_X_CAM_MIN_LIMIT)
+			cx = UNDERGROUND_X_CAM_MIN_LIMIT;
+	}
 	
+	
+		
+
 	CGame::GetInstance()->SetCamPos(cx, cy);
 
 	PurgeDeletedObjects();
