@@ -281,6 +281,7 @@ public:
 
 	int IsBlocking() { return (state != MARIO_STATE_DIE && untouchable==0); }
 	bool IsBrace() { return (ax * vx < 0); } // return if there is a brace or not
+	int GetLevelRun() { return this->level_run; }
 
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);
