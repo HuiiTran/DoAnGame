@@ -87,6 +87,8 @@ void CFlyGoomba::GetBoundingBox(float& left, float& top, float& right, float& bo
 
 void CFlyGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (!isInCam(this)) return;
+
 	vx += ax * dt;
 	vy += ay * dt;
 

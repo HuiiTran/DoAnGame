@@ -360,7 +360,7 @@ void CPlayScene::Update(DWORD dt)
 		else if (MID_Y_CAM < cy && cy < MIN_Y_CAM)
 			cy = MIN_Y_CAM;
 		else
-			cy = cy - MID_Y_CAM;
+			cy = cy - MID_Y_CAM + MIN_Y_CAM;
 		if (cy < MAX_Y_CAM) cy = MAX_Y_CAM;
 	}
 	else if (cy > UNDERGROUND_Y_CAM_MIN && (cx > UNDERGROUND_X_CAM_MIN && cx < UNDERGROUND_X_CAM_MAX) )
@@ -371,7 +371,10 @@ void CPlayScene::Update(DWORD dt)
 		else if (cx < UNDERGROUND_X_CAM_MIN_LIMIT)
 			cx = UNDERGROUND_X_CAM_MIN_LIMIT;
 	}
-	
+	else if (cy > UNDERGROUND_Y_CAM_MIN)
+	{
+		cy = 10;
+	}
 	
 		
 

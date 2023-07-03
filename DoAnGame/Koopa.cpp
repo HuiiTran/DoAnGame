@@ -254,6 +254,9 @@ void CKoopa::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 }
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+
+	if (!isInCam(this)) return;
+
 	vy += ay * dt;
 	vx += ax * dt;
 

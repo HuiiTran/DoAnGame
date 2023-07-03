@@ -17,6 +17,9 @@ void CVenusFireTrap::GetBoundingBox(float& l, float& t, float& r, float& b)
 
 void CVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+
+	if (!isInCam(this)) return;
+
 	//DebugOut(L"%d", state);
 	if (state == VENUSFIRETRAP_STATE_WAITING)
 	{
@@ -52,7 +55,7 @@ void CVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else
 	{
-		if (hide != 0 && GetTickCount64() - hide > 3000)
+		if (hide != 0 && GetTickCount64() - hide > VENUSFIRETRAP_HIDE_TIME)
 		{
 			SetState(VENUSFIRETRAP_STATE_HIDDEN);
 		}
@@ -69,13 +72,13 @@ void CVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else
 	{
-		if (show != 0 && GetTickCount64() - show > 2000)
+		if (show != 0 && GetTickCount64() - show > VENUSFIRETRAP_SHOW_TIME)
 		{
 			SetState(VENUSFIRETRAP_STATE_SHOWING);
 		}
 	}
 
-	if (fire != 0 && GetTickCount64() - fire > 1000)
+	if (fire != 0 && GetTickCount64() - fire > VENUSFIRETRAP_FIRE_TIME)
 	{
 		SetState(VENUSFIRETRAP_STATE_SHOOT);
 	}

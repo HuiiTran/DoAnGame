@@ -14,6 +14,9 @@ using namespace std;
 #define ID_TEX_BBOX -100		// special texture to draw object bounding box
 #define BBOX_ALPHA 0.25f		// Bounding box transparency
 
+#define SCREEN_WIDTH 320
+#define SCREEN_HEIGHT 280
+
 class CGameObject
 {
 protected:
@@ -45,6 +48,7 @@ public:
 	CGameObject();
 	CGameObject(float x, float y) :CGameObject() { this->x = x; this->y = y; }
 
+	bool isInCam(CGameObject* obj);
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom) = 0;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL) {};

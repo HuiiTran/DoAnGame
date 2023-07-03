@@ -73,7 +73,7 @@ void CHUD::Render()
 
 	//Print coin
 	int coin = mario->GetCoin();
-	if (coin > 10)
+	if (coin / 10 > 0)
 	{
 		PrintNumber(coin / 10, x + COIN_TENS_OFFSET_X, y + COIN_OFFSET_Y);
 	}
