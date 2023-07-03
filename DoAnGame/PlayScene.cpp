@@ -350,10 +350,10 @@ void CPlayScene::Update(DWORD dt)
 	CGame *game = CGame::GetInstance();
 	cx -= game->GetBackBufferWidth() / 2;
 	cy -= game->GetBackBufferHeight() / 2;
-	DebugOutTitle(L"%f", cy);
+	DebugOutTitle(L"%f", cx);
 
 	if (cx < 0) cx = 0;
-	if (cx > 0 && cy < UNDERGROUND_Y_CAM_MIN)
+	if (cx > -160 && cy < UNDERGROUND_Y_CAM_MIN)
 	{
 		if (cy > MIN_Y_CAM)
 			cy = MIN_Y_CAM;
