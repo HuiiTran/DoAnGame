@@ -19,6 +19,13 @@
 #define ID_ANI_NUMBER_8 200018
 #define ID_ANI_NUMBER_9 200019
 
+
+
+//card
+
+#define ID_ANI_MUSHROOM_CARD	200020
+#define ID_ANI_STAR_CARD		200021
+#define ID_ANI_FLOWER_CARD		200022
 //offset
 #define HUD_OFFSET_Y 9
 
@@ -29,12 +36,23 @@
 #define LEVELRUN_SPACE_OFFSET_X	8
 #define LEVELRUN_OFFSET_Y 5
 
+#define	CARD_OFFSET_X_1	55
+#define	CARD_OFFSET_X_2	80
+#define	CARD_OFFSET_X_3	105
+#define	CARD_OFFSET_Y	9
+
+#define COIN_OFFSET_Y	5
+#define COIN_TENS_OFFSET_X	20
+#define COIN_UNIT_OFFSET_X	28
+
 class CHUD
 {
 private:
 	float x, y;
 public:
 	CHUD(float x, float y);
+
+	void PrintNumber(int n, float x, float y);
 
 	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) {}

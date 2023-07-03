@@ -306,4 +306,6 @@ public:
 	void StartKick() { start_kick = GetTickCount64(); }
 
 	bool GetisOnPlatform() { return this->isOnPlatform; }
+
+	int GetCoin() { return this->coin; }
 };
