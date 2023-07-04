@@ -19,6 +19,7 @@
 #include "Effect.h"
 #include "PiranhaPlant.h"
 #include "GreenKoopa.h"
+#include "InvisibleBlock.h"
 #include "PlayScene.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -229,6 +230,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 	}
 
+	if (state == MARIO_STATE_DIE && GetTickCount64() - start_die > 1000)
+	{
+		CGame::GetInstance()->InitiateSwitchScene(1);
+	}
+
 	isOnPlatform = false;
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -278,6 +284,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPiranhaPlant(e);
 	else if (dynamic_cast<CGreenKoopa*>(e->obj))
 		OnCollisionWithGreenKoopa(e);
+	else if (dynamic_cast<CInvisibleBlock*>(e->obj))
+		OnCollisionWithInvisibleBlock(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -773,6 +781,12 @@ void CMario::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e)
 	}
 
 }
+void CMario::OnCollisionWithInvisibleBlock(LPCOLLISIONEVENT e)
+{
+	DebugOut(L">>> Mario DIE >>> \n");
+	SetState(MARIO_STATE_DIE);
+}
+
 void CMario::SetHoldingObject(CGameObject* holdingObject)
 {
 	if (holdingObject == NULL)
@@ -1313,6 +1327,7 @@ void CMario::SetState(int state)
 		vy = -MARIO_JUMP_DEFLECT_SPEED;
 		vx = 0;
 		ax = 0;
+		start_die = GetTickCount64();
 		break;
 	}
 

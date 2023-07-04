@@ -365,19 +365,35 @@ void CPlayScene::Update(DWORD dt)
 			cy = MIN_Y_CAM;
 		else
 			cy = cy - MID_Y_CAM + MIN_Y_CAM;
-		if (cy < MAX_Y_CAM) cy = MAX_Y_CAM;
+
+		if (cy < MAX_Y_CAM) 
+			cy = MAX_Y_CAM;
 	}
-	else if (cy > UNDERGROUND_Y_CAM_MIN && (cx > UNDERGROUND_X_CAM_MIN && cx < UNDERGROUND_X_CAM_MAX) )
+	else if (cy > UNDERGROUND_Y_CAM_MIN && (cx > UNDERGROUND_X_CAM_MIN && cx < UNDERGROUND_X_CAM_MAX))
 	{
-		cy = UNDERGROUND_Y_CAM_MAX;
-		if (cx > UNDERGROUND_X_CAM_MAX_LIMIT)
-			cx = UNDERGROUND_X_CAM_MAX_LIMIT;
-		else if (cx < UNDERGROUND_X_CAM_MIN_LIMIT)
-			cx = UNDERGROUND_X_CAM_MIN_LIMIT;
+		if (player->GetState() == MARIO_STATE_DIE)
+		{
+			cy = MID_Y_CAM;
+			return;
+		}
+		else
+		{
+			cy = UNDERGROUND_Y_CAM_MAX;
+			if (cx > UNDERGROUND_X_CAM_MAX_LIMIT)
+				cx = UNDERGROUND_X_CAM_MAX_LIMIT;
+			else if (cx < UNDERGROUND_X_CAM_MIN_LIMIT)
+				cx = UNDERGROUND_X_CAM_MIN_LIMIT;
+		}
 	}
 	else if (cy > UNDERGROUND_Y_CAM_MIN)
 	{
-		cy = 10;
+		if (player->GetState() == MARIO_STATE_DIE)
+		{
+			cy = MID_Y_CAM;
+			return;
+		}
+		else
+			cy = 10;
 	}
 	
 		

@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+
 class CInvisibleBlock : public CGameObject
 {
 public:

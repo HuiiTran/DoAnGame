@@ -8,8 +8,8 @@ void CInvisibleBlock::Render()
 }
 void  CInvisibleBlock::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
-	l = x - 8 / 2;
-	t = y - 8 / 2;
-	r = l + 8;
-	b = t + 8;
+	l = x - 16 / 2;
+	t = y - 16 / 2;
+	r = l +	16;
+	b = t + 16;
 }

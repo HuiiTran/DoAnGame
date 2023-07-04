@@ -222,6 +222,7 @@ class CMario : public CGameObject
 	ULONGLONG stop_level_run;
 	ULONGLONG start_level_run;
 	ULONGLONG start_fly;
+	ULONGLONG start_die;
 	int coin; 
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
@@ -237,6 +238,7 @@ class CMario : public CGameObject
 	void OnCollisionWithPPOWER(LPCOLLISIONEVENT e);
 	void OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e);
 	void OnCollisionWithGreenKoopa(LPCOLLISIONEVENT e);
+	void OnCollisionWithInvisibleBlock(LPCOLLISIONEVENT e);
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdTanooki();
