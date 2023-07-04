@@ -4,6 +4,7 @@ CFlyGoomba::CFlyGoomba(float x, float y)
 {
 	this->ax = 0;
 	this->ay = FLYGOOMBA_GRAVITY;
+	this->nx = -1;
 	die_start = -1;
 	JumpTime = 0;
 	WalkingTime = 0;

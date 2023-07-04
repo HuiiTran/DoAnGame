@@ -19,6 +19,7 @@ flygoomba.txt
 P_Power.txt
 BreakBrickPiece.txt
 PiranhaPlant.txt
+GreenKoopa.txt
 HUD.txt
 #
 [OBJECTS]
