@@ -18,6 +18,7 @@ effect.txt
 flygoomba.txt
 P_Power.txt
 BreakBrickPiece.txt
+PiranhaPlant.txt
 HUD.txt
 #
 [OBJECTS]
@@ -287,6 +288,8 @@ HUD.txt
 10	367	128
 
 10	1862	128
+#PIRANHA PLANT
+14	1798	148
 #Goomba
 2	350	120
 2	450	155

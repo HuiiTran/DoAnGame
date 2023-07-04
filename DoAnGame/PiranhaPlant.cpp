@@ -13,8 +13,13 @@ void CPiranhaPlant::GetBoundingBox(float& l, float& t, float& r, float& b)
 	b = t + PIRANHA_PLANT_BBOX_HEIGHT;
 }
 
+void CPiranhaPlant::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
+}
+
 void CPiranhaPlant::Render()
 {
+	CAnimations::GetInstance()->Get(ID_ANI_PIRANHA_PLANT)->Render(x, y);
 }
 
 void CPiranhaPlant::SetState(int state)

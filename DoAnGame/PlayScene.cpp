@@ -19,6 +19,7 @@
 #include "BlockingObject.h"
 #include "FlyGoomba.h"
 #include "HUD.h"
+#include "PiranhaPlant.h"
 #include "SampleKeyEventHandler.h"
 
 using namespace std;
@@ -144,6 +145,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_KOOPA:	obj = new CKoopa(x, y); break;
 	case OBJECT_TYPE_FLYGOOMBA: obj = new CFlyGoomba(x, y); break;
 	case OBJECT_TYPE_VENUSFIRETRAP: obj = new CVenusFireTrap(x, y); break;
+	case OBJECT_TYPE_PIRANHAPLANT: obj = new CPiranhaPlant(x, y); break;
 	case OBJECT_TYPE_BRICK: 
 	{
 		int brick_type = (int)atoi(tokens[3].c_str());

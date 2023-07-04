@@ -1,6 +1,8 @@
 #pragma once
 #include "GameObject.h"
 
+#define ID_ANI_PIRANHA_PLANT 160050
+
 #define PIRANHA_PLANT_WIDTH 16
 #define PIRANHA_PLANT_HEIGHT 32
 
@@ -27,7 +29,7 @@ protected:
 	ULONGLONG hide;
 	ULONGLONG fire;
 	int ny = 0;
-
+public:
 	CPiranhaPlant(float x, float y) : CGameObject(x, y)
 	{
 		ay = 0;
