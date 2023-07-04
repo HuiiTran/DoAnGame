@@ -16,9 +16,11 @@
 #define PIRANHA_PLANT_STATE_SHOWING 2
 #define PIRANHA_PLANT_STATE_WAITING 3
 #define PIRANHA_PLANT_STATE_SHOW 4
+#define PIRANHA_PLANT_STATE_BITE 5
 
 #define PIRANHA_PLANT_HIDE_TIME	3000
 #define PIRANHA_PLANT_SHOW_TIME	2000
+#define PIRANHA_PLANT_BITE_TIME	1000
 
 class CPiranhaPlant : public CGameObject
 {
@@ -27,7 +29,7 @@ protected:
 	float initial_y;
 	ULONGLONG show;
 	ULONGLONG hide;
-	ULONGLONG fire;
+	ULONGLONG bite;
 	int ny = 0;
 public:
 	CPiranhaPlant(float x, float y) : CGameObject(x, y)
@@ -41,7 +43,7 @@ public:
 	virtual int IsCollidable() { return 0; }
 
 	virtual void OnNoCollision(DWORD dt);
-	//virtual void OnCollisionWith(LPCOLLISIONEVENT e);
+	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -63,5 +65,7 @@ public:
 		show = 0;
 		hide = 0;
 	}
+	void StartBite() { bite = GetTickCount64(); }
+	void StopBite() { bite = 0; }
 };
 
