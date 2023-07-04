@@ -235,6 +235,7 @@ class CMario : public CGameObject
 	void OnCollisionWithVenusFireTrap(LPCOLLISIONEVENT e);
 	void OnCollisionWithFlyGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithPPOWER(LPCOLLISIONEVENT e);
+	void OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e);
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdTanooki();

@@ -17,6 +17,7 @@
 #include "FlyGoomba.h"
 #include "P_Power.h"
 #include "Effect.h"
+#include "PiranhaPlant.h"
 #include "PlayScene.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -214,6 +215,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithFlyGoomba(e);
 	else if (dynamic_cast<CP_Power*>(e->obj))
 		OnCollisionWithPPOWER(e);
+	else if (dynamic_cast<CPiranhaPlant*>(e->obj))
+		OnCollisionWithPiranhaPlant(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -591,6 +594,22 @@ void CMario::OnCollisionWithVenusFireTrap(LPCOLLISIONEVENT e)
 		SetState(MARIO_STATE_DIE);
 	}
 	
+}
+
+void CMario::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e)
+{
+	if (untouchable) return;
+	if (level > MARIO_LEVEL_SMALL)
+	{
+		DecreaseLevel();
+		StartUntouchable();
+	}
+	else
+	{
+		DebugOut(L">>> Mario DIE >>> \n");
+		SetState(MARIO_STATE_DIE);
+	}
+
 }
 void CMario::SetHoldingObject(CGameObject* holdingObject)
 {

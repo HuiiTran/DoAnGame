@@ -10,6 +10,7 @@
 #include "Effect.h"
 #include "Brick.h"
 #include "BreakBrickPiece.h"
+#include "PiranhaPlant.h"
 #include "P_Power.h"
 
 CKoopa::CKoopa(float x, float y, bool isHaveWing) :CGameObject(x, y)
@@ -66,6 +67,9 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		}
 		else if (dynamic_cast<CBrick*>(e->obj)) {
 			OnCollisionWithBrick(e);
+		}
+		else if (dynamic_cast<CPiranhaPlant*>(e->obj)) {
+			OnCollisionWithPiranhaPlant(e);
 		}
 	}
 	/*if (dynamic_cast<CInvisibleBlock*>(e->obj) && state == KOOPA_STATE_WALKING) {
@@ -218,6 +222,15 @@ void CKoopa::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 //
 //}
 void CKoopa::OnCollisionWithVenusFireTrap(LPCOLLISIONEVENT e)
+{
+	float Tx, Ty;
+	e->obj->GetPosition(Tx, Ty);
+	e->obj->Delete();
+	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+	CEffect* effect = new CEffect(Tx, Ty);
+	thisscene->AddObjectToScene(effect);
+}
+void CKoopa::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e)
 {
 	float Tx, Ty;
 	e->obj->GetPosition(Tx, Ty);

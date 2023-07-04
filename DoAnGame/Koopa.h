@@ -68,6 +68,7 @@ protected:
 	void OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e);
 	//void OnCollisionWithInvisibleBlock(LPCOLLISIONEVENT e);
 	void OnCollisionWithVenusFireTrap(LPCOLLISIONEVENT e);
+	void OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e);
 	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
 public:
 	CKoopa(float x, float y, bool isHaveWing = false);

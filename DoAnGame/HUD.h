@@ -41,7 +41,7 @@
 #define	CARD_OFFSET_X_3	105
 #define	CARD_OFFSET_Y	9
 
-#define COIN_OFFSET_Y	5
+#define COIN_OFFSET_Y	6
 #define COIN_TENS_OFFSET_X	20
 #define COIN_UNIT_OFFSET_X	28
 

@@ -63,7 +63,7 @@ void CHUD::Render()
 		CAnimations::GetInstance()->Get(ID_ANI_LEVEL_RUN_MAX)->Render(x - LEVELRUN_SPACE_OFFSET_X, y + LEVELRUN_OFFSET_Y);
 
 	//NUMBER test
-	CAnimations::GetInstance()->Get(ID_ANI_NUMBER_9)->Render(x - 75, y + 5);
+	CAnimations::GetInstance()->Get(ID_ANI_NUMBER_1)->Render(x - 75, y + 5);
 
 	//card test
 	CAnimations::GetInstance()->Get(ID_ANI_MUSHROOM_CARD)->Render(x + CARD_OFFSET_X_1, y + CARD_OFFSET_Y);
