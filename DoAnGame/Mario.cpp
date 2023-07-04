@@ -276,47 +276,58 @@ void CMario::OnNoCollision(DWORD dt)
 
 void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (e->ny != 0 && e->obj->IsBlocking())
+	int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
+	if(currentscene == 5)
 	{
-		vy = 0;
-		if (e->ny < 0) isOnPlatform = true;
-	}
-	else 
-	if (e->nx != 0 && e->obj->IsBlocking())
-	{
-		vx = 0;
-	}
+		if (e->ny != 0 && e->obj->IsBlocking())
+		{
+			vy = 0;
+			if (e->ny < 0) isOnPlatform = true;
+		}
+		else
+			if (e->nx != 0 && e->obj->IsBlocking())
+			{
+				vx = 0;
+			}
 
-	if (dynamic_cast<CGoomba*>(e->obj))
-		OnCollisionWithGoomba(e);
-	else if (dynamic_cast<CCoin*>(e->obj))
-		OnCollisionWithCoin(e);
-	else if (dynamic_cast<CPortal*>(e->obj))
-		OnCollisionWithPortal(e);
-	else if (dynamic_cast<CQuestionBrick*>(e->obj))
-		OnCollisionWithQuestionBrick(e);
-	else if (dynamic_cast<CMushRoom*>(e->obj))
-		OnCollisionWithMushRoom(e);
-	else if (dynamic_cast<CLeaf*>(e->obj))
-		OnCollisionWithLeaf(e);
-	else if (dynamic_cast<CKoopa*>(e->obj))
-		OnCollisionWithKoopa(e);
-	else if (dynamic_cast<CFireBall*>(e->obj))
-		OnCollisionWithFireBall(e);
-	else if (dynamic_cast<CVenusFireTrap*>(e->obj))
-		OnCollisionWithVenusFireTrap(e);
-	else if (dynamic_cast<CFlyGoomba*>(e->obj))
-		OnCollisionWithFlyGoomba(e);
-	else if (dynamic_cast<CP_Power*>(e->obj))
-		OnCollisionWithPPOWER(e);
-	else if (dynamic_cast<CPiranhaPlant*>(e->obj))
-		OnCollisionWithPiranhaPlant(e);
-	else if (dynamic_cast<CGreenKoopa*>(e->obj))
-		OnCollisionWithGreenKoopa(e);
-	else if (dynamic_cast<CInvisibleBlock*>(e->obj))
-		OnCollisionWithInvisibleBlock(e);
-	else if (dynamic_cast<CNode*>(e->obj))
-		OnCollisionWithNode(e);
+		if (dynamic_cast<CGoomba*>(e->obj))
+			OnCollisionWithGoomba(e);
+		else if (dynamic_cast<CCoin*>(e->obj))
+			OnCollisionWithCoin(e);
+		else if (dynamic_cast<CPortal*>(e->obj))
+			OnCollisionWithPortal(e);
+		else if (dynamic_cast<CQuestionBrick*>(e->obj))
+			OnCollisionWithQuestionBrick(e);
+		else if (dynamic_cast<CMushRoom*>(e->obj))
+			OnCollisionWithMushRoom(e);
+		else if (dynamic_cast<CLeaf*>(e->obj))
+			OnCollisionWithLeaf(e);
+		else if (dynamic_cast<CKoopa*>(e->obj))
+			OnCollisionWithKoopa(e);
+		else if (dynamic_cast<CFireBall*>(e->obj))
+			OnCollisionWithFireBall(e);
+		else if (dynamic_cast<CVenusFireTrap*>(e->obj))
+			OnCollisionWithVenusFireTrap(e);
+		else if (dynamic_cast<CFlyGoomba*>(e->obj))
+			OnCollisionWithFlyGoomba(e);
+		else if (dynamic_cast<CP_Power*>(e->obj))
+			OnCollisionWithPPOWER(e);
+		else if (dynamic_cast<CPiranhaPlant*>(e->obj))
+			OnCollisionWithPiranhaPlant(e);
+		else if (dynamic_cast<CGreenKoopa*>(e->obj))
+			OnCollisionWithGreenKoopa(e);
+		else if (dynamic_cast<CInvisibleBlock*>(e->obj))
+			OnCollisionWithInvisibleBlock(e);
+	}
+	else if (currentscene == 1)
+	{
+		if (e->obj->IsBlocking()) {
+			vx = 0;
+			vy = 0;
+		}
+		if (dynamic_cast<CNode*>(e->obj))
+			OnCollisionWithNode(e);
+	}
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)

@@ -84,6 +84,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 			{
 				mario->SetState(MARIO_GO_UP);
 			}
+			break;
 		}
 		case DIK_DOWN:
 		{
@@ -91,6 +92,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 			{
 				mario->SetState(MARIO_GO_DOWN);
 			}
+			break;
 		}
 		default:
 			break;
