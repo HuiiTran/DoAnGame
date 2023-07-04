@@ -18,6 +18,7 @@
 #include "P_Power.h"
 #include "Effect.h"
 #include "PiranhaPlant.h"
+#include "GreenKoopa.h"
 #include "PlayScene.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -100,6 +101,64 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 						holdingObjY = y - 2;
 					}
 					koopa->SetPosition(holdingObjX, holdingObjY);
+				}
+			}
+		}
+		else if (dynamic_cast<CGreenKoopa*>(holdingObject))
+		{
+			CGreenKoopa* greenkoopa = dynamic_cast<CGreenKoopa*>(holdingObject);
+
+			if (greenkoopa->GetState() == GREEN_KOOPA_STATE_WALKING)
+			{
+				SetHoldingObject(NULL);
+			}
+			else
+			{
+				float holdingObjX, holdingObjY;
+				int width = MARIO_SMALL_BBOX_WIDTH;
+				if (level == MARIO_LEVEL_BIG)
+				{
+					width = MARIO_BIG_BBOX_WIDTH;
+					if (nx > 0)
+					{
+						holdingObjX = x + width;
+						holdingObjY = y + 3;
+					}
+					else
+					{
+						holdingObjX = x - width;
+						holdingObjY = y + 3;
+					}
+					greenkoopa->SetPosition(holdingObjX, holdingObjY);
+				}
+				else if (level == MARIO_LEVEL_TANOOKI)
+				{
+					width = MARIO_TANOOKI_BBOX_WIDTH;
+					if (nx > 0)
+					{
+						holdingObjX = x + width;
+						holdingObjY = y + 2;
+					}
+					else
+					{
+						holdingObjX = x - width;
+						holdingObjY = y + 2;
+					}
+					greenkoopa->SetPosition(holdingObjX, holdingObjY);
+				}
+				else
+				{
+					if (nx > 0)
+					{
+						holdingObjX = x + width;
+						holdingObjY = y - 2;
+					}
+					else
+					{
+						holdingObjX = x - width;
+						holdingObjY = y - 2;
+					}
+					greenkoopa->SetPosition(holdingObjX, holdingObjY);
 				}
 			}
 		}
@@ -217,6 +276,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPPOWER(e);
 	else if (dynamic_cast<CPiranhaPlant*>(e->obj))
 		OnCollisionWithPiranhaPlant(e);
+	else if (dynamic_cast<CGreenKoopa*>(e->obj))
+		OnCollisionWithGreenKoopa(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -400,6 +461,107 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 				}
 			}
 			else if (koopa->GetState() != KOOPA_STATE_DIE || koopa->GetState() == KOOPA_STATE_RESPAWN)
+			{
+				if (level > MARIO_LEVEL_SMALL)
+				{
+					DecreaseLevel();
+					StartUntouchable();
+				}
+				else
+				{
+					DebugOut(L">>> Mario DIE >>> \n");
+					SetState(MARIO_STATE_DIE);
+				}
+			}
+		}
+	}
+}
+void CMario::OnCollisionWithGreenKoopa(LPCOLLISIONEVENT e)
+{
+	CGreenKoopa* greenkoopa = dynamic_cast<CGreenKoopa*>(e->obj);
+
+	float greenkoopaX, greenkoopaY;
+
+	if (greenkoopa->GetIsHolded()) return;
+
+	if (e->ny < 0 && !this->isOnPlatform)
+	{
+		greenkoopa->SetMLevel(this->level);
+		if (greenkoopa->GetState() != GREEN_KOOPA_STATE_SHELL)
+		{
+			greenkoopa->GetPosition(greenkoopaX, greenkoopaY);
+			greenkoopa->SetPosition(greenkoopaX, greenkoopaY - 10);
+			greenkoopa->SetState(GREEN_KOOPA_STATE_SHELL);
+			if (isFlying)
+				vy = -MARIO_JUMP_DEFLECT_SPEED / 2;
+			else
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
+		}
+		else
+		{
+			if (nx > 0)
+			{
+				greenkoopa->GetPosition(greenkoopaX, greenkoopaY);
+				greenkoopa->SetPosition(greenkoopaX + 5, greenkoopaY - 10);
+				greenkoopa->SetSpeed(GREEN_KOOPA_SHELL_SCROLL_SPEED, 0);
+				if (isFlying)
+					vy = -MARIO_JUMP_DEFLECT_SPEED / 2;
+				else
+					vy = -MARIO_JUMP_DEFLECT_SPEED;
+			}
+			else
+			{
+				greenkoopa->GetPosition(greenkoopaX, greenkoopaY);
+				greenkoopa->SetPosition(greenkoopaX - 5, greenkoopaY - 10);
+				greenkoopa->SetSpeed(-GREEN_KOOPA_SHELL_SCROLL_SPEED, 0);
+				if (isFlying)
+					vy = -MARIO_JUMP_DEFLECT_SPEED / 2;
+				else
+					vy = -MARIO_JUMP_DEFLECT_SPEED;
+			}
+			greenkoopa->SetState(GREEN_KOOPA_STATE_SHELL_SCROLL);
+		}
+	}
+	else if (nx > 0 && greenkoopa->GetState() == GREEN_KOOPA_STATE_SHELL && isHolding == false)
+	{
+		isKicking = true;
+		start_kick = GetTickCount64();
+		greenkoopa->SetMLevel(this->level);
+		greenkoopa->SetSpeed(GREEN_KOOPA_SHELL_SCROLL_SPEED, 0);
+		greenkoopa->SetState(GREEN_KOOPA_STATE_SHELL_SCROLL);
+	}
+	else if (nx < 0 && greenkoopa->GetState() == GREEN_KOOPA_STATE_SHELL && isHolding == false)
+	{
+		isKicking = true;
+		start_kick = GetTickCount64();
+		greenkoopa->SetMLevel(this->level);
+		greenkoopa->SetSpeed(-GREEN_KOOPA_SHELL_SCROLL_SPEED, 0);
+		greenkoopa->SetState(GREEN_KOOPA_STATE_SHELL_SCROLL);
+	}
+	else //being hit
+	{
+		if (!untouchable)
+		{
+			if (greenkoopa->GetState() == GREEN_KOOPA_STATE_SHELL)
+			{
+				if (isHolding) {
+					greenkoopa->SetPosition(x + nx * 15, y);
+					greenkoopa->SetIsHolded(true);
+					SetHoldingObject(greenkoopa);
+				}
+				else
+				{
+					if (nx > 0) {
+						greenkoopa->SetSpeed(GREEN_KOOPA_SHELL_SCROLL_SPEED, 0);
+					}
+					else {
+
+						greenkoopa->SetSpeed(-GREEN_KOOPA_SHELL_SCROLL_SPEED, 0);
+					}
+					greenkoopa->SetState(GREEN_KOOPA_STATE_SHELL_SCROLL);
+				}
+			}
+			else if (greenkoopa->GetState() != GREEN_KOOPA_STATE_DIE || greenkoopa->GetState() == GREEN_KOOPA_STATE_RESPAWN)
 			{
 				if (level > MARIO_LEVEL_SMALL)
 				{
@@ -643,6 +805,37 @@ void CMario::SetHoldingObject(CGameObject* holdingObject)
 				}
 				koopa->SetIsHolded(false);
 				koopa->SetState(KOOPA_STATE_SHELL_SCROLL);
+			}
+		}
+
+		else if (dynamic_cast<CGreenKoopa*>(this->holdingObject))
+		{
+			CGreenKoopa* greenkoopa = dynamic_cast<CGreenKoopa*>(this->holdingObject);
+			if (greenkoopa->GetState() == GREEN_KOOPA_STATE_SHELL)
+			{
+				if (nx > 0)
+				{
+					greenkoopa->SetSpeed(GREEN_KOOPA_SHELL_SCROLL_SPEED, 0);
+				}
+				else
+				{
+					greenkoopa->SetSpeed(-GREEN_KOOPA_SHELL_SCROLL_SPEED, 0);
+				}
+				greenkoopa->SetIsHolded(false);
+				greenkoopa->SetState(GREEN_KOOPA_STATE_SHELL_SCROLL);
+			}
+			else if (greenkoopa->GetState() == GREEN_KOOPA_STATE_RESPAWN)
+			{
+				if (nx > 0)
+				{
+					greenkoopa->SetSpeed(GREEN_KOOPA_SHELL_SCROLL_SPEED, 0);
+				}
+				else
+				{
+					greenkoopa->SetSpeed(-GREEN_KOOPA_SHELL_SCROLL_SPEED, 0);
+				}
+				greenkoopa->SetIsHolded(false);
+				greenkoopa->SetState(GREEN_KOOPA_STATE_SHELL_SCROLL);
 			}
 		}
 	}
