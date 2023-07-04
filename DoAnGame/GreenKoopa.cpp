@@ -153,6 +153,32 @@ void CGreenKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += ay * dt;
 	vx += ax * dt;
 
+	if (isHolded) {
+		vy = 0;
+		vx = 0;
+	}
+	if (state == GREEN_KOOPA_STATE_JUMP_DIE) {
+		if (GetTickCount64() - die_start > GREEN_KOOPA_JUMP_DIE_TIMEOUT) {
+			isDeleted = true;
+			return;
+		}
+	}
+	if ((state == GREEN_KOOPA_STATE_DIE))
+	{
+		isDeleted = true;
+		return;
+	}
+	if ((state == GREEN_KOOPA_STATE_SHELL) && (GetTickCount64() - respawn_start > GREEN_KOOPA_RESPAWN_START_TIME))
+	{
+		SetState(GREEN_KOOPA_STATE_RESPAWN);
+		return;
+	}
+	if ((state == GREEN_KOOPA_STATE_RESPAWN) && (GetTickCount64() - respawn_end > GREEN_KOOPA_RESPAWN_TIME))
+	{
+		isHolded = false;
+		SetState(GREEN_KOOPA_STATE_WALKING);
+		return;
+	}
 	if (state == GREEN_KOOPA_STATE_WALKING)
 	{
 
