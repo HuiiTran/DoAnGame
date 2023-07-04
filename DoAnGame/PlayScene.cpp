@@ -21,6 +21,7 @@
 #include "HUD.h"
 #include "PiranhaPlant.h"
 #include "GreenKoopa.h"
+#include "Grass.h"
 #include "SampleKeyEventHandler.h"
 
 using namespace std;
@@ -148,6 +149,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_FLYGOOMBA: obj = new CFlyGoomba(x, y); break;
 	case OBJECT_TYPE_VENUSFIRETRAP: obj = new CVenusFireTrap(x, y); break;
 	case OBJECT_TYPE_PIRANHAPLANT: obj = new CPiranhaPlant(x, y); break;
+	case OBJECT_TYPE_GRASS: obj = new CGrass(x, y); break;
 	case OBJECT_TYPE_BRICK: 
 	{
 		int brick_type = (int)atoi(tokens[3].c_str());
@@ -355,48 +357,54 @@ void CPlayScene::Update(DWORD dt)
 	cx -= game->GetBackBufferWidth() / 2;
 	cy -= game->GetBackBufferHeight() / 2;
 	DebugOutTitle(L"%f", cx);
+	int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
+	if (currentscene == 5)
+	{
+		if (cx < 0) cx = 0;
+		if (cx > -160 && cy < UNDERGROUND_Y_CAM_MIN)
+		{
+			if (cy > MIN_Y_CAM)
+				cy = MIN_Y_CAM;
+			else if (MID_Y_CAM < cy && cy < MIN_Y_CAM)
+				cy = MIN_Y_CAM;
+			else
+				cy = cy - MID_Y_CAM + MIN_Y_CAM;
 
-	if (cx < 0) cx = 0;
-	if (cx > -160 && cy < UNDERGROUND_Y_CAM_MIN)
-	{
-		if (cy > MIN_Y_CAM)
-			cy = MIN_Y_CAM;
-		else if (MID_Y_CAM < cy && cy < MIN_Y_CAM)
-			cy = MIN_Y_CAM;
-		else
-			cy = cy - MID_Y_CAM + MIN_Y_CAM;
-
-		if (cy < MAX_Y_CAM) 
-			cy = MAX_Y_CAM;
-	}
-	else if (cy > UNDERGROUND_Y_CAM_MIN && (cx > UNDERGROUND_X_CAM_MIN && cx < UNDERGROUND_X_CAM_MAX))
-	{
-		if (player->GetState() == MARIO_STATE_DIE)
-		{
-			cy = MID_Y_CAM;
-			return;
+			if (cy < MAX_Y_CAM)
+				cy = MAX_Y_CAM;
 		}
-		else
+		else if (cy > UNDERGROUND_Y_CAM_MIN && (cx > UNDERGROUND_X_CAM_MIN && cx < UNDERGROUND_X_CAM_MAX))
 		{
-			cy = UNDERGROUND_Y_CAM_MAX;
-			if (cx > UNDERGROUND_X_CAM_MAX_LIMIT)
-				cx = UNDERGROUND_X_CAM_MAX_LIMIT;
-			else if (cx < UNDERGROUND_X_CAM_MIN_LIMIT)
-				cx = UNDERGROUND_X_CAM_MIN_LIMIT;
+			if (player->GetState() == MARIO_STATE_DIE)
+			{
+				cy = MID_Y_CAM;
+				return;
+			}
+			else
+			{
+				cy = UNDERGROUND_Y_CAM_MAX;
+				if (cx > UNDERGROUND_X_CAM_MAX_LIMIT)
+					cx = UNDERGROUND_X_CAM_MAX_LIMIT;
+				else if (cx < UNDERGROUND_X_CAM_MIN_LIMIT)
+					cx = UNDERGROUND_X_CAM_MIN_LIMIT;
+			}
+		}
+		else if (cy > UNDERGROUND_Y_CAM_MIN)
+		{
+			if (player->GetState() == MARIO_STATE_DIE)
+			{
+				cy = MID_Y_CAM;
+				return;
+			}
+			else
+				cy = 10;
 		}
 	}
-	else if (cy > UNDERGROUND_Y_CAM_MIN)
+	else if (currentscene == 1)
 	{
-		if (player->GetState() == MARIO_STATE_DIE)
-		{
-			cy = MID_Y_CAM;
-			return;
-		}
-		else
-			cy = 10;
+		cy = -50;
+		cx = 0;
 	}
-	
-		
 
 	CGame::GetInstance()->SetCamPos(cx, cy);
 

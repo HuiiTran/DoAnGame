@@ -50,6 +50,8 @@
 #define MARIO_STATE_HOLDING			700
 
 #define MARIO_STATE_FLY				800
+
+#define MARIO_STATE_IN_WORLDMAP		900
 //#define MARIO_STATE_HOLDING
 
 #pragma region ANIMATION_ID
@@ -91,6 +93,8 @@
 #define ID_ANI_MARIO_DIE 999
 
 // SMALL MARIO
+#define ID_ANI_MARIO_SMALL_MINI	1110
+
 #define ID_ANI_MARIO_SMALL_IDLE_RIGHT 1100
 #define ID_ANI_MARIO_SMALL_IDLE_LEFT 1102
 
@@ -167,6 +171,8 @@
 
 #define ID_ANI_MARIO_TANOOKI_KICKING_RIGHT	2900
 #define ID_ANI_MARIO_TANOOKI_KICKING_LEFT 2901
+
+
 #pragma endregion
 
 #define GROUND_Y 160.0f
@@ -249,7 +255,10 @@ public:
 		isSitting = false;
 		maxVx = 0.0f;
 		ax = 0.0f;
-		ay = MARIO_GRAVITY; 
+
+		int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
+		if (currentscene == 5) ay = MARIO_GRAVITY;
+		else ay = 0;
 
 		isHolding = false;
 		holdingObject = NULL;

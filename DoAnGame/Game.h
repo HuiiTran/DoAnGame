@@ -113,7 +113,7 @@ public:
 
 	void _ParseSection_TEXTURES(string line);
 
-
+	int GetCurrentSceneNumber() { return current_scene; }
 	~CGame();
 };
 typedef CGame* LPGAME;

@@ -135,6 +135,9 @@
     <ClCompile Include="GreenKoopa.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Grass.cpp">
+      <Filter>WorldMap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -262,6 +265,9 @@
     </ClInclude>
     <ClInclude Include="GreenKoopa.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Grass.h">
+      <Filter>WorldMap</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

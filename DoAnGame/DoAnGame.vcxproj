@@ -148,6 +148,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Goomba.cpp" />
+    <ClCompile Include="Grass.cpp" />
     <ClCompile Include="GreenKoopa.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="InvisibleBlock.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Goomba.h" />
+    <ClInclude Include="Grass.h" />
     <ClInclude Include="GreenKoopa.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="InvisibleBlock.h" />

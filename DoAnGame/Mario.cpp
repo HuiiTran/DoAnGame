@@ -24,8 +24,7 @@
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	//int temp = (isRunning == true) ? 1 : 0;
-	
+	//DebugOutTitle(L"%d", currentscene);
 	if (isChanging) // change form so make mario not moving
 	{
 		vx = 0;
@@ -645,7 +644,7 @@ void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 			questionbrick->SetEmpty(true);
 			float questionbrick_x, questionbrick_y;
 			LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
-
+			
 			questionbrick->GetPosition(questionbrick_x, questionbrick_y);
 			questionbrick->SetPosition(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
 			questionbrick->Delete();
@@ -1191,40 +1190,44 @@ void CMario::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
 	int aniId = -1;
-
-	if (state == MARIO_STATE_DIE)
-		aniId = ID_ANI_MARIO_DIE;
-	else if (level == MARIO_LEVEL_BIG)
-		aniId = GetAniIdBig();
-	else if (level == MARIO_LEVEL_SMALL)
-		aniId = GetAniIdSmall();
-	else if (level == MARIO_LEVEL_TANOOKI)
-		aniId = GetAniIdTanooki();
-
-
-	
-	if ((level > MARIO_LEVEL_BIG) && (isDecreaseLevel)) 
+	int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
+	if(currentscene == 5)
 	{
+		if (state == MARIO_STATE_DIE)
+			aniId = ID_ANI_MARIO_DIE;
+		else if (level == MARIO_LEVEL_BIG)
+			aniId = GetAniIdBig();
+		else if (level == MARIO_LEVEL_SMALL)
+			aniId = GetAniIdSmall();
+		else if (level == MARIO_LEVEL_TANOOKI)
+			aniId = GetAniIdTanooki();
 
-	}
-	else 
-	{
-		if (!untouchable)
+		if ((level > MARIO_LEVEL_BIG) && (isDecreaseLevel))
 		{
-			animations->Get(aniId)->Render(x, y);
+
 		}
-		else if (untouchable )
+		else
 		{
-			int check = rand() % 2;
-			if (check == 0) 
+			if (!untouchable)
 			{
 				animations->Get(aniId)->Render(x, y);
-				
+			}
+			else if (untouchable)
+			{
+				int check = rand() % 2;
+				if (check == 0)
+				{
+					animations->Get(aniId)->Render(x, y);
+
+				}
 			}
 		}
 	}
-
-	//animations->Get(aniId)->Render(x, y);
+	else if (currentscene == 1)
+	{
+		aniId = ID_ANI_MARIO_SMALL_MINI;
+		animations->Get(aniId)->Render(x, y);
+	}
 
 	RenderBoundingBox();
 	
@@ -1234,101 +1237,109 @@ void CMario::Render()
 void CMario::SetState(int state)
 {
 	// DIE is the end state, cannot be changed! 
-	if (this->state == MARIO_STATE_DIE) return; 
-
-	switch (state)
+	int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
+	if(currentscene == 5)
 	{
-	case MARIO_STATE_RUNNING_RIGHT:
-		if (isSitting) break;
-		maxVx = MARIO_RUNNING_SPEED + level_run* MARIO_LEVEL_RUN_SPEED;
-		ax = MARIO_ACCEL_RUN_X;
-		nx = 1;
-		isRunning = true;
-		break;
-	case MARIO_STATE_RUNNING_LEFT:
-		if (isSitting) break;
-		maxVx = -MARIO_RUNNING_SPEED - level_run * MARIO_LEVEL_RUN_SPEED;
-		ax = -MARIO_ACCEL_RUN_X;
-		nx = -1;
-		isRunning = true;
-		break;
-	case MARIO_STATE_WALKING_RIGHT:
-		if (isSitting) break;
-		maxVx = MARIO_WALKING_SPEED;
-		ax = MARIO_ACCEL_WALK_X;
-		nx = 1;
-		isRunning = false;
-		break;
-	case MARIO_STATE_WALKING_LEFT:
-		if (isSitting) break;
-		maxVx = -MARIO_WALKING_SPEED;
-		ax = -MARIO_ACCEL_WALK_X;
-		nx = -1;
-		isRunning = false;
-		break;
-	case MARIO_STATE_JUMP:
-		if (isSitting) break;
-		if (isOnPlatform)
-		{
-			if (abs(this->vx) == MARIO_RUNNING_SPEED)
-				vy = -MARIO_JUMP_RUN_SPEED_Y;
-			else
-				vy = -MARIO_JUMP_SPEED_Y;
-		}
-		break;
+		if (this->state == MARIO_STATE_DIE) return;
 
-	case MARIO_STATE_RELEASE_JUMP:
-		if (vy < 0) vy += MARIO_JUMP_SPEED_Y / 2;
-		break;
-
-	case MARIO_STATE_SIT:
-		if (isOnPlatform && level != MARIO_LEVEL_SMALL)
+		switch (state)
 		{
-			state = MARIO_STATE_IDLE;
-			isSitting = true;
+		case MARIO_STATE_RUNNING_RIGHT:
+			if (isSitting) break;
+			maxVx = MARIO_RUNNING_SPEED + level_run * MARIO_LEVEL_RUN_SPEED;
+			ax = MARIO_ACCEL_RUN_X;
+			nx = 1;
+			isRunning = true;
+			break;
+		case MARIO_STATE_RUNNING_LEFT:
+			if (isSitting) break;
+			maxVx = -MARIO_RUNNING_SPEED - level_run * MARIO_LEVEL_RUN_SPEED;
+			ax = -MARIO_ACCEL_RUN_X;
+			nx = -1;
+			isRunning = true;
+			break;
+		case MARIO_STATE_WALKING_RIGHT:
+			if (isSitting) break;
+			maxVx = MARIO_WALKING_SPEED;
+			ax = MARIO_ACCEL_WALK_X;
+			nx = 1;
 			isRunning = false;
-			vx = 0; vy = 0.0f;
-			y +=MARIO_SIT_HEIGHT_ADJUST;
-		}
-		break;
+			break;
+		case MARIO_STATE_WALKING_LEFT:
+			if (isSitting) break;
+			maxVx = -MARIO_WALKING_SPEED;
+			ax = -MARIO_ACCEL_WALK_X;
+			nx = -1;
+			isRunning = false;
+			break;
+		case MARIO_STATE_JUMP:
+			if (isSitting) break;
+			if (isOnPlatform)
+			{
+				if (abs(this->vx) == MARIO_RUNNING_SPEED)
+					vy = -MARIO_JUMP_RUN_SPEED_Y;
+				else
+					vy = -MARIO_JUMP_SPEED_Y;
+			}
+			break;
 
-	case MARIO_STATE_SIT_RELEASE:
-		if (isSitting)
-		{
-			isSitting = false;
-			state = MARIO_STATE_IDLE;
-			y -= MARIO_SIT_HEIGHT_ADJUST;
-		}
-		break;
+		case MARIO_STATE_RELEASE_JUMP:
+			if (vy < 0) vy += MARIO_JUMP_SPEED_Y / 2;
+			break;
 
-	case MARIO_STATE_IDLE:
-		ax = 0.0f;
-		vx = 0.0f;
-		if (isSitting) {
-			state = MARIO_STATE_SIT_RELEASE;
-		}
-		break;
+		case MARIO_STATE_SIT:
+			if (isOnPlatform && level != MARIO_LEVEL_SMALL)
+			{
+				state = MARIO_STATE_IDLE;
+				isSitting = true;
+				isRunning = false;
+				vx = 0; vy = 0.0f;
+				y += MARIO_SIT_HEIGHT_ADJUST;
+			}
+			break;
 
-	case MARIO_STATE_FLY:
-		isFlying = true;
-		isOnPlatform = false;
-		if (level_run == LEVEL_RUN_MAX)
-		{
-			vy = -MARIO_FLY_Y;
-			ay = MARIO_GRAVITY / 6;
+		case MARIO_STATE_SIT_RELEASE:
+			if (isSitting)
+			{
+				isSitting = false;
+				state = MARIO_STATE_IDLE;
+				y -= MARIO_SIT_HEIGHT_ADJUST;
+			}
+			break;
+
+		case MARIO_STATE_IDLE:
+			ax = 0.0f;
+			vx = 0.0f;
+			if (isSitting) {
+				state = MARIO_STATE_SIT_RELEASE;
+			}
+			break;
+
+		case MARIO_STATE_FLY:
+			isFlying = true;
+			isOnPlatform = false;
+			if (level_run == LEVEL_RUN_MAX)
+			{
+				vy = -MARIO_FLY_Y;
+				ay = MARIO_GRAVITY / 6;
+			}
+			else
+			{
+				vy = -MARIO_FALL_WITH_TAIL_Y;
+				ay = MARIO_GRAVITY / 4;
+			}
+			break;
+		case MARIO_STATE_DIE:
+			vy = -MARIO_JUMP_DEFLECT_SPEED;
+			vx = 0;
+			ax = 0;
+			start_die = GetTickCount64();
+			break;
 		}
-		else
-		{
-			vy = -MARIO_FALL_WITH_TAIL_Y;
-			ay = MARIO_GRAVITY / 4;
-		}
-		break;
-	case MARIO_STATE_DIE:
-		vy = -MARIO_JUMP_DEFLECT_SPEED;
-		vx = 0;
-		ax = 0;
-		start_die = GetTickCount64();
-		break;
+	}
+	else if (currentscene == 1)
+	{
+		
 	}
 
 	CGameObject::SetState(state);

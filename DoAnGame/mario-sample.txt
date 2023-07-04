@@ -1,5 +1,5 @@
 [SETTINGS]
-start	5
+start	1
 width	320
 height	240
 
@@ -29,3 +29,4 @@ height	240
 120	textures\object_flip.png
 130	textures\blackbg.png
 140	textures\HUD.png
+150	textures\WorldMapAssets.png
