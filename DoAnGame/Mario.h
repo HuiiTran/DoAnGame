@@ -52,6 +52,12 @@
 #define MARIO_STATE_FLY				800
 
 #define MARIO_STATE_IN_WORLDMAP		900
+
+#define MARIO_GO_LEFT				1001
+#define MARIO_GO_RIGHT				1002
+#define MARIO_GO_UP					1003
+#define MARIO_GO_DOWN				1004
+#define MARIO_WORLDMAP_SPEED		0.1f
 //#define MARIO_STATE_HOLDING
 
 #pragma region ANIMATION_ID
@@ -231,6 +237,16 @@ class CMario : public CGameObject
 	ULONGLONG start_die;
 	int coin; 
 
+	//world map mario/////////
+	bool isAllowLeft = 0;
+	bool isAllowRight = 1;
+	bool isAllowUp = 0;
+	bool isAllowDown = 0;
+
+	float startX, startY;
+	bool isGoingNodeX = false;
+	bool isGoingNodeY = false;
+	////////////
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCoin(LPCOLLISIONEVENT e);
 	void OnCollisionWithPortal(LPCOLLISIONEVENT e);
@@ -245,6 +261,7 @@ class CMario : public CGameObject
 	void OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e);
 	void OnCollisionWithGreenKoopa(LPCOLLISIONEVENT e);
 	void OnCollisionWithInvisibleBlock(LPCOLLISIONEVENT e);
+	void OnCollisionWithNode(LPCOLLISIONEVENT e);
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdTanooki();
@@ -321,4 +338,15 @@ public:
 	bool GetisOnPlatform() { return this->isOnPlatform; }
 
 	int GetCoin() { return this->coin; }
+
+
+	///world map mario
+	bool GetisAllowLeft() { return isAllowLeft; }
+	bool GetisAllowRight() { return isAllowRight; }
+	bool GetisAllowUp() { return isAllowUp; }
+	bool GetisAllowDown() { return isAllowDown; }
+
+	void Go1NodeX(LPGAMEOBJECT gameobject);
+	void Go1NodeY(LPGAMEOBJECT gameobject);
+
 };

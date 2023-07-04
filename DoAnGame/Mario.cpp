@@ -20,11 +20,39 @@
 #include "PiranhaPlant.h"
 #include "GreenKoopa.h"
 #include "InvisibleBlock.h"
+#include "Node.h"
 #include "PlayScene.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	//DebugOutTitle(L"%d", currentscene);
+	int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
+	if (currentscene == 1)
+	{
+		if (isGoingNodeX == true)
+		{
+			if (vx * (x - startX) >= 0)
+			{
+				x = startX;
+				vx = 0;
+				vy = 0;
+				isGoingNodeX = false;
+			}
+		}
+		if (isGoingNodeY == true)
+		{
+			if (vy * (y - startY) >= 0)
+			{
+				y = startY;
+				vx = 0;
+				vy = 0;
+				isGoingNodeY = false;
+			}
+		}
+		CGameObject::Update(dt, coObjects);
+		CCollision::GetInstance()->Process(this, dt, coObjects);
+		return;
+	}
 	if (isChanging) // change form so make mario not moving
 	{
 		vx = 0;
@@ -234,6 +262,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		CGame::GetInstance()->InitiateSwitchScene(1);
 	}
 
+	
+
 	isOnPlatform = false;
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -285,6 +315,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithGreenKoopa(e);
 	else if (dynamic_cast<CInvisibleBlock*>(e->obj))
 		OnCollisionWithInvisibleBlock(e);
+	else if (dynamic_cast<CNode*>(e->obj))
+		OnCollisionWithNode(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -785,6 +817,30 @@ void CMario::OnCollisionWithInvisibleBlock(LPCOLLISIONEVENT e)
 	DebugOut(L">>> Mario DIE >>> \n");
 	SetState(MARIO_STATE_DIE);
 }
+void CMario::OnCollisionWithNode(LPCOLLISIONEVENT e)
+{
+	CNode* node = dynamic_cast<CNode*>(e->obj);
+	isAllowLeft = node->GetAllowLeft();
+	isAllowRight = node->GetAllowRight();
+	isAllowUp = node->GetAllowUp();
+	isAllowDown = node->GetAllowDown();
+	if (e->nx != 0) {
+		Go1NodeX(node);
+	}
+	if (e->ny != 0) {
+		Go1NodeY(node);
+	}
+}
+void CMario::Go1NodeX(LPGAMEOBJECT gameobject) {
+	float tempY;
+	gameobject->GetPosition(startX, tempY);	
+	isGoingNodeX = true;
+}
+void CMario::Go1NodeY(LPGAMEOBJECT gameobject) {
+	float tempX;
+	gameobject->GetPosition(tempX, startY);
+	isGoingNodeY = true;
+}
 
 void CMario::SetHoldingObject(CGameObject* holdingObject)
 {
@@ -1229,7 +1285,7 @@ void CMario::Render()
 		animations->Get(aniId)->Render(x, y);
 	}
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 	
 
 }
@@ -1339,7 +1395,34 @@ void CMario::SetState(int state)
 	}
 	else if (currentscene == 1)
 	{
-		
+		switch (state)
+		{
+		case MARIO_GO_LEFT:
+		{
+			vy = 0.0f;
+			vx = -MARIO_WORLDMAP_SPEED;
+			break;
+		}
+		case MARIO_GO_RIGHT:
+		{
+			vy = 0.0f;
+			vx = MARIO_WORLDMAP_SPEED;
+			break;
+		}
+		case MARIO_GO_UP:
+		{
+			vx = 0.0f;
+			vy = -MARIO_WORLDMAP_SPEED;
+			break;
+		}case MARIO_GO_DOWN:
+		{
+			vx = 0.0f;
+			vy = MARIO_WORLDMAP_SPEED;
+			break;
+		}
+		default:
+			break;
+		}
 	}
 
 	CGameObject::SetState(state);

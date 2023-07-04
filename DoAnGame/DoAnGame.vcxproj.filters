@@ -138,6 +138,9 @@
     <ClCompile Include="Grass.cpp">
       <Filter>WorldMap</Filter>
     </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>WorldMap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -267,6 +270,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Grass.h">
+      <Filter>WorldMap</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.h">
       <Filter>WorldMap</Filter>
     </ClInclude>
   </ItemGroup>

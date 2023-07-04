@@ -22,6 +22,7 @@
 #include "PiranhaPlant.h"
 #include "GreenKoopa.h"
 #include "Grass.h"
+#include "Node.h"
 #include "SampleKeyEventHandler.h"
 
 using namespace std;
@@ -246,6 +247,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CPortal(x, y, r, b, scene_id);
 	}
 	break;
+	case OBJECT_TYPE_NODE:
+	{
+		int type = atoi(tokens[3].c_str());
+		bool allowLeft = atoi(tokens[4].c_str());
+		bool allowRight = atoi(tokens[5].c_str());
+		bool allowUp = atoi(tokens[6].c_str());
+		bool allowDown = atoi(tokens[7].c_str());
+		obj = new CNode(x, y, type, allowLeft, allowRight, allowUp, allowDown);
+		break;
+	}
 
 
 	default:
