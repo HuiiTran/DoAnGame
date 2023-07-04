@@ -59,6 +59,15 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	{
 		switch (KeyCode)
 		{
+		case DIK_1:
+			mario->SetLevel(MARIO_LEVEL_SMALL);
+			break;
+		case DIK_2:
+			mario->SetLevel(MARIO_LEVEL_BIG);
+			break;
+		case DIK_3:
+			mario->SetLevel(MARIO_LEVEL_TANOOKI);
+			break;
 		case DIK_O:
 			CGame::GetInstance()->InitiateSwitchScene(5);
 			break;

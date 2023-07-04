@@ -1292,7 +1292,13 @@ void CMario::Render()
 	}
 	else if (currentscene == 1)
 	{
-		aniId = ID_ANI_MARIO_SMALL_MINI;
+		if (level == MARIO_LEVEL_SMALL)
+			aniId = ID_ANI_MARIO_SMALL_MINI;
+		else if (level == MARIO_LEVEL_BIG)
+			aniId = ID_ANI_MARIO_BIG_MINI;
+		else if (level == MARIO_LEVEL_TANOOKI)
+			aniId = ID_ANI_MARIO_TANOOKI_MINI;
+
 		animations->Get(aniId)->Render(x, y);
 	}
 

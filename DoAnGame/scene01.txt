@@ -27,11 +27,8 @@ Grass.txt
 # See OBJECT_TYPE constants in AssetIDs.h
 
 
-# BG
+# BG map
 8	150	45	233	161	1	120063	120064	120065
-# MARIO
-0	63	11
-
 #grass
 16	80	-8
 16	63	-8
@@ -86,6 +83,10 @@ Grass.txt
 16	255	74
 16	255	90
 16	255	106
+# MARIO
+0	63	11
+
+
 
 #node	#x,y,type left right up down
 #start
