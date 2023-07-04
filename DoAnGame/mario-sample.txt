@@ -30,3 +30,4 @@ height	240
 130	textures\blackbg.png
 140	textures\HUD.png
 150	textures\WorldMapAssets.png
+160	textures\Map.png
