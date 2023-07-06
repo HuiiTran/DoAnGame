@@ -841,6 +841,10 @@ void CMario::OnCollisionWithNode(LPCOLLISIONEVENT e)
 	if (e->ny != 0) {
 		Go1NodeY(node);
 	}
+	if (node->GetType() == 2)
+	{
+		SetState(MARIO_SELECTSTAGE_STATE);
+	}
 }
 void CMario::Go1NodeX(LPGAMEOBJECT gameobject) {
 	float tempY;

@@ -103,6 +103,12 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 			}
 			break;
 		}
+		case DIK_S:
+		{
+			if(mario->GetState() == MARIO_SELECTSTAGE_STATE)
+				CGame::GetInstance()->InitiateSwitchScene(5);
+			break;
+		}
 		default:
 			break;
 		}

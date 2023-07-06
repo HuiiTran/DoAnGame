@@ -11,7 +11,7 @@ protected:
 public:
 	CNode(float x, float y, int type, bool allowLeft, bool allowRight, bool allowUp, bool allowDown) : CGameObject(x, y)
 	{
-		this->type = type;
+		this->type = type; //1 normal, 2 stage
 		this->allowLeft = allowLeft;
 		this->allowRight = allowRight;
 		this->allowUp = allowUp;
@@ -26,6 +26,8 @@ public:
 	bool GetAllowRight() { return allowRight; }
 	bool GetAllowUp() { return allowUp; }
 	bool GetAllowDown() { return allowDown; }
+
+	int GetType() { return type; }
 
 };
 
