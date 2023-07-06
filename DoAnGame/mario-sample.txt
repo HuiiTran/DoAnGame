@@ -7,9 +7,9 @@ height	240
 # type: 0: intro, 1: play scene 
 [SCENES]
 0	intro.txt
-1	scene01.txt
+1	scene_worldmap.txt
 2	scene02.txt
-5	scene0005.txt
+5	scene_map_1_1.txt
 
 # id	file 
 [TEXTURES]

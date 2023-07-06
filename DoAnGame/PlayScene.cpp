@@ -57,6 +57,12 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define UNDERGROUND_X_CAM_MIN_LIMIT 1960
 #define UNDERGROUND_X_CAM_MAX_LIMIT 2160
 
+#define GOAL_X_CAM	2524
+
+#define CAM_WORLDMAP_X	0
+#define CAM_WORLDMAP_Y	-50
+
+
 
 void CPlayScene::_ParseSection_SPRITES(string line)
 {
@@ -383,6 +389,7 @@ void CPlayScene::Update(DWORD dt)
 
 			if (cy < MAX_Y_CAM)
 				cy = MAX_Y_CAM;
+			if (cx > GOAL_X_CAM) cx = GOAL_X_CAM;
 		}
 		else if (cy > UNDERGROUND_Y_CAM_MIN && (cx > UNDERGROUND_X_CAM_MIN && cx < UNDERGROUND_X_CAM_MAX))
 		{
@@ -413,8 +420,8 @@ void CPlayScene::Update(DWORD dt)
 	}
 	else if (currentscene == 1)
 	{
-		cy = -50;
-		cx = 0;
+		cy = CAM_WORLDMAP_Y;
+		cx = CAM_WORLDMAP_X;
 	}
 
 	CGame::GetInstance()->SetCamPos(cx, cy);
