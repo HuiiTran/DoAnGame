@@ -47,6 +47,8 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		case DIK_6:
 			mario->SetPosition(2100, 300);
 			break;
+		case DIK_7:
+			mario->SetPosition(2500, -150);
 		case DIK_O:
 			CGame::GetInstance()->InitiateSwitchScene(5);
 			break;

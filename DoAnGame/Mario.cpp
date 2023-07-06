@@ -257,7 +257,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		}
 	}
 
-	if (state == MARIO_STATE_DIE && GetTickCount64() - start_die > 1000)
+	if (state == MARIO_STATE_DIE && GetTickCount64() - start_die > 2000)
 	{
 		CGame::GetInstance()->InitiateSwitchScene(1);
 	}

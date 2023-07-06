@@ -96,5 +96,11 @@
 120063	4	40	237	201	160
 120064	4	40	237	201	160
 120065	4	40	237	201	160
+#stage clear
+120066	272	93	287	108	160
+#goal spike
+120067	508	176	595	344	170
+#goal box
+120068	4	4	251	172	170
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
