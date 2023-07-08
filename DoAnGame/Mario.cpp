@@ -974,6 +974,10 @@ int CMario::GetAniIdSmall()
 			else
 				aniId = ID_ANI_MARIO_SMALL_KICKING_LEFT;
 		}
+		else if (isUsingPipe)
+		{
+			aniId = ID_ANI_MARIO_SMALL_USINGPIPE;
+		}
 		else
 			if (isSitting)
 			{
@@ -1081,6 +1085,10 @@ int CMario::GetAniIdBig()
 				aniId = ID_ANI_MARIO_KICKING_RIGHT;
 			else
 				aniId = ID_ANI_MARIO_KICKING_LEFT;
+		}
+		else if (isUsingPipe)
+		{
+			aniId = ID_ANI_MARIO_USINGPIPE;
 		}
 		else
 		{
@@ -1201,6 +1209,10 @@ int CMario::GetAniIdTanooki()
 				aniId = ID_ANI_MARIO_TANOOKI_KICKING_RIGHT;
 			else
 				aniId = ID_ANI_MARIO_TANOOKI_KICKING_LEFT;
+		}
+		else if (isUsingPipe)
+		{
+			aniId = ID_ANI_MARIO_TANOOKI_USINGPIPE;
 		}
 		else
 			if (isSitting)

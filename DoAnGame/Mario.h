@@ -60,6 +60,9 @@
 #define MARIO_WORLDMAP_SPEED		0.1f
 
 #define MARIO_SELECTSTAGE_STATE		1005
+
+#define MARIO_GOING_DOWN_PIPE_STATE	1101
+#define MARIO_GOING_UP_PIPE_STATE	1102
 //#define MARIO_STATE_HOLDING
 
 #pragma region ANIMATION_ID
@@ -96,7 +99,7 @@
 #define ID_ANI_MARIO_BRACE_RIGHT 1000
 #define ID_ANI_MARIO_BRACE_LEFT 1001
 
-
+#define	ID_ANI_MARIO_USINGPIPE	1010
 
 #define ID_ANI_MARIO_DIE 999
 
@@ -137,6 +140,8 @@
 
 #define ID_ANI_MARIO_SMALL_TO_BIG_RIGHT 1810
 #define ID_ANI_MARIO_SMALL_TO_BIG_LEFT 1811
+
+#define	ID_ANI_MARIO_SMALL_USINGPIPE	1410
 
 //Tanooki MARIO
 
@@ -182,6 +187,8 @@
 #define ID_ANI_MARIO_TANOOKI_KICKING_RIGHT	2900
 #define ID_ANI_MARIO_TANOOKI_KICKING_LEFT 2901
 
+#define	ID_ANI_MARIO_TANOOKI_USINGPIPE	2410
+
 
 #pragma endregion
 
@@ -219,6 +226,7 @@ class CMario : public CGameObject
 	BOOLEAN isDecreaseLevel;
 	BOOLEAN isRunning;
 	BOOLEAN isFlying;
+	BOOLEAN isUsingPipe;
 	
 	CGameObject* holdingObject;
 	float maxVx;
@@ -239,6 +247,7 @@ class CMario : public CGameObject
 	ULONGLONG start_level_run;
 	ULONGLONG start_fly;
 	ULONGLONG start_die;
+	ULONGLONG start_usingPipe;
 	int coin; 
 
 	//world map mario/////////
@@ -303,6 +312,9 @@ public:
 
 		isFlying = false;
 		start_fly = 0;
+
+		isUsingPipe = false;
+		start_usingPipe = 0;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -343,6 +355,7 @@ public:
 
 	int GetCoin() { return this->coin; }
 
+	void SetisUsingPipe(bool isUsingPipe) { this->isUsingPipe = isUsingPipe; }
 
 	///world map mario
 	bool GetisAllowLeft() { return isAllowLeft; }

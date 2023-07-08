@@ -17,6 +17,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		{
 		case DIK_DOWN:
 			mario->SetState(MARIO_STATE_SIT);
+			//mario->SetisUsingPipe(true);
 			break;
 		case DIK_S:
 			if (mario->GetisOnPlatform())
