@@ -48,7 +48,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 			mario->SetState(MARIO_STATE_DIE);
 			break;
 		case DIK_5:
-			mario->SetPosition(2300, -130);
+			mario->SetPosition(1000, -130);
 			break;
 		case DIK_6:
 			mario->SetPosition(2100, 300);

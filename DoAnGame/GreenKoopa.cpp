@@ -1,5 +1,17 @@
 #include "GreenKoopa.h"
-
+#include "Goomba.h"
+#include "InvisibleBlock.h"
+#include "QuestionBrick.h"
+#include "Coin.h"
+#include "Mario.h"
+#include "MushRoom.h"
+#include "Leaf.h"
+#include "FlyGoomba.h"
+#include "Effect.h"
+#include "Brick.h"
+#include "BreakBrickPiece.h"
+#include "PiranhaPlant.h"
+#include "P_Power.h"
 
 CGreenKoopa::CGreenKoopa(float x, float y, bool isHaveWing) : CGameObject(x,y)
 {
@@ -70,7 +82,26 @@ void CGreenKoopa::OnNoCollision(DWORD dt)
 
 void CGreenKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-
+	if (state == GREEN_KOOPA_STATE_SHELL_SCROLL || state == GREEN_KOOPA_STATE_SHELL_HOLD) {
+		if (dynamic_cast<CGoomba*>(e->obj)) {
+			OnCollisionWithGoomba(e);
+		}
+		else if (dynamic_cast<CQuestionBrick*>(e->obj)) {
+			OnCollisionWithQuestionBrick(e);
+		}
+		else if (dynamic_cast<CVenusFireTrap*>(e->obj)) {
+			OnCollisionWithVenusFireTrap(e);
+		}
+		else if (dynamic_cast<CFlyGoomba*>(e->obj)) {
+			OnCollisionWithFlyGoomba(e);
+		}
+		else if (dynamic_cast<CBrick*>(e->obj)) {
+			OnCollisionWithBrick(e);
+		}
+		else if (dynamic_cast<CPiranhaPlant*>(e->obj)) {
+			OnCollisionWithPiranhaPlant(e);
+		}
+	}
 	if (!e->obj->IsBlocking()) return;
 
 	if (e->ny != 0)
@@ -86,26 +117,172 @@ void CGreenKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 
 void CGreenKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
+	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+
+	if (state == GREEN_KOOPA_STATE_SHELL_SCROLL || state == GREEN_KOOPA_STATE_SHELL_HOLD)
+	{
+		if (goomba->GetState() != GOOMBA_STATE_DIE)
+		{
+			goomba->SetState(GOOMBA_STATE_DIE_JUMP);
+		}
+	}
 }
 
 void CGreenKoopa::OnCollisionWithFlyGoomba(LPCOLLISIONEVENT e)
 {
+	CFlyGoomba* Flygoomba = dynamic_cast<CFlyGoomba*>(e->obj);
+
+	if (state == GREEN_KOOPA_STATE_SHELL_SCROLL || state == GREEN_KOOPA_STATE_SHELL_HOLD)
+	{
+		if (Flygoomba->GetState() != FLYGOOMBA_STATE_DIE)
+		{
+			Flygoomba->SetState(FLYGOOMBA_STATE_DIE_JUMP);
+		}
+	}
 }
 
 void CGreenKoopa::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 {
+	CQuestionBrick* questionbrick = dynamic_cast<CQuestionBrick*>(e->obj);
+
+	if ((e->nx > 0 || e->nx < 0) && questionbrick->IsEmpty() == false)
+	{
+		if (questionbrick->GetBrickType() == 0)
+		{
+			questionbrick->SetEmpty(true);
+			float questionbrick_x, questionbrick_y;
+			questionbrick->GetPosition(questionbrick_x, questionbrick_y);
+
+			CCoin* newCoin = new CCoin(questionbrick_x, questionbrick_y - 2 * COIN_WIDTH, 1);
+			LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+
+			thisscene->AddObjectToScene(newCoin);
+			newCoin->SetFly(true);
+		}
+		if ((questionbrick->GetBrickType() == 1 && this->mario_level == MARIO_LEVEL_SMALL) || (questionbrick->GetBrickType() == 2 && this->mario_level == MARIO_LEVEL_SMALL)) //mushroom
+		{
+			questionbrick->SetEmpty(true);
+			float questionbrick_x, questionbrick_y;
+			LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+
+			questionbrick->GetPosition(questionbrick_x, questionbrick_y);
+			questionbrick->Delete();
+
+			CMushRoom* newMush = new CMushRoom(questionbrick_x, questionbrick_y - 5, 0);
+			if (nx < 0)
+				newMush->SetState(MUSHROOM_APPEAR_STATE_LEFT);
+			else
+				newMush->SetState(MUSHROOM_APPEAR_STATE_RIGHT);
+			thisscene->AddObjectToScene(newMush);
+
+			CQuestionBrick* newbrick = new CQuestionBrick(questionbrick_x, questionbrick_y);
+			newbrick->SetEmpty(true);
+			thisscene->AddObjectToScene(newbrick);
+			newbrick->SetPosition(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
+		}
+		if ((questionbrick->GetBrickType() == 2 && (this->mario_level == MARIO_LEVEL_BIG || this->mario_level == MARIO_LEVEL_TANOOKI)) || (questionbrick->GetBrickType() == 1 && (this->mario_level == MARIO_LEVEL_BIG || this->mario_level == MARIO_LEVEL_TANOOKI))) //leaf
+		{
+			questionbrick->SetEmpty(true);
+			float questionbrick_x, questionbrick_y;
+			LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+
+			questionbrick->GetPosition(questionbrick_x, questionbrick_y);
+			questionbrick->SetPosition(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
+
+			CLeaf* newLeaf = new CLeaf(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
+			thisscene->AddObjectToScene(newLeaf);
+		}
+		if (questionbrick->GetBrickType() == 3) //life up
+		{
+			questionbrick->SetEmpty(true);
+			float questionbrick_x, questionbrick_y;
+			LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+
+			questionbrick->GetPosition(questionbrick_x, questionbrick_y);
+			questionbrick->SetPosition(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
+			questionbrick->Delete();
+
+			CMushRoom* newMush = new CMushRoom(questionbrick_x, questionbrick_y - 5, 1);
+			if (nx < 0)
+				newMush->SetState(MUSHROOM_APPEAR_STATE_LEFT);
+			else
+				newMush->SetState(MUSHROOM_APPEAR_STATE_RIGHT);
+			thisscene->AddObjectToScene(newMush);
+
+			CQuestionBrick* newbrick = new CQuestionBrick(questionbrick_x, questionbrick_y);
+			newbrick->SetEmpty(true);
+			thisscene->AddObjectToScene(newbrick);
+			newbrick->SetPosition(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
+
+		}
+		if (questionbrick->GetBrickType() == 4) //life up
+		{
+			questionbrick->SetEmpty(true);
+			float questionbrick_x, questionbrick_y;
+			LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+
+			questionbrick->GetPosition(questionbrick_x, questionbrick_y);
+			questionbrick->SetPosition(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
+			questionbrick->Delete();
+
+			CP_Power* ppower = new CP_Power(questionbrick_x, questionbrick_y - 16);
+			thisscene->AddObjectToScene(ppower);
+			CEffect* effect = new CEffect(questionbrick_x, questionbrick_y - 16);
+			thisscene->AddObjectToScene(effect);
+
+			CQuestionBrick* newbrick = new CQuestionBrick(questionbrick_x, questionbrick_y);
+			newbrick->SetEmpty(true);
+			thisscene->AddObjectToScene(newbrick);
+			newbrick->SetPosition(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
+		}
+	}
 }
 
 void CGreenKoopa::OnCollisionWithVenusFireTrap(LPCOLLISIONEVENT e)
 {
+	float Tx, Ty;
+	e->obj->GetPosition(Tx, Ty);
+	e->obj->Delete();
+	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+	CEffect* effect = new CEffect(Tx, Ty);
+	thisscene->AddObjectToScene(effect);
 }
 
 void CGreenKoopa::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e)
 {
+	float Tx, Ty;
+	e->obj->GetPosition(Tx, Ty);
+	e->obj->Delete();
+	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+	CEffect* effect = new CEffect(Tx, Ty);
+	thisscene->AddObjectToScene(effect);
 }
 
 void CGreenKoopa::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 {
+	float bX, bY;
+
+	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+
+	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+	brick->GetPosition(bX, bY);
+	if ((e->nx > 0 || e->nx < 0) && brick->GetType() == 2)
+	{
+		brick->Delete();
+		CBreakBrickPiece* piece_1 = new CBreakBrickPiece(bX, bY - PIECE_OFFSET);
+		piece_1->SetState(PIECE_STATE_LEFT);
+		CBreakBrickPiece* piece_2 = new CBreakBrickPiece(bX, bY + PIECE_OFFSET);
+		piece_2->SetState(PIECE_STATE_LEFT);
+		CBreakBrickPiece* piece_3 = new CBreakBrickPiece(bX, bY - PIECE_OFFSET);
+		piece_3->SetState(PIECE_STATE_RIGHT);
+		CBreakBrickPiece* piece_4 = new CBreakBrickPiece(bX, bY + PIECE_OFFSET);
+		piece_4->SetState(PIECE_STATE_RIGHT);
+
+		thisscene->AddObjectToScene(piece_1);
+		thisscene->AddObjectToScene(piece_2);
+		thisscene->AddObjectToScene(piece_3);
+		thisscene->AddObjectToScene(piece_4);
+	}
 }
 
 void CGreenKoopa::SetState(int state)
