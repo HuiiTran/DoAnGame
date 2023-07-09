@@ -262,6 +262,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		CGame::GetInstance()->InitiateSwitchScene(1);
 	}
+
+	if (isTailAttacking)
+	{
+		if (GetTickCount64() - start_tailattack > 450)
+		{
+			isTailAttacking = false;
+			start_tailattack = 0;
+		}
+	}
+
 	if (directUsingpipe == 0)
 		isUsingPipe = false;
 	isOnPlatform = false;
@@ -1221,6 +1231,13 @@ int CMario::GetAniIdTanooki()
 		{
 			aniId = ID_ANI_MARIO_TANOOKI_USINGPIPE;
 		}
+		else if (isTailAttacking)
+		{
+			if (nx > 0)
+				aniId = ID_ANI_MARIO_TANOOKI_TAILATTACKING_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_TANOOKI_TAILATTACKING_LEFT;
+		}
 		else
 			if (isSitting)
 			{
@@ -1424,6 +1441,10 @@ void CMario::SetState(int state)
 				vy = -MARIO_FALL_WITH_TAIL_Y;
 				ay = MARIO_GRAVITY / 4;
 			}
+			break;
+		case MARIO_TAIL_ATTACKING_STATE:
+			isTailAttacking = true;
+			start_tailattack = GetTickCount64();
 			break;
 		case MARIO_GOING_DOWN_PIPE_STATE:
 			isUsingPipe = true;

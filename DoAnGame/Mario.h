@@ -63,6 +63,8 @@
 
 #define MARIO_GOING_DOWN_PIPE_STATE	1101
 #define MARIO_GOING_UP_PIPE_STATE	1102
+
+#define MARIO_TAIL_ATTACKING_STATE	1103
 //#define MARIO_STATE_HOLDING
 
 #pragma region ANIMATION_ID
@@ -189,6 +191,8 @@
 
 #define	ID_ANI_MARIO_TANOOKI_USINGPIPE	2410
 
+#define ID_ANI_MARIO_TANOOKI_TAILATTACKING_RIGHT	2910
+#define ID_ANI_MARIO_TANOOKI_TAILATTACKING_LEFT	2911
 
 #pragma endregion
 
@@ -227,7 +231,7 @@ class CMario : public CGameObject
 	BOOLEAN isRunning;
 	BOOLEAN isFlying;
 	BOOLEAN isUsingPipe;
-
+	BOOLEAN isTailAttacking;
 	CGameObject* holdingObject;
 	float maxVx;
 	float ax;				// acceleration on x 
@@ -250,6 +254,7 @@ class CMario : public CGameObject
 	ULONGLONG start_fly;
 	ULONGLONG start_die;
 	ULONGLONG start_usingPipe;
+	ULONGLONG start_tailattack;
 	int coin; 
 
 	//world map mario/////////
@@ -318,6 +323,9 @@ public:
 
 		isUsingPipe = false;
 		start_usingPipe = 0;
+
+		isTailAttacking = false;
+		start_tailattack = 0;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
