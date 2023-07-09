@@ -262,15 +262,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		CGame::GetInstance()->InitiateSwitchScene(1);
 	}
-	//if not using pipe reset direct after time
-	/*if (directUsingpipe != 0 && GetTickCount64() - start_resetusingPipe > 3000)
-	{
-		directUsingpipe = 0;
-		start_usingPipe = 0;
+	if (directUsingpipe == 0)
 		isUsingPipe = false;
-	}*/
-	
-	//isUsingPipe = false;
 	isOnPlatform = false;
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -1431,6 +1424,12 @@ void CMario::SetState(int state)
 				vy = -MARIO_FALL_WITH_TAIL_Y;
 				ay = MARIO_GRAVITY / 4;
 			}
+			break;
+		case MARIO_GOING_DOWN_PIPE_STATE:
+			isUsingPipe = true;
+			break;
+		case MARIO_GOING_UP_PIPE_STATE:
+			isUsingPipe = true;
 			break;
 		case MARIO_STATE_DIE:
 			vy = -MARIO_JUMP_DEFLECT_SPEED;

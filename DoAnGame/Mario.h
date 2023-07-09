@@ -250,7 +250,6 @@ class CMario : public CGameObject
 	ULONGLONG start_fly;
 	ULONGLONG start_die;
 	ULONGLONG start_usingPipe;
-	ULONGLONG start_resetusingPipe;
 	int coin; 
 
 	//world map mario/////////
@@ -319,7 +318,6 @@ public:
 
 		isUsingPipe = false;
 		start_usingPipe = 0;
-		start_resetusingPipe = 0;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -330,7 +328,7 @@ public:
 		return (state != MARIO_STATE_DIE); 
 	}
 
-	int IsBlocking() { return (state != MARIO_STATE_DIE && untouchable==0); }
+	int IsBlocking() { return ((state != MARIO_STATE_DIE && untouchable==0)); }
 	bool IsBrace() { return (ax * vx < 0); } // return if there is a brace or not
 	int GetLevelRun() { return this->level_run; }
 

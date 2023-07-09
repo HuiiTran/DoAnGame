@@ -17,6 +17,12 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		{
 		case DIK_DOWN:
 			mario->SetState(MARIO_STATE_SIT);
+			if (mario->GetdirectUsingPipe() != 0)
+			{
+				if (mario->GetdirectUsingPipe() == 1)
+					mario->SetState(MARIO_GOING_DOWN_PIPE_STATE);
+			}
+
 			break;
 		case DIK_S:
 			if (mario->GetisOnPlatform())
