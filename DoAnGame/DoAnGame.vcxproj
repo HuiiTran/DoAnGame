@@ -159,6 +159,7 @@
     <ClCompile Include="MushRoom.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Pipe.cpp" />
+    <ClCompile Include="PipeTeleport.cpp" />
     <ClCompile Include="PiranhaPlant.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="PlayScene.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="MushRoom.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="Pipe.h" />
+    <ClInclude Include="PipeTeleport.h" />
     <ClInclude Include="PiranhaPlant.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="PlayScene.h" />

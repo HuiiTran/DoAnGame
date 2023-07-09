@@ -227,7 +227,7 @@ class CMario : public CGameObject
 	BOOLEAN isRunning;
 	BOOLEAN isFlying;
 	BOOLEAN isUsingPipe;
-	
+
 	CGameObject* holdingObject;
 	float maxVx;
 	float ax;				// acceleration on x 
@@ -237,6 +237,8 @@ class CMario : public CGameObject
 	int level; 
 	int untouchable; 
 	int level_run = 0;
+
+	int directUsingpipe = 0;
 
 	ULONGLONG untouchable_start;
 	ULONGLONG wait;
@@ -248,6 +250,7 @@ class CMario : public CGameObject
 	ULONGLONG start_fly;
 	ULONGLONG start_die;
 	ULONGLONG start_usingPipe;
+	ULONGLONG start_resetusingPipe;
 	int coin; 
 
 	//world map mario/////////
@@ -275,6 +278,7 @@ class CMario : public CGameObject
 	void OnCollisionWithGreenKoopa(LPCOLLISIONEVENT e);
 	void OnCollisionWithInvisibleBlock(LPCOLLISIONEVENT e);
 	void OnCollisionWithNode(LPCOLLISIONEVENT e);
+	void OnCollisionWithPipeTeleport(LPCOLLISIONEVENT e);
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdTanooki();
@@ -315,6 +319,7 @@ public:
 
 		isUsingPipe = false;
 		start_usingPipe = 0;
+		start_resetusingPipe = 0;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -356,7 +361,9 @@ public:
 	int GetCoin() { return this->coin; }
 
 	void SetisUsingPipe(bool isUsingPipe) { this->isUsingPipe = isUsingPipe; }
+	int GetisUsingPipe() { return this->isUsingPipe; }
 
+	int GetdirectUsingPipe() { return this->directUsingpipe; }
 	///world map mario
 	bool GetisAllowLeft() { return isAllowLeft; }
 	bool GetisAllowRight() { return isAllowRight; }

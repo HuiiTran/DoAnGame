@@ -23,6 +23,7 @@
 #include "GreenKoopa.h"
 #include "Grass.h"
 #include "Node.h"
+#include "PipeTeleport.h"
 #include "SampleKeyEventHandler.h"
 
 using namespace std;
@@ -157,6 +158,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_VENUSFIRETRAP: obj = new CVenusFireTrap(x, y); break;
 	case OBJECT_TYPE_PIRANHAPLANT: obj = new CPiranhaPlant(x, y); break;
 	case OBJECT_TYPE_GRASS: obj = new CGrass(x, y); break;
+	case OBJECT_TYPE_PIPE_TELE:
+	{
+		int direct = (int)atoi(tokens[3].c_str());
+		float desX = (float)atoi(tokens[4].c_str());
+		float desY = (float)atoi(tokens[5].c_str());
+		obj = new CPipeTeleport(x, y, direct, desX, desY);
+		break;
+	}
 	case OBJECT_TYPE_BRICK: 
 	{
 		int brick_type = (int)atoi(tokens[3].c_str());
@@ -373,7 +382,7 @@ void CPlayScene::Update(DWORD dt)
 	CGame *game = CGame::GetInstance();
 	cx -= game->GetBackBufferWidth() / 2;
 	cy -= game->GetBackBufferHeight() / 2;
-	DebugOutTitle(L"%f", cx);
+	//DebugOutTitle(L"%f", cx);
 	int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
 	if (currentscene == 5)
 	{

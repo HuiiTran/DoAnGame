@@ -141,6 +141,9 @@
     <ClCompile Include="Node.cpp">
       <Filter>WorldMap</Filter>
     </ClCompile>
+    <ClCompile Include="PipeTeleport.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -274,6 +277,9 @@
     </ClInclude>
     <ClInclude Include="Node.h">
       <Filter>WorldMap</Filter>
+    </ClInclude>
+    <ClInclude Include="PipeTeleport.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

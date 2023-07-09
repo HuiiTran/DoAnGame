@@ -21,11 +21,12 @@
 #include "GreenKoopa.h"
 #include "InvisibleBlock.h"
 #include "Node.h"
+#include "PipeTeleport.h"
 #include "PlayScene.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	//DebugOutTitle(L"%d", currentscene);
+	DebugOutTitle(L"%d", directUsingpipe);
 	int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
 	if (currentscene == 1)
 	{
@@ -261,9 +262,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		CGame::GetInstance()->InitiateSwitchScene(1);
 	}
-
+	//if not using pipe reset direct after time
+	/*if (directUsingpipe != 0 && GetTickCount64() - start_resetusingPipe > 3000)
+	{
+		directUsingpipe = 0;
+		start_usingPipe = 0;
+		isUsingPipe = false;
+	}*/
 	
-
+	//isUsingPipe = false;
 	isOnPlatform = false;
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -318,6 +325,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 			OnCollisionWithGreenKoopa(e);
 		else if (dynamic_cast<CInvisibleBlock*>(e->obj))
 			OnCollisionWithInvisibleBlock(e);
+		else if (dynamic_cast<CPipeTeleport*>(e->obj))
+			OnCollisionWithPipeTeleport(e);
 	}
 	else if (currentscene == 1)
 	{
@@ -774,6 +783,11 @@ void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 {
 	CPortal* p = (CPortal*)e->obj;
 	CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
+}
+void CMario::OnCollisionWithPipeTeleport(LPCOLLISIONEVENT e)
+{
+	CPipeTeleport* pipe = (CPipeTeleport*)e->obj;
+	directUsingpipe = pipe->GetDirect();
 }
 
 void CMario::OnCollisionWithFireBall(LPCOLLISIONEVENT e)
