@@ -24,14 +24,21 @@
 #define KOOPA_STATE_DIE 6
 #define KOOPA_STATE_JUMP_DIE 7
 #define KOOPA_STATE_CHANGE_DIRECT 8
+#define KOOPA_STATE_SHELL_FLIP	9
 
 #define KOOPA_RESPAWN_START_TIME 5000
 #define KOOPA_RESPAWN_TIME 3000
 #define KOOPA_JUMP_DIE_TIMEOUT 1000
 
 #define ID_ANI_KOOPA_RESPAWN 130001
+#define ID_ANI_KOOPA_RESPAWN_FLIP 130011
+
 #define ID_ANI_KOOPA_SHELL 130002
+#define ID_ANI_KOOPA_SHELL_FLIP 130012
+
 #define ID_ANI_KOOPA_SHELL_ROLL 130003
+#define ID_ANI_KOOPA_SHELL_ROLL_FLIP 130013
+
 #define ID_ANI_KOOPA_WALKING_RIGHT 130010
 #define ID_ANI_KOOPA_WALKING_LEFT 130020
 
@@ -43,6 +50,7 @@ class CKoopa : public CGameObject
 protected:
 	float ax;
 	float ay;
+	bool isFlip;
 
 	int mario_level;
 	bool isRespawning;
@@ -84,4 +92,6 @@ public:
 	};
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+
+	void SetisFlip(bool isFlip) { this->isFlip = isFlip; }
 };

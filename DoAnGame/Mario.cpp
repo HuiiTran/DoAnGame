@@ -26,7 +26,7 @@
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	DebugOutTitle(L"%d", directUsingpipe);
+	DebugOutTitle(L"%d", isTailAttacking);
 	int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
 	if (currentscene == 1)
 	{
@@ -265,7 +265,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (isTailAttacking)
 	{
-		if (GetTickCount64() - start_tailattack > 450)
+		if (GetTickCount64() - start_tailattack > 400)
 		{
 			isTailAttacking = false;
 			start_tailattack = 0;
@@ -387,39 +387,45 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithFlyGoomba(LPCOLLISIONEVENT e)
 {
 	CFlyGoomba* flygoomba = dynamic_cast<CFlyGoomba*>(e->obj);
-	if (e->ny < 0)
+	if (isTailAttacking)
 	{
-		if (flygoomba->GetState() != FLYGOOMBA_STATE_DIE)
-		{
-			if (isFlying)
-				vy = -MARIO_JUMP_DEFLECT_SPEED / 2;
-			else
-				vy = -MARIO_JUMP_DEFLECT_SPEED;
-			if (flygoomba->GetState() == FLYGOOMBA_STATE_WING_FLY || flygoomba->GetState() == FLYGOOMBA_STATE_WING_JUMPFLY || flygoomba->GetState() == FLYGOOMBA_STATE_WING_WALKING)
-			{
-				flygoomba->SetState(FLYGOOMBA_STATE_WALKING);
-			}
-			else if (flygoomba->GetState() == FLYGOOMBA_STATE_WALKING)
-			{
-				flygoomba->SetState(FLYGOOMBA_STATE_DIE);
-			}
-		}
+		flygoomba->SetState(FLYGOOMBA_STATE_DIE_JUMP);
 	}
-	else
 	{
-		if (untouchable == 0)
+		if (e->ny < 0)
 		{
 			if (flygoomba->GetState() != FLYGOOMBA_STATE_DIE)
 			{
-				if (level > MARIO_LEVEL_SMALL)
-				{
-					DecreaseLevel();
-					StartUntouchable();
-				}
+				if (isFlying)
+					vy = -MARIO_JUMP_DEFLECT_SPEED / 2;
 				else
+					vy = -MARIO_JUMP_DEFLECT_SPEED;
+				if (flygoomba->GetState() == FLYGOOMBA_STATE_WING_FLY || flygoomba->GetState() == FLYGOOMBA_STATE_WING_JUMPFLY || flygoomba->GetState() == FLYGOOMBA_STATE_WING_WALKING)
 				{
-					DebugOut(L">>> Mario DIE >>> \n");
-					SetState(MARIO_STATE_DIE);
+					flygoomba->SetState(FLYGOOMBA_STATE_WALKING);
+				}
+				else if (flygoomba->GetState() == FLYGOOMBA_STATE_WALKING)
+				{
+					flygoomba->SetState(FLYGOOMBA_STATE_DIE);
+				}
+			}
+		}
+		else
+		{
+			if (untouchable == 0)
+			{
+				if (flygoomba->GetState() != FLYGOOMBA_STATE_DIE)
+				{
+					if (level > MARIO_LEVEL_SMALL)
+					{
+						DecreaseLevel();
+						StartUntouchable();
+					}
+					else
+					{
+						DebugOut(L">>> Mario DIE >>> \n");
+						SetState(MARIO_STATE_DIE);
+					}
 				}
 			}
 		}
@@ -450,95 +456,101 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	float koopaX, koopaY;
 	
 	if (koopa->GetIsHolded()) return;
-
-	if (e->ny < 0 && !this->isOnPlatform)
+	if (isTailAttacking && (e->nx > 0 || e->nx < 0))
 	{
-		koopa->SetMLevel(this->level);
-		if (koopa->GetState() != KOOPA_STATE_SHELL)
+		koopa->SetisFlip(true);
+		koopa->SetState(KOOPA_STATE_SHELL_FLIP);
+	}
+	{
+		if (e->ny < 0 && !this->isOnPlatform)
 		{
-			koopa->GetPosition(koopaX, koopaY);
-			koopa->SetPosition(koopaX , koopaY - 10);
-			koopa->SetState(KOOPA_STATE_SHELL);
-			if (isFlying)
-				vy = -MARIO_JUMP_DEFLECT_SPEED / 2;
+			koopa->SetMLevel(this->level);
+			if (koopa->GetState() != KOOPA_STATE_SHELL)
+			{
+				koopa->GetPosition(koopaX, koopaY);
+				koopa->SetPosition(koopaX, koopaY - 10);
+				koopa->SetState(KOOPA_STATE_SHELL);
+				if (isFlying)
+					vy = -MARIO_JUMP_DEFLECT_SPEED / 2;
+				else
+					vy = -MARIO_JUMP_DEFLECT_SPEED;
+			}
 			else
-				vy = -MARIO_JUMP_DEFLECT_SPEED;
+			{
+				if (nx > 0)
+				{
+					koopa->GetPosition(koopaX, koopaY);
+					koopa->SetPosition(koopaX + 5, koopaY - 10);
+					koopa->SetSpeed(KOOPA_SHELL_SCROLL_SPEED, 0);
+					if (isFlying)
+						vy = -MARIO_JUMP_DEFLECT_SPEED / 2;
+					else
+						vy = -MARIO_JUMP_DEFLECT_SPEED;
+				}
+				else
+				{
+					koopa->GetPosition(koopaX, koopaY);
+					koopa->SetPosition(koopaX - 5, koopaY - 10);
+					koopa->SetSpeed(-KOOPA_SHELL_SCROLL_SPEED, 0);
+					if (isFlying)
+						vy = -MARIO_JUMP_DEFLECT_SPEED / 2;
+					else
+						vy = -MARIO_JUMP_DEFLECT_SPEED;
+				}
+				koopa->SetState(KOOPA_STATE_SHELL_SCROLL);
+			}
 		}
-		else
+		else if (nx > 0 && koopa->GetState() == KOOPA_STATE_SHELL && isHolding == false)
 		{
-			if (nx > 0 )
-			{
-				koopa->GetPosition(koopaX, koopaY);
-				koopa->SetPosition(koopaX + 5, koopaY - 10);
-				koopa->SetSpeed(KOOPA_SHELL_SCROLL_SPEED, 0);
-				if (isFlying)
-					vy = -MARIO_JUMP_DEFLECT_SPEED / 2;
-				else
-					vy = -MARIO_JUMP_DEFLECT_SPEED;
-			}
-			else 
-			{
-				koopa->GetPosition(koopaX, koopaY);
-				koopa->SetPosition(koopaX - 5, koopaY - 10);
-				koopa->SetSpeed(-KOOPA_SHELL_SCROLL_SPEED, 0);
-				if (isFlying)
-					vy = -MARIO_JUMP_DEFLECT_SPEED / 2;
-				else
-					vy = -MARIO_JUMP_DEFLECT_SPEED;
-			}
+			isKicking = true;
+			start_kick = GetTickCount64();
+			koopa->SetMLevel(this->level);
+			koopa->SetSpeed(KOOPA_SHELL_SCROLL_SPEED, 0);
 			koopa->SetState(KOOPA_STATE_SHELL_SCROLL);
 		}
-	}
-	else if (nx > 0 && koopa->GetState() == KOOPA_STATE_SHELL && isHolding == false)
-	{
-		isKicking = true;
-		start_kick = GetTickCount64();
-		koopa->SetMLevel(this->level);
-		koopa->SetSpeed(KOOPA_SHELL_SCROLL_SPEED, 0);
-		koopa->SetState(KOOPA_STATE_SHELL_SCROLL);
-	}
-	else if (nx < 0 && koopa->GetState() == KOOPA_STATE_SHELL && isHolding == false)
-	{
-		isKicking = true;
-		start_kick = GetTickCount64();
-		koopa->SetMLevel(this->level);
-		koopa->SetSpeed(-KOOPA_SHELL_SCROLL_SPEED, 0);
-		koopa->SetState(KOOPA_STATE_SHELL_SCROLL);
-	}
-	else //being hit
-	{
-		if (!untouchable)
+		else if (nx < 0 && koopa->GetState() == KOOPA_STATE_SHELL && isHolding == false)
 		{
-			if (koopa->GetState() == KOOPA_STATE_SHELL)
+			isKicking = true;
+			start_kick = GetTickCount64();
+			koopa->SetMLevel(this->level);
+			koopa->SetSpeed(-KOOPA_SHELL_SCROLL_SPEED, 0);
+			koopa->SetState(KOOPA_STATE_SHELL_SCROLL);
+		}
+		else //being hit
+		{
+			if (!untouchable)
 			{
-				if (isHolding) {
-					koopa->SetPosition(x + nx * 15, y);
-					koopa->SetIsHolded(true);
-					SetHoldingObject(koopa);
-				}
-				else
+				if (koopa->GetState() == KOOPA_STATE_SHELL)
 				{
-					if (nx > 0) {
-						koopa->SetSpeed(KOOPA_SHELL_SCROLL_SPEED, 0);
+					if (isHolding) {
+						koopa->SetPosition(x + nx * 15, y);
+						koopa->SetIsHolded(true);
+						SetHoldingObject(koopa);
 					}
-					else {
-						
-						koopa->SetSpeed(-KOOPA_SHELL_SCROLL_SPEED, 0);
+					else
+					{
+						if (nx > 0) {
+							koopa->SetSpeed(KOOPA_SHELL_SCROLL_SPEED, 0);
+						}
+						else {
+
+							koopa->SetSpeed(-KOOPA_SHELL_SCROLL_SPEED, 0);
+						}
+						koopa->SetState(KOOPA_STATE_SHELL_SCROLL);
 					}
-					koopa->SetState(KOOPA_STATE_SHELL_SCROLL);
 				}
-			}
-			else if (koopa->GetState() != KOOPA_STATE_DIE || koopa->GetState() == KOOPA_STATE_RESPAWN)
-			{
-				if (level > MARIO_LEVEL_SMALL)
+				else if (koopa->GetState() != KOOPA_STATE_DIE || koopa->GetState() == KOOPA_STATE_RESPAWN)
 				{
-					DecreaseLevel();
-					StartUntouchable();
-				}
-				else
-				{
-					DebugOut(L">>> Mario DIE >>> \n");
-					SetState(MARIO_STATE_DIE);
+					if (level > MARIO_LEVEL_SMALL)
+					{
+						DecreaseLevel();
+						StartUntouchable();
+					}
+					else
+					{
+						DebugOut(L">>> Mario DIE >>> \n");
+						SetState(MARIO_STATE_DIE);
+					}
 				}
 			}
 		}

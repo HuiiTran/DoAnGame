@@ -23,6 +23,7 @@ CKoopa::CKoopa(float x, float y, bool isHaveWing) :CGameObject(x, y)
 	respawn_start = -1;
 	isHolded = false;
 	mario_level = 1;
+	isFlip = false;
 	SetState(KOOPA_STATE_WALKING);
 }
 
@@ -291,7 +292,7 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		return;
 	}
 
-	if ((state == KOOPA_STATE_SHELL) && (GetTickCount64() - respawn_start > KOOPA_RESPAWN_START_TIME))
+	if ((state == KOOPA_STATE_SHELL || state == KOOPA_STATE_SHELL_FLIP) && (GetTickCount64() - respawn_start > KOOPA_RESPAWN_START_TIME))
 	{
 		SetState(KOOPA_STATE_RESPAWN);
 		return;
@@ -300,6 +301,7 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if ((state == KOOPA_STATE_RESPAWN) && (GetTickCount64() - respawn_end > KOOPA_RESPAWN_TIME))
 	{
 		isHolded = false;
+		isFlip = false;
 		SetState(KOOPA_STATE_WALKING);
 		return;
 	}
@@ -337,18 +339,28 @@ void CKoopa::Render()
 	{
 	case KOOPA_STATE_RESPAWN:
 	{
-		aniId = ID_ANI_KOOPA_RESPAWN;
+		if(isFlip == false)
+			aniId = ID_ANI_KOOPA_RESPAWN;
+		else
+			aniId = ID_ANI_KOOPA_RESPAWN_FLIP;
 		break;
 	}
+	case KOOPA_STATE_SHELL_FLIP:
 	case KOOPA_STATE_SHELL:
 	case KOOPA_STATE_SHELL_HOLD:
 	{
-		aniId = ID_ANI_KOOPA_SHELL;
+		if (isFlip == false)
+			aniId = ID_ANI_KOOPA_SHELL;
+		else
+			aniId = ID_ANI_KOOPA_SHELL_FLIP;
 		break;
 	}
 	case KOOPA_STATE_SHELL_SCROLL:
 	{
-		aniId = ID_ANI_KOOPA_SHELL_ROLL;
+		if (isFlip == false)
+			aniId = ID_ANI_KOOPA_SHELL_ROLL;
+		else
+			aniId = ID_ANI_KOOPA_SHELL_ROLL_FLIP;
 		break;
 	}
 	default:
@@ -378,6 +390,11 @@ void CKoopa::SetState(int state)
 	case KOOPA_STATE_SHELL:
 		vx = 0;
 		vy = 0;
+		respawn_start = GetTickCount64();
+		break;
+	case KOOPA_STATE_SHELL_FLIP:
+		vx = 0;
+		vy = -KOOPA_JUMP_DIE_SPEED;
 		respawn_start = GetTickCount64();
 		break;
 	case KOOPA_STATE_RESPAWN:
