@@ -815,22 +815,25 @@ void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 
 	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
 	brick->GetPosition(bX, bY);
-	if (brick->GetType() == 2 && isTailAttacking)
+	if ( e->nx != 0 && (brick->GetType() == 2) && (abs(bY - this->y) < MARIO_SMALL_BBOX_HEIGHT / 2) )
 	{
-		brick->Delete();
-		CBreakBrickPiece* piece_1 = new CBreakBrickPiece(bX, bY - PIECE_OFFSET);
-		piece_1->SetState(PIECE_STATE_LEFT);
-		CBreakBrickPiece* piece_2 = new CBreakBrickPiece(bX, bY + PIECE_OFFSET);
-		piece_2->SetState(PIECE_STATE_LEFT);
-		CBreakBrickPiece* piece_3 = new CBreakBrickPiece(bX, bY - PIECE_OFFSET);
-		piece_3->SetState(PIECE_STATE_RIGHT);
-		CBreakBrickPiece* piece_4 = new CBreakBrickPiece(bX, bY + PIECE_OFFSET);
-		piece_4->SetState(PIECE_STATE_RIGHT);
+		if(isTailAttacking)
+		{
+			brick->Delete();
+			CBreakBrickPiece* piece_1 = new CBreakBrickPiece(bX, bY - PIECE_OFFSET);
+			piece_1->SetState(PIECE_STATE_LEFT);
+			CBreakBrickPiece* piece_2 = new CBreakBrickPiece(bX, bY + PIECE_OFFSET);
+			piece_2->SetState(PIECE_STATE_LEFT);
+			CBreakBrickPiece* piece_3 = new CBreakBrickPiece(bX, bY - PIECE_OFFSET);
+			piece_3->SetState(PIECE_STATE_RIGHT);
+			CBreakBrickPiece* piece_4 = new CBreakBrickPiece(bX, bY + PIECE_OFFSET);
+			piece_4->SetState(PIECE_STATE_RIGHT);
 
-		thisscene->AddObjectToScene(piece_1);
-		thisscene->AddObjectToScene(piece_2);
-		thisscene->AddObjectToScene(piece_3);
-		thisscene->AddObjectToScene(piece_4);
+			thisscene->AddObjectToScene(piece_1);
+			thisscene->AddObjectToScene(piece_2);
+			thisscene->AddObjectToScene(piece_3);
+			thisscene->AddObjectToScene(piece_4);
+		}
 	}
 }
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
@@ -1619,13 +1622,6 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			top = y - MARIO_BIG_SITTING_BBOX_HEIGHT / 2;
 			right = left + MARIO_BIG_SITTING_BBOX_WIDTH;
 			bottom = top + MARIO_BIG_SITTING_BBOX_HEIGHT;
-		}
-		else if (isTailAttacking)
-		{
-			left = x - MARIO_TANOOKI_BBOX_WIDTH_TAILATTACK / 2;
-			top = y - MARIO_TANOOKI_BBOX_HEIGHT / 2;
-			right = left + MARIO_TANOOKI_BBOX_WIDTH_TAILATTACK;
-			bottom = top + MARIO_TANOOKI_BBOX_HEIGHT;
 		}
 		else
 		{
