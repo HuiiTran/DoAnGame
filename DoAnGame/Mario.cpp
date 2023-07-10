@@ -459,6 +459,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 
 	if (isTailAttacking && (e->nx > 0 || e->nx < 0))
 	{
+		koopa->SetMLevel(this->level);
 		koopa->SetisFlip(true);
 		koopa->SetState(KOOPA_STATE_SHELL_FLIP);
 	}
@@ -1191,35 +1192,52 @@ int CMario::GetAniIdTanooki()
 	{
 		if (!isOnPlatform)
 		{
-			if (abs(ax) == MARIO_ACCEL_RUN_X)
+			if (isTailAttacking)
 			{
-				if (nx >= 0)
-					aniId = ID_ANI_MARIO_TANOOKI_JUMP_RUN_RIGHT;
+				if (nx > 0)
+					aniId = ID_ANI_MARIO_TANOOKI_TAILATTACKING_RIGHT;
 				else
-					aniId = ID_ANI_MARIO_TANOOKI_JUMP_RUN_LEFT;
+					aniId = ID_ANI_MARIO_TANOOKI_TAILATTACKING_LEFT;
 			}
 			else
 			{
-				if (nx >= 0)
-					aniId = ID_ANI_MARIO_TANOOKI_JUMP_WALK_RIGHT;
-				else
-					aniId = ID_ANI_MARIO_TANOOKI_JUMP_WALK_LEFT;
-			}
-			if (isFlying)
-			{
-				if (level_run == LEVEL_RUN_MAX)
+				if (abs(ax) == MARIO_ACCEL_RUN_X)
 				{
-					if (nx > 0)
-						aniId = ID_ANI_MARIO_TANOOKI_FLY_RIGHT;
+					if (nx >= 0)
+						aniId = ID_ANI_MARIO_TANOOKI_JUMP_RUN_RIGHT;
 					else
-						aniId = ID_ANI_MARIO_TANOOKI_FLY_LEFT;
+						aniId = ID_ANI_MARIO_TANOOKI_JUMP_RUN_LEFT;
 				}
 				else
 				{
-					if (nx > 0)
-						aniId = ID_ANI_MARIO_TANOOKI_FALL_RIGHT;
+					if (nx >= 0)
+						aniId = ID_ANI_MARIO_TANOOKI_JUMP_WALK_RIGHT;
 					else
-						aniId = ID_ANI_MARIO_TANOOKI_FALL_LEFT;
+						aniId = ID_ANI_MARIO_TANOOKI_JUMP_WALK_LEFT;
+				}
+				if (isFlying)
+				{
+					if (level_run == LEVEL_RUN_MAX)
+					{
+						if (nx > 0)
+							aniId = ID_ANI_MARIO_TANOOKI_FLY_RIGHT;
+						else
+							aniId = ID_ANI_MARIO_TANOOKI_FLY_LEFT;
+					}
+					else
+					{
+						if (nx > 0)
+							aniId = ID_ANI_MARIO_TANOOKI_FALL_RIGHT;
+						else
+							aniId = ID_ANI_MARIO_TANOOKI_FALL_LEFT;
+					}
+				}
+				if (isTailAttacking)
+				{
+					if (nx > 0)
+						aniId = ID_ANI_MARIO_TANOOKI_TAILATTACKING_RIGHT;
+					else
+						aniId = ID_ANI_MARIO_TANOOKI_TAILATTACKING_LEFT;
 				}
 			}
 		}
