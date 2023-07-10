@@ -31,18 +31,16 @@ void CFlyGoomba::SetState(int state)
 		break;
 	case FLYGOOMBA_STATE_DIE_JUMP:
 		die_start = GetTickCount64();
-		y += (FLYGOOMBA_BBOX_HEIGHT - FLYGOOMBA_BBOX_HEIGHT_DIE) / 2;
+		//y += (FLYGOOMBA_BBOX_HEIGHT - FLYGOOMBA_BBOX_HEIGHT_DIE) / 2;
 		if(px > x)
 		{
 			vx = -FLYGOOMBA_WALKING_SPEED;
 			vy = -FLYGOOMBA_JUMP_DIE_SPEED;
-			ay = 0;
 		}
 		else if (px < x)
 		{
 			vx = FLYGOOMBA_WALKING_SPEED;
 			vy = -FLYGOOMBA_JUMP_DIE_SPEED;
-			ay = 0;
 		}
 		break;
 	case FLYGOOMBA_STATE_WALKING:

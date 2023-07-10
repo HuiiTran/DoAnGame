@@ -267,7 +267,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 	if (isTailAttacking)
 	{
-		if (GetTickCount64() - start_tailattack > 400)
+		if (GetTickCount64() - start_tailattack > 300)
 		{
 			isTailAttacking = false;
 			start_tailattack = 0;
@@ -815,7 +815,7 @@ void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 
 	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
 	brick->GetPosition(bX, bY);
-	if ((e->nx > 0 || e->nx < 0) && brick->GetType() == 2 && isTailAttacking)
+	if (brick->GetType() == 2 && isTailAttacking)
 	{
 		brick->Delete();
 		CBreakBrickPiece* piece_1 = new CBreakBrickPiece(bX, bY - PIECE_OFFSET);
@@ -1432,7 +1432,7 @@ void CMario::Render()
 		animations->Get(aniId)->Render(x, y);
 	}
 
-	//RenderBoundingBox();
+	RenderBoundingBox();
 	
 
 }
@@ -1620,9 +1620,16 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 			right = left + MARIO_BIG_SITTING_BBOX_WIDTH;
 			bottom = top + MARIO_BIG_SITTING_BBOX_HEIGHT;
 		}
+		else if (isTailAttacking)
+		{
+			left = x - MARIO_TANOOKI_BBOX_WIDTH_TAILATTACK / 2;
+			top = y - MARIO_TANOOKI_BBOX_HEIGHT / 2;
+			right = left + MARIO_TANOOKI_BBOX_WIDTH_TAILATTACK;
+			bottom = top + MARIO_TANOOKI_BBOX_HEIGHT;
+		}
 		else
 		{
-			left = x - MARIO_TANOOKI_BBOX_WIDTH / 2  ;
+			left = x - MARIO_TANOOKI_BBOX_WIDTH / 2 ;
 			top = y - MARIO_TANOOKI_BBOX_HEIGHT / 2;
 			right = left + MARIO_TANOOKI_BBOX_WIDTH;
 			bottom = top + MARIO_TANOOKI_BBOX_HEIGHT;
