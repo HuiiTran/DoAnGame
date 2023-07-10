@@ -21,6 +21,7 @@ CKoopa::CKoopa(float x, float y, bool isHaveWing) :CGameObject(x, y)
 	nx = -1;
 	die_start = -1;
 	respawn_start = -1;
+	flip_start = -1;
 	isHolded = false;
 	mario_level = 1;
 	isFlip = false;
@@ -291,8 +292,12 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		isDeleted = true;
 		return;
 	}
-
-	if ((state == KOOPA_STATE_SHELL || state == KOOPA_STATE_SHELL_FLIP) && (GetTickCount64() - respawn_start > KOOPA_RESPAWN_START_TIME))
+	if ((state == KOOPA_STATE_SHELL_FLIP) && GetTickCount64() - flip_start > 500)
+	{
+		SetState(KOOPA_STATE_SHELL);
+		return;
+	}
+	if ((state == KOOPA_STATE_SHELL) && (GetTickCount64() - respawn_start > KOOPA_RESPAWN_START_TIME))
 	{
 		SetState(KOOPA_STATE_RESPAWN);
 		return;
@@ -378,6 +383,12 @@ void CKoopa::Render()
 void CKoopa::SetState(int state)
 {
 	CGameObject::SetState(state);
+
+	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+	LPGAMEOBJECT player = thisscene->GetPlayer();
+
+	float px, py;
+	player->GetPosition(px, py);
 	switch (state)
 	{
 	case KOOPA_STATE_DIE:
@@ -393,10 +404,20 @@ void CKoopa::SetState(int state)
 		respawn_start = GetTickCount64();
 		break;
 	case KOOPA_STATE_SHELL_FLIP:
-		vx = 0;
-		vy = -KOOPA_JUMP_DIE_SPEED;
-		respawn_start = GetTickCount64();
+	{
+		if (px > x)
+		{
+			vx = -KOOPA_WALKING_SPEED;
+			vy = -KOOPA_JUMP_DIE_SPEED;
+		}
+		else if(px < x)
+		{
+			vx = KOOPA_WALKING_SPEED;
+			vy = -KOOPA_JUMP_DIE_SPEED;
+		}
+		flip_start = GetTickCount64();
 		break;
+	}
 	case KOOPA_STATE_RESPAWN:
 		respawn_end = GetTickCount64();
 		isRespawning = true;

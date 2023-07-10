@@ -14,6 +14,12 @@ CFlyGoomba::CFlyGoomba(float x, float y)
 void CFlyGoomba::SetState(int state)
 {
 	CGameObject::SetState(state);
+
+	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+	LPGAMEOBJECT player = thisscene->GetPlayer();
+
+	float px, py;
+	player->GetPosition(px, py);
 	switch (state)
 	{
 	case FLYGOOMBA_STATE_DIE:
@@ -26,9 +32,18 @@ void CFlyGoomba::SetState(int state)
 	case FLYGOOMBA_STATE_DIE_JUMP:
 		die_start = GetTickCount64();
 		y += (FLYGOOMBA_BBOX_HEIGHT - FLYGOOMBA_BBOX_HEIGHT_DIE) / 2;
-		vx = 0;
-		vy = -FLYGOOMBA_DEFLECT_SPEED_JUMP;
-		ay = 0;
+		if(px > x)
+		{
+			vx = -FLYGOOMBA_WALKING_SPEED;
+			vy = -FLYGOOMBA_JUMP_DIE_SPEED;
+			ay = 0;
+		}
+		else if (px < x)
+		{
+			vx = FLYGOOMBA_WALKING_SPEED;
+			vy = -FLYGOOMBA_JUMP_DIE_SPEED;
+			ay = 0;
+		}
 		break;
 	case FLYGOOMBA_STATE_WALKING:
 		vx = FLYGOOMBA_WALKING_SPEED * nx;

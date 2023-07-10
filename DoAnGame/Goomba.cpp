@@ -89,6 +89,12 @@ void CGoomba::Render()
 void CGoomba::SetState(int state)
 {
 	CGameObject::SetState(state);
+
+	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+	LPGAMEOBJECT player = thisscene->GetPlayer();
+
+	float px, py;
+	player->GetPosition(px, py);
 	switch (state)
 	{
 		case GOOMBA_STATE_DIE:
@@ -99,10 +105,20 @@ void CGoomba::SetState(int state)
 			ay = 0; 
 			break;
 		case GOOMBA_STATE_DIE_JUMP:
-			vx = 0;
-			vy = -GOOMBA_JUMP_DIE_SPEED;
+		{
+			if (px > x)
+			{
+				vx = -GOOMBA_WALKING_SPEED;
+				vy = -GOOMBA_JUMP_DIE_SPEED;
+			}
+			else if (px < x)
+			{
+				vx = GOOMBA_WALKING_SPEED;
+				vy = -GOOMBA_JUMP_DIE_SPEED;
+			}
 			die_start = GetTickCount64();
 			break;
+		}
 		case GOOMBA_STATE_WALKING: 
 			vx = -GOOMBA_WALKING_SPEED;
 			break;

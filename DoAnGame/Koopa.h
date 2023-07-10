@@ -61,7 +61,7 @@ protected:
 	ULONGLONG die_start;
 	ULONGLONG respawn_start;
 	ULONGLONG respawn_end;
-
+	ULONGLONG flip_start;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Render();
 

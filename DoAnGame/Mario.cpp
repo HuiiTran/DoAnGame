@@ -391,6 +391,7 @@ void CMario::OnCollisionWithFlyGoomba(LPCOLLISIONEVENT e)
 	{
 		flygoomba->SetState(FLYGOOMBA_STATE_DIE_JUMP);
 	}
+	else
 	{
 		if (e->ny < 0)
 		{
@@ -454,13 +455,14 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
 
 	float koopaX, koopaY;
-	
 	if (koopa->GetIsHolded()) return;
+
 	if (isTailAttacking && (e->nx > 0 || e->nx < 0))
 	{
 		koopa->SetisFlip(true);
 		koopa->SetState(KOOPA_STATE_SHELL_FLIP);
 	}
+	else
 	{
 		if (e->ny < 0 && !this->isOnPlatform)
 		{
