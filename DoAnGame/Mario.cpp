@@ -698,6 +698,8 @@ void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 
 			questionbrick->SetPosition(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
 			coin++;
+			CEffect* effect = new CEffect(questionbrick_x + COIN_WIDTH, questionbrick_y - 2 * QUESTIONBRICK_UP, 100);
+			thisscene->AddObjectToScene(effect);
 		}
 		if ((questionbrick->GetBrickType() == 1 && this->level == MARIO_LEVEL_SMALL) || (questionbrick->GetBrickType() == 2 && this->level == MARIO_LEVEL_SMALL)) //mushroom
 		{
@@ -792,7 +794,12 @@ void CMario::OnCollisionWithMushRoom(LPCOLLISIONEVENT e)
 	}
 	else
 	{
+		float mX, mY;
+		mushroom->GetPosition(mX, mY);
+		LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
 
+		CEffect* effect = new CEffect(mX, mY, 2);
+		thisscene->AddObjectToScene(effect);
 	}
 	mushroom->Delete();
 }
