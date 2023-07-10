@@ -52,7 +52,10 @@ void CGreenKoopa::Render()
 	{
 	case GREEN_KOOPA_STATE_RESPAWN:
 	{
-		aniId = ID_ANI_GREEN_KOOPA_RESPAWN;
+		if(isFlip == false)
+			aniId = ID_ANI_GREEN_KOOPA_RESPAWN;
+		else
+			aniId = ID_ANI_GREEN_KOOPA_RESPAWN_FLIP;
 		break;
 	}
 	case GREEN_KOOPA_STATE_SHELL_FLIP:
