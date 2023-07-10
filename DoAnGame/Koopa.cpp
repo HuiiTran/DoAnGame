@@ -12,6 +12,7 @@
 #include "BreakBrickPiece.h"
 #include "PiranhaPlant.h"
 #include "P_Power.h"
+#include "GreenKoopa.h"
 
 CKoopa::CKoopa(float x, float y, bool isHaveWing) :CGameObject(x, y)
 {
@@ -72,6 +73,12 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		}
 		else if (dynamic_cast<CPiranhaPlant*>(e->obj)) {
 			OnCollisionWithPiranhaPlant(e);
+		}
+		else if (dynamic_cast<CGreenKoopa*>(e->obj)) {
+			OnCollisionWithGreenKoopa(e);
+		}
+		else if (dynamic_cast<CKoopa*>(e->obj)) {
+			OnCollisionWithKoopa(e);
 		}
 	}
 	/*if (dynamic_cast<CInvisibleBlock*>(e->obj) && state == KOOPA_STATE_WALKING) {
@@ -267,6 +274,30 @@ void CKoopa::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 		thisscene->AddObjectToScene(piece_4);
 	}
 }
+void CKoopa::OnCollisionWithGreenKoopa(LPCOLLISIONEVENT e)
+{
+	CGreenKoopa* greenkoopa = dynamic_cast<CGreenKoopa*>(e->obj);
+
+	if (state == KOOPA_STATE_SHELL_SCROLL || state == KOOPA_STATE_SHELL_HOLD)
+	{
+		if (greenkoopa->GetState() != GREEN_KOOPA_STATE_DIE)
+		{
+			greenkoopa->SetState(GREEN_KOOPA_STATE_JUMP_DIE);
+		}
+	}
+}
+void CKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
+{
+	CKoopa* otherkoopa = dynamic_cast<CKoopa*>(e->obj);
+
+	if (state == KOOPA_STATE_SHELL_SCROLL || state == KOOPA_STATE_SHELL_HOLD)
+	{
+		if (otherkoopa->GetState() != KOOPA_STATE_DIE)
+		{
+			otherkoopa->SetState(KOOPA_STATE_JUMP_DIE);
+		}
+	}
+}
 void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 
@@ -368,6 +399,9 @@ void CKoopa::Render()
 			aniId = ID_ANI_KOOPA_SHELL_ROLL_FLIP;
 		break;
 	}
+	case KOOPA_STATE_JUMP_DIE:
+		aniId = ID_ANI_KOOPA_SHELL_FLIP;
+		break;
 	default:
 		if (vx > 0)
 			aniId = ID_ANI_KOOPA_WALKING_RIGHT;
@@ -397,6 +431,19 @@ void CKoopa::SetState(int state)
 		vx = 0;
 		vy = 0;
 		ay = 0;
+		break;
+	case KOOPA_STATE_JUMP_DIE:
+		if (px > x)
+		{
+			vx = -KOOPA_WALKING_SPEED;
+			vy = -KOOPA_JUMP_DIE_SPEED;
+		}
+		else if (px < x)
+		{
+			vx = -KOOPA_WALKING_SPEED;
+			vy = -KOOPA_JUMP_DIE_SPEED;
+		}
+		die_start = GetTickCount64();
 		break;
 	case KOOPA_STATE_SHELL:
 		vx = 0;

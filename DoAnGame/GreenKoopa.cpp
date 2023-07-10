@@ -12,6 +12,7 @@
 #include "BreakBrickPiece.h"
 #include "PiranhaPlant.h"
 #include "P_Power.h"
+#include "Koopa.h"
 
 CGreenKoopa::CGreenKoopa(float x, float y, bool isHaveWing) : CGameObject(x,y)
 {
@@ -76,6 +77,9 @@ void CGreenKoopa::Render()
 			aniId = ID_ANI_GREEN_KOOPA_SHELL_ROLL_FLIP;
 		break;
 	}
+	case GREEN_KOOPA_STATE_JUMP_DIE:
+		aniId = ID_ANI_GREEN_KOOPA_SHELL_FLIP;
+		break;
 	default:
 		if (vx > 0)
 			aniId = ID_ANI_GREEN_KOOPA_WALKING_RIGHT;
@@ -112,6 +116,9 @@ void CGreenKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		}
 		else if (dynamic_cast<CPiranhaPlant*>(e->obj)) {
 			OnCollisionWithPiranhaPlant(e);
+		}
+		else if (dynamic_cast<CKoopa*>(e->obj)) {
+			OnCollisionWithKoopa(e);
 		}
 	}
 	if (!e->obj->IsBlocking()) return;
@@ -297,6 +304,13 @@ void CGreenKoopa::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 	}
 }
 
+void CGreenKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
+{
+	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
+
+	koopa->SetState(KOOPA_STATE_JUMP_DIE);
+}
+
 void CGreenKoopa::SetState(int state)
 {
 	CGameObject::SetState(state);
@@ -315,6 +329,21 @@ void CGreenKoopa::SetState(int state)
 		vy = 0;
 		ay = 0;
 		break;
+	case GREEN_KOOPA_STATE_JUMP_DIE:
+	{
+		if (px > x)
+		{
+			vx = -GREEN_KOOPA_WALKING_SPEED;
+			vy = -GREEN_KOOPA_JUMP_DIE_SPEED;
+		}
+		else if (px < x)
+		{
+			vx = -GREEN_KOOPA_WALKING_SPEED;
+			vy = -GREEN_KOOPA_JUMP_DIE_SPEED;
+		}
+		die_start = GetTickCount64();
+		break;
+	}
 	case GREEN_KOOPA_STATE_SHELL:
 		vx = 0;
 		vy = 0;
