@@ -283,6 +283,7 @@ class CMario : public CGameObject
 	void OnCollisionWithInvisibleBlock(LPCOLLISIONEVENT e);
 	void OnCollisionWithNode(LPCOLLISIONEVENT e);
 	void OnCollisionWithPipeTeleport(LPCOLLISIONEVENT e);
+	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdTanooki();

@@ -22,6 +22,8 @@
 #include "InvisibleBlock.h"
 #include "Node.h"
 #include "PipeTeleport.h"
+#include "Brick.h"
+#include "BreakBrickPiece.h"
 #include "PlayScene.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
@@ -330,6 +332,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 			OnCollisionWithInvisibleBlock(e);
 		else if (dynamic_cast<CPipeTeleport*>(e->obj))
 			OnCollisionWithPipeTeleport(e);
+		else if (dynamic_cast<CBrick*>(e->obj))
+			OnCollisionWithBrick(e);
 	}
 	else if (currentscene == 1)
 	{
@@ -345,7 +349,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
-	if (isTailAttacking)
+	if (isTailAttacking && (e->nx > 0 || e->nx < 0))
 	{
 		goomba->SetState(GOOMBA_STATE_DIE_JUMP);
 	}
@@ -387,9 +391,9 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithFlyGoomba(LPCOLLISIONEVENT e)
 {
 	CFlyGoomba* flygoomba = dynamic_cast<CFlyGoomba*>(e->obj);
-	if (isTailAttacking)
+	if (isTailAttacking && (e->nx > 0 || e->nx < 0))
 	{
-		flygoomba->SetState(FLYGOOMBA_STATE_DIE_JUMP);
+		flygoomba->SetState(FLYGOOMBA_STATE_DIE_JUMP );
 	}
 	else
 	{
@@ -803,6 +807,32 @@ void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 	coin++;
 }
 
+void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
+{
+	float bX, bY;
+
+	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+
+	CBrick* brick = dynamic_cast<CBrick*>(e->obj);
+	brick->GetPosition(bX, bY);
+	if ((e->nx > 0 || e->nx < 0) && brick->GetType() == 2 && isTailAttacking)
+	{
+		brick->Delete();
+		CBreakBrickPiece* piece_1 = new CBreakBrickPiece(bX, bY - PIECE_OFFSET);
+		piece_1->SetState(PIECE_STATE_LEFT);
+		CBreakBrickPiece* piece_2 = new CBreakBrickPiece(bX, bY + PIECE_OFFSET);
+		piece_2->SetState(PIECE_STATE_LEFT);
+		CBreakBrickPiece* piece_3 = new CBreakBrickPiece(bX, bY - PIECE_OFFSET);
+		piece_3->SetState(PIECE_STATE_RIGHT);
+		CBreakBrickPiece* piece_4 = new CBreakBrickPiece(bX, bY + PIECE_OFFSET);
+		piece_4->SetState(PIECE_STATE_RIGHT);
+
+		thisscene->AddObjectToScene(piece_1);
+		thisscene->AddObjectToScene(piece_2);
+		thisscene->AddObjectToScene(piece_3);
+		thisscene->AddObjectToScene(piece_4);
+	}
+}
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 {
 	CPortal* p = (CPortal*)e->obj;
@@ -833,33 +863,55 @@ void CMario::OnCollisionWithFireBall(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithVenusFireTrap(LPCOLLISIONEVENT e)
 {
 	if (untouchable) return;
-	if (level > MARIO_LEVEL_SMALL)
+	if (isTailAttacking)
 	{
-		DecreaseLevel();
-		StartUntouchable();
+		float Tx, Ty;
+		e->obj->GetPosition(Tx, Ty);
+		e->obj->Delete();
+		LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+		CEffect* effect = new CEffect(Tx, Ty);
+		thisscene->AddObjectToScene(effect);
 	}
 	else
 	{
-		DebugOut(L">>> Mario DIE >>> \n");
-		SetState(MARIO_STATE_DIE);
+		if (level > MARIO_LEVEL_SMALL)
+		{
+			DecreaseLevel();
+			StartUntouchable();
+		}
+		else
+		{
+			DebugOut(L">>> Mario DIE >>> \n");
+			SetState(MARIO_STATE_DIE);
+		}
 	}
-	
 }
 
 void CMario::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e)
 {
 	if (untouchable) return;
-	if (level > MARIO_LEVEL_SMALL)
+	if (isTailAttacking )
 	{
-		DecreaseLevel();
-		StartUntouchable();
+		float Tx, Ty;
+		e->obj->GetPosition(Tx, Ty);
+		e->obj->Delete();
+		LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+		CEffect* effect = new CEffect(Tx, Ty);
+		thisscene->AddObjectToScene(effect);
 	}
 	else
 	{
-		DebugOut(L">>> Mario DIE >>> \n");
-		SetState(MARIO_STATE_DIE);
+		if (level > MARIO_LEVEL_SMALL)
+		{
+			DecreaseLevel();
+			StartUntouchable();
+		}
+		else
+		{
+			DebugOut(L">>> Mario DIE >>> \n");
+			SetState(MARIO_STATE_DIE);
+		}
 	}
-
 }
 void CMario::OnCollisionWithInvisibleBlock(LPCOLLISIONEVENT e)
 {
