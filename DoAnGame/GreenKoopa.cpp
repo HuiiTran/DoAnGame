@@ -20,8 +20,10 @@ CGreenKoopa::CGreenKoopa(float x, float y, bool isHaveWing) : CGameObject(x,y)
 	nx = -1;
 	die_start = -1;
 	respawn_start = -1;
+	flip_start = -1;
 	isHolded = false;
 	mario_level = 1;
+	isFlip = false;
 	SetState(GREEN_KOOPA_STATE_WALKING);
 }
 void CGreenKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -53,15 +55,22 @@ void CGreenKoopa::Render()
 		aniId = ID_ANI_GREEN_KOOPA_RESPAWN;
 		break;
 	}
+	case GREEN_KOOPA_STATE_SHELL_FLIP:
 	case GREEN_KOOPA_STATE_SHELL:
 	case GREEN_KOOPA_STATE_SHELL_HOLD:
 	{
-		aniId = ID_ANI_GREEN_KOOPA_SHELL;
+		if(isFlip == false)
+			aniId = ID_ANI_GREEN_KOOPA_SHELL;
+		else
+			aniId = ID_ANI_GREEN_KOOPA_SHELL_FLIP;
 		break;
 	}
 	case GREEN_KOOPA_STATE_SHELL_SCROLL:
 	{
-		aniId = ID_ANI_GREEN_KOOPA_SHELL_ROLL;
+		if(isFlip == false)
+			aniId = ID_ANI_GREEN_KOOPA_SHELL_ROLL;
+		else
+			aniId = ID_ANI_GREEN_KOOPA_SHELL_ROLL_FLIP;
 		break;
 	}
 	default:
@@ -288,6 +297,12 @@ void CGreenKoopa::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 void CGreenKoopa::SetState(int state)
 {
 	CGameObject::SetState(state);
+
+	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+	LPGAMEOBJECT player = thisscene->GetPlayer();
+
+	float px, py;
+	player->GetPosition(px, py);
 	switch (state)
 	{
 	case GREEN_KOOPA_STATE_DIE:
@@ -302,6 +317,22 @@ void CGreenKoopa::SetState(int state)
 		vy = 0;
 		respawn_start = GetTickCount64();
 		break;
+	case GREEN_KOOPA_STATE_SHELL_FLIP:
+	{
+		if (px > x)
+		{
+			vx = -GREEN_KOOPA_WALKING_SPEED;
+			vy = -GREEN_KOOPA_JUMP_DIE_SPEED;
+		}
+		else if (px < x)
+		{
+			vx = GREEN_KOOPA_WALKING_SPEED;
+			vy = -GREEN_KOOPA_JUMP_DIE_SPEED;
+		}
+		flip_start = GetTickCount64();
+		break;
+		break;
+	}
 	case GREEN_KOOPA_STATE_RESPAWN:
 		respawn_end = GetTickCount64();
 		isRespawning = true;
@@ -343,6 +374,12 @@ void CGreenKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if ((state == GREEN_KOOPA_STATE_DIE))
 	{
 		isDeleted = true;
+		return;
+	}
+
+	if ((state == GREEN_KOOPA_STATE_SHELL_FLIP) && GetTickCount64() - flip_start > 500)
+	{
+		SetState(GREEN_KOOPA_STATE_SHELL);
 		return;
 	}
 	if ((state == GREEN_KOOPA_STATE_SHELL) && (GetTickCount64() - respawn_start > GREEN_KOOPA_RESPAWN_START_TIME))

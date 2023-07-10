@@ -23,14 +23,21 @@
 #define GREEN_KOOPA_STATE_DIE 6
 #define GREEN_KOOPA_STATE_JUMP_DIE 7
 #define GREEN_KOOPA_STATE_CHANGE_DIRECT 8
+#define GREEN_KOOPA_STATE_SHELL_FLIP	9
 
 #define GREEN_KOOPA_RESPAWN_START_TIME 5000
 #define GREEN_KOOPA_RESPAWN_TIME 3000
 #define GREEN_KOOPA_JUMP_DIE_TIMEOUT 1000
 
 #define ID_ANI_GREEN_KOOPA_RESPAWN 210001
+#define ID_ANI_GREEN_KOOPA_RESPAWN_FLIP 210011
+
 #define ID_ANI_GREEN_KOOPA_SHELL 210002
+#define ID_ANI_GREEN_KOOPA_SHELL_FLIP 210012
+
 #define ID_ANI_GREEN_KOOPA_SHELL_ROLL 210003
+#define ID_ANI_GREEN_KOOPA_SHELL_ROLL_FLIP 210013
+
 #define ID_ANI_GREEN_KOOPA_WALKING_RIGHT 210010
 #define ID_ANI_GREEN_KOOPA_WALKING_LEFT 210020
 
@@ -41,6 +48,7 @@ class CGreenKoopa : public CGameObject
 protected:
 	float ax;
 	float ay;
+	bool isFlip;
 
 	int mario_level;
 	bool isRespawning;
@@ -50,7 +58,7 @@ protected:
 	ULONGLONG die_start;
 	ULONGLONG respawn_start;
 	ULONGLONG respawn_end;
-
+	ULONGLONG flip_start;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Render();
 
@@ -81,5 +89,7 @@ public:
 	};
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+
+	void SetisFlip(bool isFlip) { this->isFlip = isFlip; }
 };
 
