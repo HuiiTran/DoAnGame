@@ -1,5 +1,5 @@
 #include "FlyGoomba.h"
-
+#include "Effect.h"
 CFlyGoomba::CFlyGoomba(float x, float y)
 {
 	this->ax = 0;
@@ -23,16 +23,21 @@ void CFlyGoomba::SetState(int state)
 	switch (state)
 	{
 	case FLYGOOMBA_STATE_DIE:
+	{
 		die_start = GetTickCount64();
 		y += (FLYGOOMBA_BBOX_HEIGHT - FLYGOOMBA_BBOX_HEIGHT_DIE) / 2;
 		vx = 0;
 		vy = 0;
 		ay = 0;
+		CEffect* effect = new CEffect(x + 10, y, FLYGOOMBA_SCORE);
+		thisscene->AddObjectToScene(effect);
 		break;
+	}
 	case FLYGOOMBA_STATE_DIE_JUMP:
+	{
 		die_start = GetTickCount64();
 		//y += (FLYGOOMBA_BBOX_HEIGHT - FLYGOOMBA_BBOX_HEIGHT_DIE) / 2;
-		if(px > x)
+		if (px > x)
 		{
 			vx = -FLYGOOMBA_WALKING_SPEED;
 			vy = -FLYGOOMBA_JUMP_DIE_SPEED;
@@ -42,7 +47,10 @@ void CFlyGoomba::SetState(int state)
 			vx = FLYGOOMBA_WALKING_SPEED;
 			vy = -FLYGOOMBA_JUMP_DIE_SPEED;
 		}
+		CEffect* effect = new CEffect(x + 10, y, FLYGOOMBA_SCORE);
+		thisscene->AddObjectToScene(effect);
 		break;
+	}
 	case FLYGOOMBA_STATE_WALKING:
 		vx = FLYGOOMBA_WALKING_SPEED * nx;
 		break;

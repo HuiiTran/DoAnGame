@@ -1,5 +1,5 @@
 #include "Goomba.h"
-
+#include "Effect.h"
 CGoomba::CGoomba(float x, float y):CGameObject(x, y)
 {
 	this->ax = 0;
@@ -98,12 +98,16 @@ void CGoomba::SetState(int state)
 	switch (state)
 	{
 		case GOOMBA_STATE_DIE:
+		{
 			die_start = GetTickCount64();
-			y += (GOOMBA_BBOX_HEIGHT - GOOMBA_BBOX_HEIGHT_DIE)/2;
+			y += (GOOMBA_BBOX_HEIGHT - GOOMBA_BBOX_HEIGHT_DIE) / 2;
 			vx = 0;
 			vy = 0;
-			ay = 0; 
-			break;
+			ay = 0;
+			CEffect* effect = new CEffect(x + 10, y, GOOMBA_SCORE);
+			thisscene->AddObjectToScene(effect);
+		break;
+		}
 		case GOOMBA_STATE_DIE_JUMP:
 		{
 			if (px > x)
@@ -117,6 +121,8 @@ void CGoomba::SetState(int state)
 				vy = -GOOMBA_JUMP_DIE_SPEED;
 			}
 			die_start = GetTickCount64();
+			CEffect* effect = new CEffect(x + 10, y, GOOMBA_SCORE);
+			thisscene->AddObjectToScene(effect);
 			break;
 		}
 		case GOOMBA_STATE_WALKING: 

@@ -45,6 +45,7 @@
 #define KOOPA_Y_OFFSET	15
 #define KOOPA_X_OFFSET	13
 
+#define KOOPA_SCORE	100
 class CKoopa : public CGameObject
 {
 protected:

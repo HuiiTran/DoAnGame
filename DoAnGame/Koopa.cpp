@@ -104,7 +104,7 @@ void CKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 
 	if (state == KOOPA_STATE_SHELL_SCROLL || state == KOOPA_STATE_SHELL_HOLD)
 	{
-		if (goomba->GetState() != GOOMBA_STATE_DIE)
+		if (goomba->GetState() != GOOMBA_STATE_DIE && goomba->GetState() != GOOMBA_STATE_DIE_JUMP)
 		{
 			goomba->SetState(GOOMBA_STATE_DIE_JUMP);
 		}
@@ -117,7 +117,7 @@ void CKoopa::OnCollisionWithFlyGoomba(LPCOLLISIONEVENT e)
 
 	if (state == KOOPA_STATE_SHELL_SCROLL || state == KOOPA_STATE_SHELL_HOLD)
 	{
-		if (Flygoomba->GetState() != FLYGOOMBA_STATE_DIE)
+		if (Flygoomba->GetState() != FLYGOOMBA_STATE_DIE && Flygoomba->GetState() != FLYGOOMBA_STATE_DIE_JUMP)
 		{
 			Flygoomba->SetState(FLYGOOMBA_STATE_DIE_JUMP);
 		}
@@ -426,13 +426,18 @@ void CKoopa::SetState(int state)
 	switch (state)
 	{
 	case KOOPA_STATE_DIE:
+	{
 		die_start = GetTickCount64();
 		y += (KOOPA_BBOX_HEIGHT - KOOPA_BBOX_SHELL_HEIGHT) / 2;
 		vx = 0;
 		vy = 0;
 		ay = 0;
+		CEffect* effect = new CEffect(x + 10, y, KOOPA_SCORE);
+		thisscene->AddObjectToScene(effect);
 		break;
+	}
 	case KOOPA_STATE_JUMP_DIE:
+	{
 		if (px > x)
 		{
 			vx = -KOOPA_WALKING_SPEED;
@@ -444,7 +449,10 @@ void CKoopa::SetState(int state)
 			vy = -KOOPA_JUMP_DIE_SPEED;
 		}
 		die_start = GetTickCount64();
+		CEffect* effect = new CEffect(x + 10, y, KOOPA_SCORE);
+		thisscene->AddObjectToScene(effect);
 		break;
+	}
 	case KOOPA_STATE_SHELL:
 		vx = 0;
 		vy = 0;

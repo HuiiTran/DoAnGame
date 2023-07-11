@@ -140,7 +140,7 @@ void CGreenKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 
 	if (state == GREEN_KOOPA_STATE_SHELL_SCROLL || state == GREEN_KOOPA_STATE_SHELL_HOLD)
 	{
-		if (goomba->GetState() != GOOMBA_STATE_DIE)
+		if (goomba->GetState() != GOOMBA_STATE_DIE && goomba->GetState() != GOOMBA_STATE_DIE_JUMP)
 		{
 			goomba->SetState(GOOMBA_STATE_DIE_JUMP);
 		}
@@ -153,7 +153,7 @@ void CGreenKoopa::OnCollisionWithFlyGoomba(LPCOLLISIONEVENT e)
 
 	if (state == GREEN_KOOPA_STATE_SHELL_SCROLL || state == GREEN_KOOPA_STATE_SHELL_HOLD)
 	{
-		if (Flygoomba->GetState() != FLYGOOMBA_STATE_DIE)
+		if (Flygoomba->GetState() != FLYGOOMBA_STATE_DIE && Flygoomba->GetState() != FLYGOOMBA_STATE_DIE_JUMP)
 		{
 			Flygoomba->SetState(FLYGOOMBA_STATE_DIE_JUMP);
 		}
@@ -264,7 +264,9 @@ void CGreenKoopa::OnCollisionWithVenusFireTrap(LPCOLLISIONEVENT e)
 	e->obj->Delete();
 	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
 	CEffect* effect = new CEffect(Tx, Ty);
+	CEffect* score = new CEffect(Tx, Ty,VENUSFIRETRAP_SCORE);
 	thisscene->AddObjectToScene(effect);
+	thisscene->AddObjectToScene(score);
 }
 
 void CGreenKoopa::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e)
@@ -274,7 +276,10 @@ void CGreenKoopa::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e)
 	e->obj->Delete();
 	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
 	CEffect* effect = new CEffect(Tx, Ty);
+	CEffect* score = new CEffect(Tx, Ty, PIRANHA_PLANT_SCORE);
 	thisscene->AddObjectToScene(effect);
+	thisscene->AddObjectToScene(score);
+
 }
 
 void CGreenKoopa::OnCollisionWithBrick(LPCOLLISIONEVENT e)
@@ -323,12 +328,16 @@ void CGreenKoopa::SetState(int state)
 	switch (state)
 	{
 	case GREEN_KOOPA_STATE_DIE:
+	{
 		die_start = GetTickCount64();
 		y += (GREEN_KOOPA_BBOX_HEIGHT - GREEN_KOOPA_BBOX_SHELL_HEIGHT) / 2;
 		vx = 0;
 		vy = 0;
 		ay = 0;
+		CEffect* effect = new CEffect(x + 10, y, GREEN_KOOPA_SCORE);
+		thisscene->AddObjectToScene(effect);
 		break;
+	}
 	case GREEN_KOOPA_STATE_JUMP_DIE:
 	{
 		if (px > x)
@@ -342,6 +351,8 @@ void CGreenKoopa::SetState(int state)
 			vy = -GREEN_KOOPA_JUMP_DIE_SPEED;
 		}
 		die_start = GetTickCount64();
+		CEffect* effect = new CEffect(x + 10, y, GREEN_KOOPA_SCORE);
+		thisscene->AddObjectToScene(effect);
 		break;
 	}
 	case GREEN_KOOPA_STATE_SHELL:

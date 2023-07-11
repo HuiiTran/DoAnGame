@@ -486,6 +486,10 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 					vy = -MARIO_JUMP_DEFLECT_SPEED / 2;
 				else
 					vy = -MARIO_JUMP_DEFLECT_SPEED;
+
+				LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+				CEffect* effect = new CEffect(x + 10, y, KOOPA_SCORE);
+				thisscene->AddObjectToScene(effect);
 			}
 			else
 			{
@@ -510,6 +514,10 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 				}
 				koopa->SetState(KOOPA_STATE_SHELL_SCROLL);
+
+				LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+				CEffect* effect = new CEffect(x + 10, y, KOOPA_SCORE);
+				thisscene->AddObjectToScene(effect);
 			}
 		}
 		else if (nx > 0 && koopa->GetState() == KOOPA_STATE_SHELL && isHolding == false)
@@ -596,6 +604,9 @@ void CMario::OnCollisionWithGreenKoopa(LPCOLLISIONEVENT e)
 					vy = -MARIO_JUMP_DEFLECT_SPEED / 2;
 				else
 					vy = -MARIO_JUMP_DEFLECT_SPEED;
+				LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+				CEffect* effect = new CEffect(x + 10, y, GREEN_KOOPA_SCORE);
+				thisscene->AddObjectToScene(effect);
 			}
 			else
 			{
@@ -620,6 +631,10 @@ void CMario::OnCollisionWithGreenKoopa(LPCOLLISIONEVENT e)
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 				}
 				greenkoopa->SetState(GREEN_KOOPA_STATE_SHELL_SCROLL);
+
+				LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+				CEffect* effect = new CEffect(x + 10, y, GREEN_KOOPA_SCORE);
+				thisscene->AddObjectToScene(effect);
 			}
 		}
 		else if (nx > 0 && greenkoopa->GetState() == GREEN_KOOPA_STATE_SHELL && isHolding == false)
@@ -698,7 +713,8 @@ void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 
 			questionbrick->SetPosition(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
 			coin++;
-			CEffect* effect = new CEffect(questionbrick_x + COIN_WIDTH, questionbrick_y - 2 * QUESTIONBRICK_UP, 100);
+			//score
+			CEffect* effect = new CEffect(questionbrick_x + COIN_WIDTH / 2, questionbrick_y - 2 * QUESTIONBRICK_UP, 100);
 			thisscene->AddObjectToScene(effect);
 		}
 		if ((questionbrick->GetBrickType() == 1 && this->level == MARIO_LEVEL_SMALL) || (questionbrick->GetBrickType() == 2 && this->level == MARIO_LEVEL_SMALL)) //mushroom
@@ -786,6 +802,12 @@ void CMario::OnCollisionWithMushRoom(LPCOLLISIONEVENT e)
 	
 	if (mushroom->Gettype() == 0)
 	{
+		float mX, mY;
+		mushroom->GetPosition(mX, mY);
+		LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+
+		CEffect* effect = new CEffect(mX + 10, mY, MUSHROOM_SCORE);
+		thisscene->AddObjectToScene(effect);
 		if (this->level == MARIO_LEVEL_SMALL)
 			{
 				y -= 10;
@@ -811,6 +833,14 @@ void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)
 		y -= 10;
 		SetLevel(MARIO_LEVEL_TANOOKI);
 	}
+	float lX, lY;
+	leaf->GetPosition(lX, lY);
+	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+
+	CEffect* effect = new CEffect(lX, lY, LEAF_SCORE);
+	thisscene->AddObjectToScene(effect);
+
+
 	leaf->Delete();
 }
 void CMario::OnCollisionWithPPOWER(LPCOLLISIONEVENT e)
@@ -894,7 +924,10 @@ void CMario::OnCollisionWithVenusFireTrap(LPCOLLISIONEVENT e)
 		e->obj->Delete();
 		LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
 		CEffect* effect = new CEffect(Tx, Ty);
+		CEffect* score = new CEffect(Tx, Ty, VENUSFIRETRAP_SCORE);
 		thisscene->AddObjectToScene(effect);
+		thisscene->AddObjectToScene(score);
+
 	}
 	else
 	{
@@ -921,7 +954,9 @@ void CMario::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e)
 		e->obj->Delete();
 		LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
 		CEffect* effect = new CEffect(Tx, Ty);
+		CEffect* score = new CEffect(Tx, Ty, PIRANHA_PLANT_SCORE);
 		thisscene->AddObjectToScene(effect);
+		thisscene->AddObjectToScene(score);
 	}
 	else
 	{

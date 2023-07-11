@@ -33,6 +33,8 @@
 #define WALKING_TIME 1000
 #define JUMP_TIME 500
 #define FLY_TIME 500
+
+#define FLYGOOMBA_SCORE	100
 class CFlyGoomba : public CGameObject
 {
 protected:

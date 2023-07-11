@@ -18,6 +18,7 @@
 #define LEAF_FALL_STATE 2
 #define LEAF_CHANGE_DIREC_STATE 3
 
+#define LEAF_SCORE	1000
 class CLeaf : public CGameObject
 {
 protected:

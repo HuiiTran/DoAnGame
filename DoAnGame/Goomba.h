@@ -19,6 +19,7 @@
 #define ID_ANI_GOOMBA_DIE 5001
 #define ID_ANI_GOOMBA_DIE_JUMP 5002
 
+#define GOOMBA_SCORE 100
 class CGoomba : public CGameObject
 {
 protected:

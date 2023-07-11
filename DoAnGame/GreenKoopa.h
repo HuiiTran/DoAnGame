@@ -43,6 +43,8 @@
 
 #define GREEN_KOOPA_Y_OFFSET	15
 #define GREEN_KOOPA_X_OFFSET	13
+
+#define GREEN_KOOPA_SCORE	100
 class CGreenKoopa : public CGameObject
 {
 protected:

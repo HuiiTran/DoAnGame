@@ -26,6 +26,8 @@
 #define VENUSFIRETRAP_HIDE_TIME	3000
 #define VENUSFIRETRAP_SHOW_TIME	2000
 #define VENUSFIRETRAP_FIRE_TIME	1000
+
+#define VENUSFIRETRAP_SCORE	100
 class CVenusFireTrap : public CGameObject
 {
 public:

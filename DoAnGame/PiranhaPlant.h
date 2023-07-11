@@ -22,6 +22,9 @@
 #define PIRANHA_PLANT_SHOW_TIME	1000
 #define PIRANHA_PLANT_BITE_TIME	500
 
+#define PIRANHA_PLANT_SCORE	100
+
+
 class CPiranhaPlant : public CGameObject
 {
 protected:
