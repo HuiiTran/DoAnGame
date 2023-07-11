@@ -1,5 +1,6 @@
 #include "Goomba.h"
 #include "Effect.h"
+#include "PlayScene.h"
 CGoomba::CGoomba(float x, float y):CGameObject(x, y)
 {
 	this->ax = 0;
@@ -92,7 +93,7 @@ void CGoomba::SetState(int state)
 
 	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
 	LPGAMEOBJECT player = thisscene->GetPlayer();
-
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	float px, py;
 	player->GetPosition(px, py);
 	switch (state)
@@ -105,6 +106,7 @@ void CGoomba::SetState(int state)
 			vy = 0;
 			ay = 0;
 			CEffect* effect = new CEffect(x + 10, y, GOOMBA_SCORE);
+			mario->SetMScore(GOOMBA_SCORE);
 			thisscene->AddObjectToScene(effect);
 		break;
 		}
@@ -123,6 +125,7 @@ void CGoomba::SetState(int state)
 			die_start = GetTickCount64();
 			CEffect* effect = new CEffect(x + 10, y, GOOMBA_SCORE);
 			thisscene->AddObjectToScene(effect);
+			mario->SetMScore(GOOMBA_SCORE);
 			break;
 		}
 		case GOOMBA_STATE_WALKING: 

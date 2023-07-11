@@ -13,7 +13,7 @@
 #include "PiranhaPlant.h"
 #include "P_Power.h"
 #include "GreenKoopa.h"
-
+#include "PlayScene.h"
 CKoopa::CKoopa(float x, float y, bool isHaveWing) :CGameObject(x, y)
 {
 	fallwarning = new CFallWarning(x - KOOPA_BBOX_WIDTH + KOOPA_X_OFFSET, y - KOOPA_BBOX_HEIGHT + KOOPA_Y_OFFSET);
@@ -236,8 +236,9 @@ void CKoopa::OnCollisionWithVenusFireTrap(LPCOLLISIONEVENT e)
 	e->obj->GetPosition(Tx, Ty);
 	e->obj->Delete();
 	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	CEffect* effect = new CEffect(Tx, Ty);
-	CEffect* score = new CEffect(Tx, Ty,VENUSFIRETRAP_SCORE);
+	CEffect* score = new CEffect(Tx, Ty,VENUSFIRETRAP_SCORE);mario->SetMScore(VENUSFIRETRAP_SCORE);
 	thisscene->AddObjectToScene(effect);
 	thisscene->AddObjectToScene(score);
 }
@@ -247,8 +248,10 @@ void CKoopa::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e)
 	e->obj->GetPosition(Tx, Ty);
 	e->obj->Delete();
 	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	CEffect* effect = new CEffect(Tx, Ty);
 	CEffect* score = new CEffect(Tx, Ty,PIRANHA_PLANT_SCORE);
+	mario->SetMScore(PIRANHA_PLANT_SCORE);
 	thisscene->AddObjectToScene(effect);
 	thisscene->AddObjectToScene(score);
 }
@@ -424,7 +427,7 @@ void CKoopa::SetState(int state)
 
 	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
 	LPGAMEOBJECT player = thisscene->GetPlayer();
-
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	float px, py;
 	player->GetPosition(px, py);
 	switch (state)
@@ -438,6 +441,7 @@ void CKoopa::SetState(int state)
 		ay = 0;
 		CEffect* effect = new CEffect(x + 10, y, KOOPA_SCORE);
 		thisscene->AddObjectToScene(effect);
+		mario->SetMScore(KOOPA_SCORE);
 		break;
 	}
 	case KOOPA_STATE_JUMP_DIE:
@@ -455,6 +459,7 @@ void CKoopa::SetState(int state)
 		die_start = GetTickCount64();
 		CEffect* effect = new CEffect(x + 10, y, KOOPA_SCORE);
 		thisscene->AddObjectToScene(effect);
+		mario->SetMScore(KOOPA_SCORE);
 		break;
 	}
 	case KOOPA_STATE_SHELL:

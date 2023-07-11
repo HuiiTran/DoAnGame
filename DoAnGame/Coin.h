@@ -13,6 +13,8 @@
 #define COIN_UP 3.0f
 
 #define COIN_SPEED 0.169f
+
+#define COIN_SCORE	100
 class CCoin : public CGameObject {
 	int isInQuestionB = 0; //0: normal, 1: in questionbrick
 	bool isFly = false;

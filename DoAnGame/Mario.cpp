@@ -28,7 +28,7 @@
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	DebugOutTitle(L"%d", isTailAttacking);
+	DebugOutTitle(L"%d", MScore);
 	int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
 	if (currentscene == 1)
 	{
@@ -355,6 +355,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 	if (isTailAttacking && (e->nx > 0 || e->nx < 0))
 	{
 		goomba->SetState(GOOMBA_STATE_DIE_JUMP);
+		
 	}
 	else
 	{
@@ -398,7 +399,7 @@ void CMario::OnCollisionWithFlyGoomba(LPCOLLISIONEVENT e)
 		return;
 	if (isTailAttacking && (e->nx > 0 || e->nx < 0))
 	{
-		flygoomba->SetState(FLYGOOMBA_STATE_DIE_JUMP );
+		flygoomba->SetState(FLYGOOMBA_STATE_DIE_JUMP);
 	}
 	else
 	{
@@ -413,6 +414,7 @@ void CMario::OnCollisionWithFlyGoomba(LPCOLLISIONEVENT e)
 				if (flygoomba->GetState() == FLYGOOMBA_STATE_WING_FLY || flygoomba->GetState() == FLYGOOMBA_STATE_WING_JUMPFLY || flygoomba->GetState() == FLYGOOMBA_STATE_WING_WALKING)
 				{
 					flygoomba->SetState(FLYGOOMBA_STATE_WALKING);
+					MScore += FLYGOOMBA_SCORE;
 				}
 				else if (flygoomba->GetState() == FLYGOOMBA_STATE_WALKING)
 				{
@@ -490,6 +492,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 				LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
 				CEffect* effect = new CEffect(x + 10, y, KOOPA_SCORE);
 				thisscene->AddObjectToScene(effect);
+				MScore += FLYGOOMBA_SCORE;
 			}
 			else
 			{
@@ -518,6 +521,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 				LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
 				CEffect* effect = new CEffect(x + 10, y, KOOPA_SCORE);
 				thisscene->AddObjectToScene(effect);
+				MScore += FLYGOOMBA_SCORE;
 			}
 		}
 		else if (nx > 0 && koopa->GetState() == KOOPA_STATE_SHELL && isHolding == false)
@@ -714,8 +718,9 @@ void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 			questionbrick->SetPosition(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
 			coin++;
 			//score
-			CEffect* effect = new CEffect(questionbrick_x + COIN_WIDTH / 2, questionbrick_y - 2 * QUESTIONBRICK_UP, 100);
+			CEffect* effect = new CEffect(questionbrick_x + COIN_WIDTH / 2, questionbrick_y - 2 * QUESTIONBRICK_UP, COIN_SCORE);
 			thisscene->AddObjectToScene(effect);
+			MScore += COIN_SCORE;
 		}
 		if ((questionbrick->GetBrickType() == 1 && this->level == MARIO_LEVEL_SMALL) || (questionbrick->GetBrickType() == 2 && this->level == MARIO_LEVEL_SMALL)) //mushroom
 		{
@@ -809,10 +814,11 @@ void CMario::OnCollisionWithMushRoom(LPCOLLISIONEVENT e)
 		CEffect* effect = new CEffect(mX + 10, mY, MUSHROOM_SCORE);
 		thisscene->AddObjectToScene(effect);
 		if (this->level == MARIO_LEVEL_SMALL)
-			{
-				y -= 10;
-				SetLevel(MARIO_LEVEL_BIG);
-			}
+		{
+			y -= 10;
+			SetLevel(MARIO_LEVEL_BIG);
+		}
+		MScore += MUSHROOM_SCORE;
 	}
 	else
 	{
@@ -839,7 +845,7 @@ void CMario::OnCollisionWithLeaf(LPCOLLISIONEVENT e)
 
 	CEffect* effect = new CEffect(lX, lY, LEAF_SCORE);
 	thisscene->AddObjectToScene(effect);
-
+	MScore += LEAF_SCORE;
 
 	leaf->Delete();
 }
@@ -856,6 +862,7 @@ void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {
 	e->obj->Delete();
 	coin++;
+	MScore += COIN_SCORE / 2;
 }
 
 void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
@@ -927,7 +934,7 @@ void CMario::OnCollisionWithVenusFireTrap(LPCOLLISIONEVENT e)
 		CEffect* score = new CEffect(Tx, Ty, VENUSFIRETRAP_SCORE);
 		thisscene->AddObjectToScene(effect);
 		thisscene->AddObjectToScene(score);
-
+		MScore += VENUSFIRETRAP_SCORE;
 	}
 	else
 	{
@@ -957,6 +964,7 @@ void CMario::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e)
 		CEffect* score = new CEffect(Tx, Ty, PIRANHA_PLANT_SCORE);
 		thisscene->AddObjectToScene(effect);
 		thisscene->AddObjectToScene(score);
+		MScore += PIRANHA_PLANT_SCORE;
 	}
 	else
 	{

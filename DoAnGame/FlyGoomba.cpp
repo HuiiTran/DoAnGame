@@ -1,5 +1,6 @@
 #include "FlyGoomba.h"
 #include "Effect.h"
+#include "PlayScene.h"
 CFlyGoomba::CFlyGoomba(float x, float y)
 {
 	this->ax = 0;
@@ -17,6 +18,7 @@ void CFlyGoomba::SetState(int state)
 
 	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
 	LPGAMEOBJECT player = thisscene->GetPlayer();
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 
 	float px, py;
 	player->GetPosition(px, py);
@@ -31,6 +33,7 @@ void CFlyGoomba::SetState(int state)
 		ay = 0;
 		CEffect* effect = new CEffect(x + 10, y, FLYGOOMBA_SCORE);
 		thisscene->AddObjectToScene(effect);
+		mario->SetMScore(FLYGOOMBA_SCORE);
 		break;
 	}
 	case FLYGOOMBA_STATE_DIE_JUMP:
@@ -49,6 +52,7 @@ void CFlyGoomba::SetState(int state)
 		}
 		CEffect* effect = new CEffect(x + 10, y, FLYGOOMBA_SCORE);
 		thisscene->AddObjectToScene(effect);
+		mario->SetMScore(FLYGOOMBA_SCORE);
 		break;
 	}
 	case FLYGOOMBA_STATE_WALKING:

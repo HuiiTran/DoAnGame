@@ -13,7 +13,7 @@
 #include "PiranhaPlant.h"
 #include "P_Power.h"
 #include "Koopa.h"
-
+#include "PlayScene.h"
 CGreenKoopa::CGreenKoopa(float x, float y, bool isHaveWing) : CGameObject(x,y)
 {
 	this->ax = 0;
@@ -263,8 +263,10 @@ void CGreenKoopa::OnCollisionWithVenusFireTrap(LPCOLLISIONEVENT e)
 	e->obj->GetPosition(Tx, Ty);
 	e->obj->Delete();
 	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	CEffect* effect = new CEffect(Tx, Ty);
 	CEffect* score = new CEffect(Tx, Ty,VENUSFIRETRAP_SCORE);
+	mario->SetMScore(VENUSFIRETRAP_SCORE);
 	thisscene->AddObjectToScene(effect);
 	thisscene->AddObjectToScene(score);
 }
@@ -275,8 +277,10 @@ void CGreenKoopa::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e)
 	e->obj->GetPosition(Tx, Ty);
 	e->obj->Delete();
 	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	CEffect* effect = new CEffect(Tx, Ty);
 	CEffect* score = new CEffect(Tx, Ty, PIRANHA_PLANT_SCORE);
+	mario->SetMScore(PIRANHA_PLANT_SCORE);
 	thisscene->AddObjectToScene(effect);
 	thisscene->AddObjectToScene(score);
 
@@ -322,6 +326,7 @@ void CGreenKoopa::SetState(int state)
 
 	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
 	LPGAMEOBJECT player = thisscene->GetPlayer();
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 
 	float px, py;
 	player->GetPosition(px, py);
@@ -336,6 +341,7 @@ void CGreenKoopa::SetState(int state)
 		ay = 0;
 		CEffect* effect = new CEffect(x + 10, y, GREEN_KOOPA_SCORE);
 		thisscene->AddObjectToScene(effect);
+		mario->SetMScore(GREEN_KOOPA_SCORE);
 		break;
 	}
 	case GREEN_KOOPA_STATE_JUMP_DIE:
@@ -353,6 +359,7 @@ void CGreenKoopa::SetState(int state)
 		die_start = GetTickCount64();
 		CEffect* effect = new CEffect(x + 10, y, GREEN_KOOPA_SCORE);
 		thisscene->AddObjectToScene(effect);
+		mario->SetMScore(GREEN_KOOPA_SCORE);
 		break;
 	}
 	case GREEN_KOOPA_STATE_SHELL:
