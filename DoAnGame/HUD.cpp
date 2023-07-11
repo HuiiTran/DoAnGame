@@ -78,6 +78,7 @@ void CHUD::Render()
 		PrintNumber(coin / 10, x + COIN_TENS_OFFSET_X, y + COIN_OFFSET_Y);
 	}
 	PrintNumber(coin % 10, x + COIN_UNIT_OFFSET_X, y + COIN_OFFSET_Y);
+
 	//Print score
 	int score = mario->GetMScore();
 	PrintNumber(score		% 10, x - SCORE_OFFSET_X - SCORE_SPACE_OFFSET_X * 0, y + SCORE_OFFSET_Y); // unit
@@ -88,4 +89,11 @@ void CHUD::Render()
 	PrintNumber(score / 100000 % 10, x - SCORE_OFFSET_X - SCORE_SPACE_OFFSET_X * 5, y + SCORE_OFFSET_Y);
 	PrintNumber(score / 1000000 % 10, x - SCORE_OFFSET_X - SCORE_SPACE_OFFSET_X * 6, y + SCORE_OFFSET_Y);
 
+	//Print life
+	int life = mario->GetMLife();
+	if (life / 10 > 0)
+	{
+		PrintNumber(life / 10, x - LIFE_OFFSET_X - LIFE_SPACE_OFFSET_X, y + LIFE_OFFSET_Y);
+	}
+	PrintNumber(life % 10, x - LIFE_OFFSET_X, y + LIFE_OFFSET_Y);
 }

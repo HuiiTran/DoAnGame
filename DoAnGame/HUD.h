@@ -50,6 +50,8 @@
 #define SCORE_SPACE_OFFSET_X 8
 
 #define LIFE_OFFSET_X	75
+#define LIFE_OFFSET_Y	14
+#define LIFE_SPACE_OFFSET_X 8
 
 class CHUD
 {

@@ -828,6 +828,7 @@ void CMario::OnCollisionWithMushRoom(LPCOLLISIONEVENT e)
 
 		CEffect* effect = new CEffect(mX, mY, 2);
 		thisscene->AddObjectToScene(effect);
+		this->MLife += 1;
 	}
 	mushroom->Delete();
 }

@@ -256,8 +256,10 @@ class CMario : public CGameObject
 	ULONGLONG start_die;
 	ULONGLONG start_usingPipe;
 	ULONGLONG start_tailattack;
+
 	int coin; 
 	int MScore;
+	int MLife;
 	//world map mario/////////
 	bool isAllowLeft = 0;
 	bool isAllowRight = 1;
@@ -310,6 +312,7 @@ public:
 		isOnPlatform = false;
 		coin = 0;
 		MScore = 0;
+		MLife = 4;
 
 		isKicking = false;
 		start_kick = -1;
@@ -352,6 +355,8 @@ public:
 
 	int GetMScore() { return this->MScore; }
 	void SetMScore(int MScore) { this->MScore += MScore; }
+
+	int GetMLife() { return this->MLife; }
 
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 	void StartWait() { wait = GetTickCount64(); }
