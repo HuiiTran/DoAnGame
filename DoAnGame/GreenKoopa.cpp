@@ -155,7 +155,10 @@ void CGreenKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 void CGreenKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
-
+	if (goomba->GetState() == GOOMBA_STATE_DIE_JUMP)
+	{
+		return;
+	}
 	if (state == GREEN_KOOPA_STATE_SHELL_SCROLL || state == GREEN_KOOPA_STATE_SHELL_HOLD)
 	{
 		if (goomba->GetState() != GOOMBA_STATE_DIE && goomba->GetState() != GOOMBA_STATE_DIE_JUMP)
@@ -168,7 +171,10 @@ void CGreenKoopa::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 void CGreenKoopa::OnCollisionWithFlyGoomba(LPCOLLISIONEVENT e)
 {
 	CFlyGoomba* Flygoomba = dynamic_cast<CFlyGoomba*>(e->obj);
-
+	if (Flygoomba->GetState() == FLYGOOMBA_STATE_DIE_JUMP)
+	{
+		return;
+	}
 	if (state == GREEN_KOOPA_STATE_SHELL_SCROLL || state == GREEN_KOOPA_STATE_SHELL_HOLD)
 	{
 		if (Flygoomba->GetState() != FLYGOOMBA_STATE_DIE && Flygoomba->GetState() != FLYGOOMBA_STATE_DIE_JUMP)
@@ -334,14 +340,16 @@ void CGreenKoopa::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 void CGreenKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 {
 	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
-
+	if (koopa->GetState() == KOOPA_STATE_JUMP_DIE)
+		return;
 	koopa->SetState(KOOPA_STATE_JUMP_DIE);
 }
 
 void CGreenKoopa::OnCollisionWithGreenKoopa(LPCOLLISIONEVENT e)
 {
 	CGreenKoopa* greenkoopa = dynamic_cast<CGreenKoopa*>(e->obj);
-
+	if (greenkoopa->GetState() == GREEN_KOOPA_STATE_JUMP_DIE)
+		return;
 	if (state == KOOPA_STATE_SHELL_SCROLL || state == KOOPA_STATE_SHELL_HOLD)
 	{
 		if (greenkoopa->GetState() != GREEN_KOOPA_STATE_DIE)
@@ -381,11 +389,13 @@ void CGreenKoopa::SetState(int state)
 		{
 			vx = -GREEN_KOOPA_WALKING_SPEED;
 			vy = -GREEN_KOOPA_JUMP_DIE_SPEED;
+			ay = GREEN_KOOPA_GRAVITY;
 		}
 		else if (px < x)
 		{
-			vx = -GREEN_KOOPA_WALKING_SPEED;
+			vx = GREEN_KOOPA_WALKING_SPEED;
 			vy = -GREEN_KOOPA_JUMP_DIE_SPEED;
+			ay = GREEN_KOOPA_GRAVITY;
 		}
 		die_start = GetTickCount64();
 		CEffect* effect = new CEffect(x + 10, y, GREEN_KOOPA_SCORE);
