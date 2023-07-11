@@ -516,7 +516,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 				LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
 				CEffect* effect = new CEffect(x + 10, y, KOOPA_SCORE);
 				thisscene->AddObjectToScene(effect);
-				MScore += FLYGOOMBA_SCORE;
+				MScore += KOOPA_SCORE;
 			}
 			else
 			{
@@ -545,7 +545,7 @@ void CMario::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 				LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
 				CEffect* effect = new CEffect(x + 10, y, KOOPA_SCORE);
 				thisscene->AddObjectToScene(effect);
-				MScore += FLYGOOMBA_SCORE;
+				MScore += KOOPA_SCORE;
 			}
 		}
 		else if (nx > 0 && koopa->GetState() == KOOPA_STATE_SHELL && isHolding == false)
@@ -643,6 +643,7 @@ void CMario::OnCollisionWithGreenKoopa(LPCOLLISIONEVENT e)
 					LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
 					CEffect* effect = new CEffect(x + 10, y, GREEN_KOOPA_SCORE);
 					thisscene->AddObjectToScene(effect);
+					MScore += GREEN_KOOPA_SCORE;
 				}
 				else
 				{
@@ -671,6 +672,7 @@ void CMario::OnCollisionWithGreenKoopa(LPCOLLISIONEVENT e)
 					LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
 					CEffect* effect = new CEffect(x + 10, y, GREEN_KOOPA_SCORE);
 					thisscene->AddObjectToScene(effect);
+					MScore += GREEN_KOOPA_SCORE;
 				}
 			}
 		}

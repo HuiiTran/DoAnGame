@@ -134,6 +134,9 @@ void CGreenKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 		else if (dynamic_cast<CKoopa*>(e->obj)) {
 			OnCollisionWithKoopa(e);
 		}
+		else if (dynamic_cast<CGreenKoopa*>(e->obj)) {
+			OnCollisionWithGreenKoopa(e);
+		}
 	}
 	
 	if (!e->obj->IsBlocking()) return;
@@ -333,6 +336,19 @@ void CGreenKoopa::OnCollisionWithKoopa(LPCOLLISIONEVENT e)
 	CKoopa* koopa = dynamic_cast<CKoopa*>(e->obj);
 
 	koopa->SetState(KOOPA_STATE_JUMP_DIE);
+}
+
+void CGreenKoopa::OnCollisionWithGreenKoopa(LPCOLLISIONEVENT e)
+{
+	CGreenKoopa* greenkoopa = dynamic_cast<CGreenKoopa*>(e->obj);
+
+	if (state == KOOPA_STATE_SHELL_SCROLL || state == KOOPA_STATE_SHELL_HOLD)
+	{
+		if (greenkoopa->GetState() != GREEN_KOOPA_STATE_DIE)
+		{
+			greenkoopa->SetState(GREEN_KOOPA_STATE_JUMP_DIE);
+		}
+	}
 }
 
 void CGreenKoopa::SetState(int state)
