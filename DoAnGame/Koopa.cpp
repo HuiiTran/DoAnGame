@@ -237,7 +237,9 @@ void CKoopa::OnCollisionWithVenusFireTrap(LPCOLLISIONEVENT e)
 	e->obj->Delete();
 	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
 	CEffect* effect = new CEffect(Tx, Ty);
+	CEffect* score = new CEffect(Tx, Ty,VENUSFIRETRAP_SCORE);
 	thisscene->AddObjectToScene(effect);
+	thisscene->AddObjectToScene(score);
 }
 void CKoopa::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e)
 {
@@ -246,7 +248,9 @@ void CKoopa::OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e)
 	e->obj->Delete();
 	LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
 	CEffect* effect = new CEffect(Tx, Ty);
+	CEffect* score = new CEffect(Tx, Ty,PIRANHA_PLANT_SCORE);
 	thisscene->AddObjectToScene(effect);
+	thisscene->AddObjectToScene(score);
 }
 void CKoopa::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 {

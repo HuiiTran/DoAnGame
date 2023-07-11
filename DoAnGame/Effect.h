@@ -13,22 +13,29 @@
 #define ID_ANI_SCORE_8000 178000
 
 #define ID_ANI_LIFE_UP	171001
+
 #define EFFECT_STATE_START 1
 #define EFFECT_STATE_END 2
+
+#define EFFECT_SPEED_Y	0.0004f
 class CEffect : public CGameObject
 {
 protected:
-	int type;// 0 disappear, score(100,200,400,800,1000,2000,4000,8000)
+	int type;// 0 disappear, score(100,200,400,800,1000,2000,4000,8000),2 life up
+	float ay;
 	ULONGLONG apppear_start;
 public:
 	CEffect(float x, float y, int type = 0) : CGameObject(x, y) {
 		this->type = type;
 		apppear_start = -1;
+		ay = -EFFECT_SPEED_Y;
 		SetState(EFFECT_STATE_START);
 	}
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 	virtual void SetState(int state);
+
+	virtual void OnNoCollision(DWORD dt);
 };
 

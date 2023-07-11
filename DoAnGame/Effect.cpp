@@ -30,6 +30,10 @@ void CEffect::Render()
 
 void CEffect::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	if (type != 0)
+	{
+		vy += ay * dt;
+	}
 	if (state == EFFECT_STATE_END)
 	{
 		this->Delete();
@@ -63,4 +67,9 @@ void CEffect::SetState(int state)
 	default:
 		break;
 	}
+}
+
+void CEffect::OnNoCollision(DWORD dt)
+{
+	y += vy * dt;
 }
