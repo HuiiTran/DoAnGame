@@ -154,7 +154,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BLOCKINGOBJECT: obj = new CBlockingObject(x, y); break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
 	case OBJECT_TYPE_KOOPA:	obj = new CKoopa(x, y); break;
-	case OBJECT_TYPE_GREEN_KOOPA: obj = new CGreenKoopa(x, y); break;
+	case OBJECT_TYPE_GREEN_KOOPA: 
+	{
+		bool isHaveWing = (bool)atoi(tokens[3].c_str());
+		obj = new CGreenKoopa(x, y, isHaveWing); 
+		break;
+	}
 	case OBJECT_TYPE_FLYGOOMBA: obj = new CFlyGoomba(x, y); break;
 	case OBJECT_TYPE_VENUSFIRETRAP: obj = new CVenusFireTrap(x, y); break;
 	case OBJECT_TYPE_PIRANHAPLANT: obj = new CPiranhaPlant(x, y); break;

@@ -438,6 +438,20 @@ void CGreenKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += ay * dt;
 	vx += ax * dt;
 
+	if (isHaveWing)
+	{
+		LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+		LPGAMEOBJECT player = thisscene->GetPlayer();
+
+		float px, py;
+		player->GetPosition(px, py);
+
+		if (x > px)
+			nx = -1;
+		else
+			nx = 1;
+	}
+
 	if (isHolded) {
 		vy = 0;
 		vx = 0;
