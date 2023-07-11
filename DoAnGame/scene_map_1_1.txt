@@ -199,7 +199,7 @@ HUD.txt
 12	-9	148
 12	-9	164
 12	-9	179
-#deadline under hole
+#deadline under holes
 9	1098	280
 9	1113	280
 9	1129	280
@@ -212,6 +212,7 @@ HUD.txt
 9	1635	280
 9	1645	280
 
+9	2250	212
 9	2255	212
 #PIRANHA PLANT
 14	1798	148

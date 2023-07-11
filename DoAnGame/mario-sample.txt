@@ -32,3 +32,4 @@ height	240
 150	textures\WorldMapAssets.png
 160	textures\Map.png
 170	textures\goal.png
+180	textures\Score.png

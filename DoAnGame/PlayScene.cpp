@@ -65,6 +65,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 
 
 
+
 void CPlayScene::_ParseSection_SPRITES(string line)
 {
 	vector<string> tokens = split(line);
@@ -384,7 +385,8 @@ void CPlayScene::Update(DWORD dt)
 	cy -= game->GetBackBufferHeight() / 2;
 	//DebugOutTitle(L"%f", cx);
 	int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
-	if (currentscene == 5)
+	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	if (currentscene == SCENE_MAP_1_1)
 	{
 		if (cx < 0) cx = 0;
 		if (cx > -160 && cy < UNDERGROUND_Y_CAM_MIN)
@@ -402,7 +404,7 @@ void CPlayScene::Update(DWORD dt)
 		}
 		else if (cy > UNDERGROUND_Y_CAM_MIN && (cx > UNDERGROUND_X_CAM_MIN && cx < UNDERGROUND_X_CAM_MAX))
 		{
-			if (player->GetState() == MARIO_STATE_DIE)
+			if (mario->GetState() == MARIO_STATE_DIE)
 			{
 				cy = MID_Y_CAM;
 				return;
@@ -418,7 +420,7 @@ void CPlayScene::Update(DWORD dt)
 		}
 		else if (cy > UNDERGROUND_Y_CAM_MIN)
 		{
-			if (player->GetState() == MARIO_STATE_DIE)
+			if (mario->GetState() == MARIO_STATE_DIE)
 			{
 				cy = MID_Y_CAM;
 				return;
@@ -427,7 +429,7 @@ void CPlayScene::Update(DWORD dt)
 				cy = 10;
 		}
 	}
-	else if (currentscene == 1)
+	else if (currentscene == SCENE_WORLD_MAP)
 	{
 		cy = CAM_WORLDMAP_Y;
 		cx = CAM_WORLDMAP_X;

@@ -3,7 +3,6 @@
 
 #include "Animation.h"
 #include "Animations.h"
-
 #include "debug.h"
 
 #define MARIO_WALKING_SPEED		0.12f
@@ -221,6 +220,13 @@
 
 #define MARIO_UNTOUCHABLE_TIME 2500
 
+
+//scene id
+
+#define SCENE_INTRO		0
+#define SCENE_WORLD_MAP	1
+#define SCENE_MAP_1_1	5
+
 class CMario : public CGameObject
 {
 	BOOLEAN isOnPlatform;
@@ -301,7 +307,7 @@ public:
 		ax = 0.0f;
 
 		int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
-		if (currentscene == 5) ay = MARIO_GRAVITY;
+		if (currentscene == SCENE_MAP_1_1) ay = MARIO_GRAVITY;
 		else ay = 0;
 
 		isHolding = false;

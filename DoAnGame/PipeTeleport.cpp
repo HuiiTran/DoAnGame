@@ -2,7 +2,7 @@
 
 void CPipeTeleport::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CPipeTeleport::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

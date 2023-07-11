@@ -30,7 +30,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	DebugOutTitle(L"%d", isUsingPipe);
 	int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
-	if (currentscene == 1)
+	if (currentscene == SCENE_WORLD_MAP)
 	{
 		if (isGoingNodeX == true)
 		{
@@ -313,7 +313,7 @@ void CMario::OnNoCollision(DWORD dt)
 void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
-	if(currentscene == 5)
+	if(currentscene == SCENE_MAP_1_1)
 	{
 		if (e->ny != 0 && e->obj->IsBlocking())
 		{
@@ -359,7 +359,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		else if (dynamic_cast<CBrick*>(e->obj))
 			OnCollisionWithBrick(e);
 	}
-	else if (currentscene == 1)
+	else if (currentscene == SCENE_WORLD_MAP)
 	{
 		if (e->obj->IsBlocking()) {
 			vx = 0;
@@ -1482,7 +1482,7 @@ void CMario::Render()
 	CAnimations* animations = CAnimations::GetInstance();
 	int aniId = -1;
 	int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
-	if(currentscene == 5)
+	if(currentscene == SCENE_MAP_1_1)
 	{
 		if (state == MARIO_STATE_DIE)
 			aniId = ID_ANI_MARIO_DIE;
@@ -1514,7 +1514,7 @@ void CMario::Render()
 			}
 		}
 	}
-	else if (currentscene == 1)
+	else if (currentscene == SCENE_WORLD_MAP)
 	{
 		if (level == MARIO_LEVEL_SMALL)
 			aniId = ID_ANI_MARIO_SMALL_MINI;
@@ -1535,7 +1535,7 @@ void CMario::SetState(int state)
 {
 	// DIE is the end state, cannot be changed! 
 	int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
-	if(currentscene == 5)
+	if(currentscene == SCENE_MAP_1_1)
 	{
 		if (this->state == MARIO_STATE_DIE) return;
 
@@ -1649,7 +1649,7 @@ void CMario::SetState(int state)
 			break;
 		}
 	}
-	else if (currentscene == 1)
+	else if (currentscene == SCENE_WORLD_MAP)
 	{
 		switch (state)
 		{
