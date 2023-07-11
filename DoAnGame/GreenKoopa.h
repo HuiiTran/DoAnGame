@@ -10,6 +10,8 @@
 #define GREEN_KOOPA_JUMP_DIE_SPEED	0.5f
 #define GREEN_KOOPA_WING_JUMP_SPEED	0.3f
 #define GREEN_KOOPA_WING_GRAVITY 0.001f
+#define GREEN_KOOPA_FLY_UP 0.0015f
+
 
 #define GREEN_KOOPA_BBOX_WIDTH 16
 #define GREEN_KOOPA_BBOX_HEIGHT 26
@@ -24,10 +26,14 @@
 #define GREEN_KOOPA_STATE_JUMP_DIE 7
 #define GREEN_KOOPA_STATE_CHANGE_DIRECT 8
 #define GREEN_KOOPA_STATE_SHELL_FLIP	9
+#define GREEN_KOOPA_STATE_FLY_UP	10
+#define GREEN_KOOPA_STATE_FLY_DOWN	11
+
 
 #define GREEN_KOOPA_RESPAWN_START_TIME 5000
 #define GREEN_KOOPA_RESPAWN_TIME 3000
 #define GREEN_KOOPA_JUMP_DIE_TIMEOUT 1000
+#define GREEN_KOOPA_FLY_TIME	200
 
 #define ID_ANI_GREEN_KOOPA_RESPAWN 210001
 #define ID_ANI_GREEN_KOOPA_RESPAWN_FLIP 210011
@@ -41,6 +47,9 @@
 #define ID_ANI_GREEN_KOOPA_WALKING_RIGHT 210010
 #define ID_ANI_GREEN_KOOPA_WALKING_LEFT 210020
 
+#define ID_ANI_GREEN_KOOPA_FLY_RIGHT	210100
+#define ID_ANI_GREEN_KOOPA_FLY_LEFT		210101
+
 #define GREEN_KOOPA_Y_OFFSET	15
 #define GREEN_KOOPA_X_OFFSET	13
 
@@ -51,6 +60,7 @@ protected:
 	float ax;
 	float ay;
 	bool isFlip;
+	bool isHaveWing;
 
 	int mario_level;
 	bool isRespawning;
@@ -61,6 +71,7 @@ protected:
 	ULONGLONG respawn_start;
 	ULONGLONG respawn_end;
 	ULONGLONG flip_start;
+	ULONGLONG fly_start;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Render();
 
@@ -94,5 +105,8 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 
 	void SetisFlip(bool isFlip) { this->isFlip = isFlip; }
+
+	void SetIsHaveWing(bool isHaveWing) { this->isHaveWing = isHaveWing; }
+	bool GetIsHaveWing() { return this->isHaveWing; }
 };
 

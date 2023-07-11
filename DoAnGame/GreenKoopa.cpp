@@ -14,10 +14,11 @@
 #include "P_Power.h"
 #include "Koopa.h"
 #include "PlayScene.h"
-CGreenKoopa::CGreenKoopa(float x, float y, bool isHaveWing) : CGameObject(x,y)
+CGreenKoopa::CGreenKoopa(float x, float y, bool isHaveWing ) : CGameObject(x,y)
 {
 	this->ax = 0;
 	this->ay = GREEN_KOOPA_GRAVITY;
+	this->isHaveWing = isHaveWing;
 	nx = -1;
 	die_start = -1;
 	respawn_start = -1;
@@ -25,11 +26,14 @@ CGreenKoopa::CGreenKoopa(float x, float y, bool isHaveWing) : CGameObject(x,y)
 	isHolded = false;
 	mario_level = 1;
 	isFlip = false;
-	SetState(GREEN_KOOPA_STATE_WALKING);
+	if(!isHaveWing)
+		SetState(GREEN_KOOPA_STATE_WALKING);
+	else
+		SetState(GREEN_KOOPA_STATE_FLY_UP);
 }
 void CGreenKoopa::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (state == GREEN_KOOPA_STATE_WALKING)
+	if (state == GREEN_KOOPA_STATE_WALKING || isHaveWing)
 	{
 		left = x - GREEN_KOOPA_BBOX_WIDTH / 2;
 		top = y - GREEN_KOOPA_BBOX_HEIGHT / 2;
@@ -48,12 +52,11 @@ void CGreenKoopa::GetBoundingBox(float& left, float& top, float& right, float& b
 void CGreenKoopa::Render()
 {
 	int aniId = -1;
-
 	switch (state)
 	{
 	case GREEN_KOOPA_STATE_RESPAWN:
 	{
-		if(isFlip == false)
+		if (isFlip == false)
 			aniId = ID_ANI_GREEN_KOOPA_RESPAWN;
 		else
 			aniId = ID_ANI_GREEN_KOOPA_RESPAWN_FLIP;
@@ -62,8 +65,8 @@ void CGreenKoopa::Render()
 	case GREEN_KOOPA_STATE_SHELL_FLIP:
 	case GREEN_KOOPA_STATE_SHELL:
 	case GREEN_KOOPA_STATE_SHELL_HOLD:
-	{
-		if(isFlip == false)
+		{
+		if (isFlip == false)
 			aniId = ID_ANI_GREEN_KOOPA_SHELL;
 		else
 			aniId = ID_ANI_GREEN_KOOPA_SHELL_FLIP;
@@ -71,7 +74,7 @@ void CGreenKoopa::Render()
 	}
 	case GREEN_KOOPA_STATE_SHELL_SCROLL:
 	{
-		if(isFlip == false)
+		if (isFlip == false)
 			aniId = ID_ANI_GREEN_KOOPA_SHELL_ROLL;
 		else
 			aniId = ID_ANI_GREEN_KOOPA_SHELL_ROLL_FLIP;
@@ -80,6 +83,15 @@ void CGreenKoopa::Render()
 	case GREEN_KOOPA_STATE_JUMP_DIE:
 		aniId = ID_ANI_GREEN_KOOPA_SHELL_FLIP;
 		break;
+	case GREEN_KOOPA_STATE_FLY_DOWN:
+	case GREEN_KOOPA_STATE_FLY_UP:
+	{
+		if (nx > 0)
+			aniId = ID_ANI_GREEN_KOOPA_FLY_RIGHT;
+		else
+			aniId = ID_ANI_GREEN_KOOPA_FLY_LEFT;
+		break;
+	}
 	default:
 		if (vx > 0)
 			aniId = ID_ANI_GREEN_KOOPA_WALKING_RIGHT;
@@ -87,6 +99,7 @@ void CGreenKoopa::Render()
 			aniId = ID_ANI_GREEN_KOOPA_WALKING_LEFT;
 		break;
 	}
+	
 	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
 }
 
@@ -98,6 +111,7 @@ void CGreenKoopa::OnNoCollision(DWORD dt)
 
 void CGreenKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 {
+	
 	if (state == GREEN_KOOPA_STATE_SHELL_SCROLL || state == GREEN_KOOPA_STATE_SHELL_HOLD) {
 		if (dynamic_cast<CGoomba*>(e->obj)) {
 			OnCollisionWithGoomba(e);
@@ -121,6 +135,7 @@ void CGreenKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 			OnCollisionWithKoopa(e);
 		}
 	}
+	
 	if (!e->obj->IsBlocking()) return;
 
 	if (e->ny != 0)
@@ -399,6 +414,18 @@ void CGreenKoopa::SetState(int state)
 		vx = -vx;
 		nx = -nx;
 		break;
+	case GREEN_KOOPA_STATE_FLY_UP:
+	{
+		ay = -GREEN_KOOPA_FLY_UP;
+		vx = nx * GREEN_KOOPA_WALKING_SPEED / 2;
+		fly_start = GetTickCount64();
+		break;
+	}
+	case GREEN_KOOPA_STATE_FLY_DOWN:
+		ay = GREEN_KOOPA_GRAVITY * 1.5;
+		vx = nx * GREEN_KOOPA_WALKING_SPEED / 2;
+		fly_start = GetTickCount64();
+		break;
 	default:
 		break;
 	}
@@ -426,11 +453,10 @@ void CGreenKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		isDeleted = true;
 		return;
 	}
-
 	if ((state == GREEN_KOOPA_STATE_SHELL_FLIP) && GetTickCount64() - flip_start > 500)
-	{
-		SetState(GREEN_KOOPA_STATE_SHELL);
-		return;
+		{
+			SetState(GREEN_KOOPA_STATE_SHELL);
+			return;
 	}
 	if ((state == GREEN_KOOPA_STATE_SHELL) && (GetTickCount64() - respawn_start > GREEN_KOOPA_RESPAWN_START_TIME))
 	{
@@ -440,6 +466,7 @@ void CGreenKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if ((state == GREEN_KOOPA_STATE_RESPAWN) && (GetTickCount64() - respawn_end > GREEN_KOOPA_RESPAWN_TIME))
 	{
 		isHolded = false;
+		isFlip = false;
 		SetState(GREEN_KOOPA_STATE_WALKING);
 		return;
 	}
@@ -447,6 +474,20 @@ void CGreenKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 
 	}
+
+	if (state == GREEN_KOOPA_STATE_FLY_UP && GetTickCount64() - fly_start > GREEN_KOOPA_FLY_TIME)
+	{
+		//fly_start = 0;
+		SetState(GREEN_KOOPA_STATE_FLY_DOWN);
+		
+	}
+	if (state == GREEN_KOOPA_STATE_FLY_DOWN && GetTickCount64() - fly_start > GREEN_KOOPA_FLY_TIME)
+	{
+		//fly_start = 0;
+		SetState(GREEN_KOOPA_STATE_FLY_UP);
+		
+	}
+	
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }

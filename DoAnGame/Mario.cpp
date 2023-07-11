@@ -623,46 +623,55 @@ void CMario::OnCollisionWithGreenKoopa(LPCOLLISIONEVENT e)
 		if (e->ny < 0 && !this->isOnPlatform)
 		{
 			greenkoopa->SetMLevel(this->level);
-			if (greenkoopa->GetState() != GREEN_KOOPA_STATE_SHELL)
+			if (greenkoopa->GetIsHaveWing() == true)
 			{
-				greenkoopa->GetPosition(greenkoopaX, greenkoopaY);
-				greenkoopa->SetPosition(greenkoopaX, greenkoopaY - 10);
-				greenkoopa->SetState(GREEN_KOOPA_STATE_SHELL);
-				if (isFlying)
-					vy = -MARIO_JUMP_DEFLECT_SPEED / 2;
-				else
-					vy = -MARIO_JUMP_DEFLECT_SPEED;
-				LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
-				CEffect* effect = new CEffect(x + 10, y, GREEN_KOOPA_SCORE);
-				thisscene->AddObjectToScene(effect);
+				greenkoopa->SetState(GREEN_KOOPA_STATE_WALKING);
+				greenkoopa->SetIsHaveWing(false);
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
 			}
 			else
 			{
-				if (nx > 0)
+				if (greenkoopa->GetState() != GREEN_KOOPA_STATE_SHELL)
 				{
 					greenkoopa->GetPosition(greenkoopaX, greenkoopaY);
-					greenkoopa->SetPosition(greenkoopaX + 5, greenkoopaY - 10);
-					greenkoopa->SetSpeed(GREEN_KOOPA_SHELL_SCROLL_SPEED, 0);
+					greenkoopa->SetPosition(greenkoopaX, greenkoopaY - 10);
+					greenkoopa->SetState(GREEN_KOOPA_STATE_SHELL);
 					if (isFlying)
 						vy = -MARIO_JUMP_DEFLECT_SPEED / 2;
 					else
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
+					LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+					CEffect* effect = new CEffect(x + 10, y, GREEN_KOOPA_SCORE);
+					thisscene->AddObjectToScene(effect);
 				}
 				else
 				{
-					greenkoopa->GetPosition(greenkoopaX, greenkoopaY);
-					greenkoopa->SetPosition(greenkoopaX - 5, greenkoopaY - 10);
-					greenkoopa->SetSpeed(-GREEN_KOOPA_SHELL_SCROLL_SPEED, 0);
-					if (isFlying)
-						vy = -MARIO_JUMP_DEFLECT_SPEED / 2;
+					if (nx > 0)
+					{
+						greenkoopa->GetPosition(greenkoopaX, greenkoopaY);
+						greenkoopa->SetPosition(greenkoopaX + 5, greenkoopaY - 10);
+						greenkoopa->SetSpeed(GREEN_KOOPA_SHELL_SCROLL_SPEED, 0);
+						if (isFlying)
+							vy = -MARIO_JUMP_DEFLECT_SPEED / 2;
+						else
+							vy = -MARIO_JUMP_DEFLECT_SPEED;
+					}
 					else
-						vy = -MARIO_JUMP_DEFLECT_SPEED;
-				}
-				greenkoopa->SetState(GREEN_KOOPA_STATE_SHELL_SCROLL);
+					{
+						greenkoopa->GetPosition(greenkoopaX, greenkoopaY);
+						greenkoopa->SetPosition(greenkoopaX - 5, greenkoopaY - 10);
+						greenkoopa->SetSpeed(-GREEN_KOOPA_SHELL_SCROLL_SPEED, 0);
+						if (isFlying)
+							vy = -MARIO_JUMP_DEFLECT_SPEED / 2;
+						else
+							vy = -MARIO_JUMP_DEFLECT_SPEED;
+					}
+					greenkoopa->SetState(GREEN_KOOPA_STATE_SHELL_SCROLL);
 
-				LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
-				CEffect* effect = new CEffect(x + 10, y, GREEN_KOOPA_SCORE);
-				thisscene->AddObjectToScene(effect);
+					LPSCENE thisscene = CGame::GetInstance()->GetCurrentScene();
+					CEffect* effect = new CEffect(x + 10, y, GREEN_KOOPA_SCORE);
+					thisscene->AddObjectToScene(effect);
+				}
 			}
 		}
 		else if (nx > 0 && greenkoopa->GetState() == GREEN_KOOPA_STATE_SHELL && isHolding == false)
