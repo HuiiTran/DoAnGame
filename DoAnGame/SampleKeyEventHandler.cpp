@@ -22,7 +22,13 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 				if (mario->GetdirectUsingPipe() == 1)
 					mario->SetState(MARIO_GOING_DOWN_PIPE_STATE);
 			}
-
+			break;
+		case DIK_UP:
+			if (mario->GetdirectUsingPipe() != 0)
+			{
+				if (mario->GetdirectUsingPipe() == 2)
+					mario->SetState(MARIO_GOING_UP_PIPE_STATE);
+			}
 			break;
 		case DIK_S:
 			if (mario->GetisOnPlatform())
@@ -58,7 +64,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 			mario->SetPosition(2100, 300);
 			break;
 		case DIK_7:
-			mario->SetPosition(2500, -150);
+			mario->SetPosition(2300, -150);
 		case DIK_O:
 			CGame::GetInstance()->InitiateSwitchScene(5);
 			break;

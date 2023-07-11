@@ -28,7 +28,7 @@
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	DebugOutTitle(L"%d", MScore);
+	DebugOutTitle(L"%d", isUsingPipe);
 	int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
 	if (currentscene == 1)
 	{
@@ -273,9 +273,33 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 			start_tailattack = 0;
 		}
 	}
+	//Using pipe
+	if (isUsingPipe == true)
+	{
+		if (GetTickCount64() - start_usingPipe > 300)
+		{
+			if (directUsingpipe == 2)
+			{
+				if(level != MARIO_LEVEL_SMALL)
+					SetPosition(UsingPipeDes_X, UsingPipeDes_Y - 10);
+				else
+					SetPosition(UsingPipeDes_X, UsingPipeDes_Y);
+			}
+			else
+				SetPosition(UsingPipeDes_X, UsingPipeDes_Y);
 
-	if (directUsingpipe == 0)
-		isUsingPipe = false;
+			if (GetTickCount64() - start_usingPipe > 600)
+			{
+				isUsingPipe = false;
+				start_usingPipe = 0;
+				UsingPipeDes_X = 0;
+				UsingPipeDes_Y = 0;
+				directUsingpipe = 0;
+				ay = MARIO_GRAVITY;
+			}
+
+		}
+	}
 	isOnPlatform = false;
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -904,6 +928,8 @@ void CMario::OnCollisionWithPipeTeleport(LPCOLLISIONEVENT e)
 {
 	CPipeTeleport* pipe = (CPipeTeleport*)e->obj;
 	directUsingpipe = pipe->GetDirect();
+	UsingPipeDes_X = pipe->GetdesX();
+	UsingPipeDes_Y = pipe->GetdesY();
 }
 
 void CMario::OnCollisionWithFireBall(LPCOLLISIONEVENT e)
@@ -1605,10 +1631,15 @@ void CMario::SetState(int state)
 			start_tailattack = GetTickCount64();
 			break;
 		case MARIO_GOING_DOWN_PIPE_STATE:
+			ay = MARIO_GRAVITY / 6;
 			isUsingPipe = true;
+			start_usingPipe = GetTickCount64();
 			break;
 		case MARIO_GOING_UP_PIPE_STATE:
+			ay = MARIO_GRAVITY ;
+			vy = -MARIO_JUMP_SPEED_Y;
 			isUsingPipe = true;
+			start_usingPipe = GetTickCount64();
 			break;
 		case MARIO_STATE_DIE:
 			vy = -MARIO_JUMP_DEFLECT_SPEED;

@@ -244,6 +244,8 @@ class CMario : public CGameObject
 	int level_run = 0;
 
 	int directUsingpipe = 0;
+	float UsingPipeDes_X = 0;
+	float UsingPipeDes_Y = 0;
 
 	ULONGLONG untouchable_start;
 	ULONGLONG wait;
@@ -338,8 +340,14 @@ public:
 	void SetState(int state);
 
 	int IsCollidable()
-	{ 
-		return ((state != MARIO_STATE_DIE) ); 
+	{	
+		if (isUsingPipe)
+			return 0;
+		if (state != MARIO_STATE_DIE)
+			return 1;
+		else if (state == MARIO_STATE_DIE)
+			return 0;
+		
 	}
 
 	int IsBlocking() { return ((state != MARIO_STATE_DIE && untouchable==0)); }

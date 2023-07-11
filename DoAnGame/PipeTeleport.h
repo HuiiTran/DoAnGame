@@ -18,5 +18,7 @@ public:
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 
 	int GetDirect() { return this->direct; }
+	float GetdesX() { return this->desX; }
+	float GetdesY() { return this->desY; }
 };
 
