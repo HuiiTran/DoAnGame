@@ -45,6 +45,12 @@
 #define COIN_TENS_OFFSET_X	20
 #define COIN_UNIT_OFFSET_X	28
 
+#define SCORE_OFFSET_Y	14
+#define SCORE_OFFSET_X	12
+#define SCORE_SPACE_OFFSET_X 8
+
+#define LIFE_OFFSET_X	75
+
 class CHUD
 {
 private:

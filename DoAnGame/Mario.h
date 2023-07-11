@@ -350,6 +350,7 @@ public:
 	int GetLevel() { return this->level; }
 	void DecreaseLevel();
 
+	int GetMScore() { return this->MScore; }
 	void SetMScore(int MScore) { this->MScore += MScore; }
 
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }

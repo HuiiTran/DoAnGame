@@ -62,7 +62,7 @@ void CHUD::Render()
 	if (mario->GetLevelRun() == LEVEL_RUN_MAX)
 		CAnimations::GetInstance()->Get(ID_ANI_LEVEL_RUN_MAX)->Render(x - LEVELRUN_SPACE_OFFSET_X, y + LEVELRUN_OFFSET_Y);
 
-	//NUMBER test
+	//NUMBER WORLD
 	CAnimations::GetInstance()->Get(ID_ANI_NUMBER_1)->Render(x - 75, y + 6);
 
 	//card test
@@ -78,5 +78,14 @@ void CHUD::Render()
 		PrintNumber(coin / 10, x + COIN_TENS_OFFSET_X, y + COIN_OFFSET_Y);
 	}
 	PrintNumber(coin % 10, x + COIN_UNIT_OFFSET_X, y + COIN_OFFSET_Y);
+	//Print score
+	int score = mario->GetMScore();
+	PrintNumber(score		% 10, x - SCORE_OFFSET_X - SCORE_SPACE_OFFSET_X * 0, y + SCORE_OFFSET_Y); // unit
+	PrintNumber(score / 10 % 10, x - SCORE_OFFSET_X - SCORE_SPACE_OFFSET_X * 1, y + SCORE_OFFSET_Y);
+	PrintNumber(score / 100 % 10, x - SCORE_OFFSET_X - SCORE_SPACE_OFFSET_X * 2, y + SCORE_OFFSET_Y);
+	PrintNumber(score / 1000 % 10, x - SCORE_OFFSET_X - SCORE_SPACE_OFFSET_X * 3, y + SCORE_OFFSET_Y);
+	PrintNumber(score / 10000 % 10, x - SCORE_OFFSET_X - SCORE_SPACE_OFFSET_X * 4, y + SCORE_OFFSET_Y);
+	PrintNumber(score / 100000 % 10, x - SCORE_OFFSET_X - SCORE_SPACE_OFFSET_X * 5, y + SCORE_OFFSET_Y);
+	PrintNumber(score / 1000000 % 10, x - SCORE_OFFSET_X - SCORE_SPACE_OFFSET_X * 6, y + SCORE_OFFSET_Y);
 
 }
