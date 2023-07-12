@@ -28,7 +28,7 @@
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	DebugOutTitle(L"%d", isUsingPipe);
+	DebugOutTitle(L"%d", Timer);
 	int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
 	if (currentscene == SCENE_WORLD_MAP)
 	{
@@ -300,6 +300,21 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 
 		}
 	}
+	//Timer
+	if (Timer > 0 && currentscene == SCENE_MAP_1_1)
+	{
+		if (GetTickCount64() - count_down_1_sec > 1000) // 1 second
+		{
+			Timer--;
+			count_down_1_sec = GetTickCount64();
+		}
+	}
+	else
+	{
+		Timer = 0;
+		SetState(MARIO_STATE_DIE);
+	}
+
 	isOnPlatform = false;
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }

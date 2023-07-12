@@ -36,6 +36,7 @@ void CHUD::PrintNumber(int n, float x, float y)
 
 void CHUD::Render()
 {
+	int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
 	CMario* mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	//back ground
 	CAnimations::GetInstance()->Get(ID_ANI_BLACK_BG)->Render(x, y + HUD_OFFSET_Y);
@@ -96,4 +97,13 @@ void CHUD::Render()
 		PrintNumber(life / 10, x - LIFE_OFFSET_X - LIFE_SPACE_OFFSET_X, y + LIFE_OFFSET_Y);
 	}
 	PrintNumber(life % 10, x - LIFE_OFFSET_X, y + LIFE_OFFSET_Y);
+
+	//Print timer
+	int Timer = mario->GetTimer();
+	if (currentscene == SCENE_MAP_1_1)
+	{
+		PrintNumber(Timer % 10		, x + TIMER_OFFSET_X, y + TIMER_OFFSET_Y);
+		PrintNumber(Timer / 10 % 10	, x + TIMER_OFFSET_X - TIMER_SPACE_OFFSET_X, y + TIMER_OFFSET_Y);
+		PrintNumber(Timer / 100		, x + TIMER_OFFSET_X - 2 * TIMER_SPACE_OFFSET_X, y + TIMER_OFFSET_Y);
+	}
 }

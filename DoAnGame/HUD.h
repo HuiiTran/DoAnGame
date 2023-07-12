@@ -26,6 +26,8 @@
 #define ID_ANI_MUSHROOM_CARD	200020
 #define ID_ANI_STAR_CARD		200021
 #define ID_ANI_FLOWER_CARD		200022
+
+
 //offset
 #define HUD_OFFSET_Y 9
 
@@ -52,6 +54,10 @@
 #define LIFE_OFFSET_X	75
 #define LIFE_OFFSET_Y	14
 #define LIFE_SPACE_OFFSET_X 8
+
+#define TIMER_OFFSET_X	28
+#define TIMER_OFFSET_Y	14
+#define TIMER_SPACE_OFFSET_X	8
 
 class CHUD
 {

@@ -265,9 +265,12 @@ class CMario : public CGameObject
 	ULONGLONG start_usingPipe;
 	ULONGLONG start_tailattack;
 
+	ULONGLONG count_down_1_sec;
 	int coin; 
 	int MScore;
 	int MLife;
+
+	int Timer;
 	//world map mario/////////
 	bool isAllowLeft = 0;
 	bool isAllowRight = 1;
@@ -313,7 +316,10 @@ public:
 
 		isHolding = false;
 		holdingObject = NULL;
-
+		if (currentscene == SCENE_MAP_1_1)
+			Timer = 300;
+		else
+			Timer = 300;
 		level = dataGame->GetLevel();//MARIO_LEVEL_BIG;
 		untouchable = 0;
 		untouchable_start = -1;
@@ -396,6 +402,8 @@ public:
 	int GetisUsingPipe() { return this->isUsingPipe; }
 
 	int GetdirectUsingPipe() { return this->directUsingpipe; }
+
+	int GetTimer() { return this->Timer; }
 	///world map mario
 	bool GetisAllowLeft() { return isAllowLeft; }
 	bool GetisAllowRight() { return isAllowRight; }
