@@ -1653,11 +1653,20 @@ void CMario::SetState(int state)
 			start_usingPipe = GetTickCount64();
 			break;
 		case MARIO_STATE_DIE:
+		{
+			CData* dataGame = CGame::GetInstance()->GetCData();
+			MLife -= 1;
+			level = MARIO_LEVEL_SMALL;
+			dataGame->SetCoin(coin);
+			dataGame->SetLife(MLife);
+			dataGame->SetLevel(level);
+			dataGame->SetScore(MScore);
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 			vx = 0;
 			ax = 0;
 			start_die = GetTickCount64();
 			break;
+		}
 		}
 	}
 	else if (currentscene == SCENE_WORLD_MAP)

@@ -302,6 +302,7 @@ class CMario : public CGameObject
 public:
 	CMario(float x, float y) : CGameObject(x, y)
 	{
+		CData* dataGame = CGame::GetInstance()->GetCData();
 		isSitting = false;
 		maxVx = 0.0f;
 		ax = 0.0f;
@@ -313,14 +314,14 @@ public:
 		isHolding = false;
 		holdingObject = NULL;
 
-		level = MARIO_LEVEL_SMALL;//MARIO_LEVEL_BIG;
+		level = dataGame->GetLevel();//MARIO_LEVEL_BIG;
 		untouchable = 0;
 		untouchable_start = -1;
 		wait = -1;
 		isOnPlatform = false;
-		coin = 0;
-		MScore = 0;
-		MLife = 4;
+		coin = dataGame->GetCoin();
+		MScore = dataGame->GetScore();
+		MLife = dataGame->GetLife();
 
 		isKicking = false;
 		start_kick = -1;

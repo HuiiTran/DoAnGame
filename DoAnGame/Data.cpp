@@ -6,6 +6,5 @@ CData::CData()
 	Score = 0;
 	Coin = 0;
 	Level = MARIO_LEVEL_SMALL;
-
 }
 
