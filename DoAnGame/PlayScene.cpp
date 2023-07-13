@@ -434,7 +434,7 @@ void CPlayScene::Update(DWORD dt)
 				cy = 10;
 		}
 	}
-	else if (currentscene == SCENE_WORLD_MAP)
+	else if (currentscene == SCENE_WORLD_MAP || currentscene == SCENE_INTRO)
 	{
 		cy = CAM_WORLDMAP_Y;
 		cx = CAM_WORLDMAP_X;

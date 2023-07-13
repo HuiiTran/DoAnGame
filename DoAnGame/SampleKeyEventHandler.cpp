@@ -11,7 +11,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	CMario* mario = (CMario *)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer(); 
 	int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
-	if(currentscene == 5)
+	if(currentscene == SCENE_MAP_1_1)
 	{
 		switch (KeyCode)
 		{
@@ -76,7 +76,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 			break;
 		}
 	}
-	else if (currentscene == 1)
+	else if (currentscene == SCENE_WORLD_MAP)
 	{
 		switch (KeyCode)
 		{
@@ -90,7 +90,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 			mario->SetLevel(MARIO_LEVEL_TANOOKI);
 			break;
 		case DIK_O:
-			CGame::GetInstance()->InitiateSwitchScene(5);
+			CGame::GetInstance()->InitiateSwitchScene(2);
 			break;
 		case DIK_LEFT:
 		{
@@ -133,6 +133,50 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 		default:
 			break;
 		}
+	}
+	else if (currentscene == SCENE_INTRO)
+	{
+		switch (KeyCode)
+		{
+		case DIK_S:
+			CGame::GetInstance()->InitiateSwitchScene(2);
+			break;
+		case DIK_LEFT:
+		{
+			if (mario->GetisAllowLeft())
+			{
+				mario->SetState(MARIO_GO_LEFT);
+			}
+			break;
+		}
+		case DIK_RIGHT:
+		{
+			if (mario->GetisAllowRight())
+			{
+				mario->SetState(MARIO_GO_RIGHT);
+			}
+			break;
+		}
+		case DIK_UP:
+		{
+			if (mario->GetisAllowUp())
+			{
+				mario->SetState(MARIO_GO_UP);
+			}
+			break;
+		}
+		case DIK_DOWN:
+		{
+			if (mario->GetisAllowDown())
+			{
+				mario->SetState(MARIO_GO_DOWN);
+			}
+			break;
+		}
+		default:
+			break;
+		}
+		
 	}
 }
 

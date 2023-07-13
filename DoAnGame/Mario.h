@@ -64,6 +64,8 @@
 #define MARIO_GOING_UP_PIPE_STATE	1102
 
 #define MARIO_TAIL_ATTACKING_STATE	1103
+
+#define MARIO_INTRO_STATE	1104
 //#define MARIO_STATE_HOLDING
 
 #pragma region ANIMATION_ID
@@ -220,11 +222,12 @@
 
 #define MARIO_UNTOUCHABLE_TIME 2500
 
+#define ID_ANI_MARIO_INTRO	2999
 
 //scene id
 
-#define SCENE_INTRO		0
-#define SCENE_WORLD_MAP	1
+#define SCENE_INTRO		1
+#define SCENE_WORLD_MAP	2
 #define SCENE_MAP_1_1	5
 
 class CMario : public CGameObject
@@ -273,7 +276,7 @@ class CMario : public CGameObject
 	int Timer;
 	//world map mario/////////
 	bool isAllowLeft = 0;
-	bool isAllowRight = 1;
+	bool isAllowRight = 0;
 	bool isAllowUp = 0;
 	bool isAllowDown = 0;
 
@@ -314,6 +317,14 @@ public:
 		if (currentscene == SCENE_MAP_1_1) ay = MARIO_GRAVITY;
 		else ay = 0;
 
+		if (currentscene == SCENE_WORLD_MAP)
+		{
+			isAllowRight = 1;
+		}
+		else if (currentscene == SCENE_INTRO)
+		{
+			isAllowDown = 1;
+		}
 		isHolding = false;
 		holdingObject = NULL;
 		if (currentscene == SCENE_MAP_1_1)

@@ -30,7 +30,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	DebugOutTitle(L"%d", Timer);
 	int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
-	if (currentscene == SCENE_WORLD_MAP)
+	if (currentscene == SCENE_WORLD_MAP || currentscene == SCENE_INTRO)
 	{
 		if (isGoingNodeX == true)
 		{
@@ -377,7 +377,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		else if (dynamic_cast<CBrick*>(e->obj))
 			OnCollisionWithBrick(e);
 	}
-	else if (currentscene == SCENE_WORLD_MAP)
+	else if (currentscene == SCENE_WORLD_MAP || currentscene == SCENE_INTRO)
 	{
 		if (e->obj->IsBlocking()) {
 			vx = 0;
@@ -1511,7 +1511,7 @@ void CMario::Render()
 	CAnimations* animations = CAnimations::GetInstance();
 	int aniId = -1;
 	int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
-	if(currentscene == SCENE_MAP_1_1)
+	if (currentscene == SCENE_MAP_1_1)
 	{
 		if (state == MARIO_STATE_DIE)
 			aniId = ID_ANI_MARIO_DIE;
@@ -1552,6 +1552,11 @@ void CMario::Render()
 		else if (level == MARIO_LEVEL_TANOOKI)
 			aniId = ID_ANI_MARIO_TANOOKI_MINI;
 
+		animations->Get(aniId)->Render(x, y);
+	}
+	else if (currentscene == SCENE_INTRO)
+	{
+		aniId = ID_ANI_MARIO_INTRO;
 		animations->Get(aniId)->Render(x, y);
 	}
 
@@ -1691,6 +1696,37 @@ void CMario::SetState(int state)
 	{
 		switch (state)
 		{
+		case MARIO_GO_LEFT:
+		{
+			vy = 0.0f;
+			vx = -MARIO_WORLDMAP_SPEED;
+			break;
+		}
+		case MARIO_GO_RIGHT:
+		{
+			vy = 0.0f;
+			vx = MARIO_WORLDMAP_SPEED;
+			break;
+		}
+		case MARIO_GO_UP:
+		{
+			vx = 0.0f;
+			vy = -MARIO_WORLDMAP_SPEED;
+			break;
+		}case MARIO_GO_DOWN:
+		{
+			vx = 0.0f;
+			vy = MARIO_WORLDMAP_SPEED;
+			break;
+		}
+		default:
+			break;
+		}
+	}
+	else if (currentscene == SCENE_INTRO)
+	{
+	switch (state)
+	{
 		case MARIO_GO_LEFT:
 		{
 			vy = 0.0f;
