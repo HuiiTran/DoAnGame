@@ -6,7 +6,7 @@ height	240
 #id	type	file
 # type: 0: intro, 1: play scene 
 [SCENES]
-0	intro.txt
+0	scene_intro.txt
 1	scene_worldmap.txt
 2	scene02.txt
 5	scene_map_1_1.txt
@@ -33,3 +33,4 @@ height	240
 160	textures\Map.png
 170	textures\goal.png
 180	textures\Score.png
+190	textures\introscreen.png

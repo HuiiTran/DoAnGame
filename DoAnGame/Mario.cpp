@@ -303,10 +303,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	//Timer
 	if (Timer > 0 && currentscene == SCENE_MAP_1_1)
 	{
-		if (GetTickCount64() - count_down_1_sec > 1000) // 1 second
+		if(!isChanging || state != MARIO_STATE_DIE)
 		{
-			Timer--;
-			count_down_1_sec = GetTickCount64();
+			if (GetTickCount64() - count_down_1_sec > 1000) // 1 second
+			{
+				Timer--;
+				count_down_1_sec = GetTickCount64();
+			}
 		}
 	}
 	else

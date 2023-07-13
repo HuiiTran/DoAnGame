@@ -45,6 +45,9 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 			if (mario->GetLevel() == MARIO_LEVEL_TANOOKI)
 				mario->SetState(MARIO_TAIL_ATTACKING_STATE);
 			break;
+		case DIK_P:
+			CGame::GetInstance()->InitiateSwitchScene(1);
+			break;
 		case DIK_1:
 			mario->SetLevel(MARIO_LEVEL_SMALL);
 			break;

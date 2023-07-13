@@ -16,6 +16,9 @@
     <Filter Include="WorldMap">
       <UniqueIdentifier>{55346fee-4329-4425-b49e-8d86a1be14e0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Intro">
+      <UniqueIdentifier>{c65f5fc8-5991-4ff8-aec8-ceec47a5bfaf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -146,6 +149,9 @@
     </ClCompile>
     <ClCompile Include="Data.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroObject.cpp">
+      <Filter>Intro</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -286,6 +292,9 @@
     </ClInclude>
     <ClInclude Include="Data.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroObject.h">
+      <Filter>Intro</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

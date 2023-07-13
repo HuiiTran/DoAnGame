@@ -319,7 +319,7 @@ public:
 		if (currentscene == SCENE_MAP_1_1)
 			Timer = 300;
 		else
-			Timer = 300;
+			Timer = 301;
 		level = dataGame->GetLevel();//MARIO_LEVEL_BIG;
 		untouchable = 0;
 		untouchable_start = -1;

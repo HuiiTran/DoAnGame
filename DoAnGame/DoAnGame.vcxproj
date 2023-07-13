@@ -152,6 +152,7 @@
     <ClCompile Include="Grass.cpp" />
     <ClCompile Include="GreenKoopa.cpp" />
     <ClCompile Include="HUD.cpp" />
+    <ClCompile Include="IntroObject.cpp" />
     <ClCompile Include="InvisibleBlock.cpp" />
     <ClCompile Include="Koopa.cpp" />
     <ClCompile Include="Leaf.cpp" />
@@ -198,6 +199,7 @@
     <ClInclude Include="Grass.h" />
     <ClInclude Include="GreenKoopa.h" />
     <ClInclude Include="HUD.h" />
+    <ClInclude Include="IntroObject.h" />
     <ClInclude Include="InvisibleBlock.h" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="Koopa.h" />
