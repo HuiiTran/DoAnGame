@@ -25,6 +25,7 @@
 #include "Node.h"
 #include "PipeTeleport.h"
 #include "SampleKeyEventHandler.h"
+#include "Mario.h"
 
 using namespace std;
 
@@ -452,10 +453,14 @@ void CPlayScene::Render()
 
 	float camX, camY;
 	CGame* game = CGame::GetInstance();
+	int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
 
 	game->GetCamPos(camX, camY);
-	CHUD* hud = new CHUD(camX + 150, camY + 210);
-	hud->Render();
+	if(currentscene != SCENE_INTRO)
+	{
+		CHUD* hud = new CHUD(camX + 150, camY + 210);
+		hud->Render();
+	}
 }
 
 /*
