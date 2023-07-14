@@ -971,6 +971,7 @@ void CMario::OnCollisionWithPipeTeleport(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithCardRandomBlock(LPCOLLISIONEVENT e)
 {
 	CCardRandomBlock* cardblock = dynamic_cast<CCardRandomBlock*>(e->obj);
+	CData* dataGame = CGame::GetInstance()->GetCData();
 	if (e->ny > 0)
 	{
 		int cardState = cardblock->GetState();
@@ -981,48 +982,66 @@ void CMario::OnCollisionWithCardRandomBlock(LPCOLLISIONEVENT e)
 			if (cardState == CARD_FLOWER_STATE)
 			{
 				card_1 = TYPE_CARD_FLOWER;
+				dataGame->SetCard_1(card_1);
 			}
 			else if (cardState == CARD_MUSHROOM_STATE)
 			{
 				card_1 = TYPE_CARD_MUSHROOM;
+				dataGame->SetCard_1(card_1);
 			}
 			else if (cardState == CARD_STAR_STATE)
 			{
 				card_1 = TYPE_CARD_STAR;
+				dataGame->SetCard_1(card_1);
 			}
-			disPlaycard = card_1;
 		}
 		else if (card_2 == 0)
 		{
 			if (cardState == CARD_FLOWER_STATE)
 			{
 				card_2 = TYPE_CARD_FLOWER;
+				dataGame->SetCard_2(card_2);
 			}
 			else if (cardState == CARD_MUSHROOM_STATE)
 			{
 				card_2 = TYPE_CARD_MUSHROOM;
+				dataGame->SetCard_2(card_2);
 			}
 			else if (cardState == CARD_STAR_STATE)
 			{
 				card_2 = TYPE_CARD_STAR;
+				dataGame->SetCard_2(card_2);
 			}
-			disPlaycard = card_2;
 		}
 		else if (card_3 == 0)
 		{
 			if (cardState == CARD_FLOWER_STATE)
 			{
 				card_3 = TYPE_CARD_FLOWER;
+				dataGame->SetCard_3(card_3);
 			}
 			else if (cardState == CARD_MUSHROOM_STATE)
 			{
 				card_3 = TYPE_CARD_MUSHROOM;
+				dataGame->SetCard_3(card_3);
 			}
 			else if (cardState == CARD_STAR_STATE)
 			{
 				card_3 = TYPE_CARD_STAR;
+				dataGame->SetCard_3(card_3);
 			}
-			disPlaycard = card_3;
+		}
+		if (cardState == CARD_FLOWER_STATE)
+		{
+			disPlaycard = TYPE_CARD_FLOWER;
+		}
+		else if (cardState == CARD_MUSHROOM_STATE)
+		{
+			disPlaycard = TYPE_CARD_MUSHROOM;
+		}
+		else if (cardState == CARD_STAR_STATE)
+		{
+			disPlaycard = TYPE_CARD_STAR;
 		}
 	}
 }

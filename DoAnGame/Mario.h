@@ -385,9 +385,9 @@ public:
 
 		start_gameover = 0;
 
-		card_1 = 0;
-		card_2 = 0;
-		card_3 = 0;
+		card_1 = dataGame->GetCard_1();
+		card_2 = dataGame->GetCard_2();
+		card_3 = dataGame->GetCard_3();
 		disPlaycard = 0;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

@@ -11,5 +11,8 @@ void CData::ResetGame()
 	this->Score = 0;
 	this->Coin = 0;
 	this->Level = MARIO_LEVEL_SMALL;
+	this->Card_1 = 0;
+	this->Card_2 = 0;
+	this->Card_3 = 0;
 }
 
