@@ -11,6 +11,7 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 	CMario* mario = (CMario *)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer(); 
 	int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
+	if (mario->GetState() == MARIO_END_MAP_STATE) return;
 	if(currentscene == SCENE_MAP_1_1)
 	{
 		switch (KeyCode)

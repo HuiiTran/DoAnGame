@@ -66,6 +66,8 @@
 #define MARIO_TAIL_ATTACKING_STATE	1103
 
 #define MARIO_INTRO_STATE	1104
+
+#define MARIO_END_MAP_STATE	1105
 //#define MARIO_STATE_HOLDING
 
 #pragma region ANIMATION_ID
@@ -301,6 +303,7 @@ class CMario : public CGameObject
 	void OnCollisionWithNode(LPCOLLISIONEVENT e);
 	void OnCollisionWithPipeTeleport(LPCOLLISIONEVENT e);
 	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
+	void OnCollisionWithCardRandomBlock(LPCOLLISIONEVENT e);
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdTanooki();

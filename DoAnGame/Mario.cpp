@@ -25,10 +25,11 @@
 #include "Brick.h"
 #include "BreakBrickPiece.h"
 #include "PlayScene.h"
+#include "CardRandomBlock.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
-	DebugOutTitle(L"%d", Timer);
+	DebugOutTitle(L"%d", state);
 	int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
 	if (currentscene == SCENE_WORLD_MAP || currentscene == SCENE_INTRO)
 	{
@@ -376,6 +377,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 			OnCollisionWithPipeTeleport(e);
 		else if (dynamic_cast<CBrick*>(e->obj))
 			OnCollisionWithBrick(e);
+		else if (dynamic_cast<CCardRandomBlock*>(e->obj))
+			OnCollisionWithCardRandomBlock(e);
 	}
 	else if (currentscene == SCENE_WORLD_MAP || currentscene == SCENE_INTRO)
 	{
@@ -959,6 +962,14 @@ void CMario::OnCollisionWithPipeTeleport(LPCOLLISIONEVENT e)
 	directUsingpipe = pipe->GetDirect();
 	UsingPipeDes_X = pipe->GetdesX();
 	UsingPipeDes_Y = pipe->GetdesY();
+}
+
+void CMario::OnCollisionWithCardRandomBlock(LPCOLLISIONEVENT e)
+{
+	if (e->ny > 0)
+	{
+		SetState(MARIO_END_MAP_STATE);
+	}
 }
 
 void CMario::OnCollisionWithFireBall(LPCOLLISIONEVENT e)
@@ -1572,9 +1583,17 @@ void CMario::SetState(int state)
 	if(currentscene == SCENE_MAP_1_1)
 	{
 		if (this->state == MARIO_STATE_DIE) return;
-
+		if (this->state == MARIO_END_MAP_STATE) return;
 		switch (state)
 		{
+		case MARIO_END_MAP_STATE:
+		{
+			maxVx = MARIO_WALKING_SPEED;
+			ax = MARIO_ACCEL_WALK_X;
+			nx = 1;
+			isRunning = false;
+			break;
+		}
 		case MARIO_STATE_RUNNING_RIGHT:
 			if (isSitting) break;
 			maxVx = MARIO_RUNNING_SPEED + level_run * MARIO_LEVEL_RUN_SPEED;
@@ -1689,7 +1708,7 @@ void CMario::SetState(int state)
 			ax = 0;
 			start_die = GetTickCount64();
 			break;
-		}
+		}	
 		}
 	}
 	else if (currentscene == SCENE_WORLD_MAP)
