@@ -152,6 +152,7 @@
     <ClCompile Include="Goomba.cpp" />
     <ClCompile Include="Grass.cpp" />
     <ClCompile Include="GreenKoopa.cpp" />
+    <ClCompile Include="HammerEnemy.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="IntroObject.cpp" />
     <ClCompile Include="InvisibleBlock.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="Goomba.h" />
     <ClInclude Include="Grass.h" />
     <ClInclude Include="GreenKoopa.h" />
+    <ClInclude Include="HammerEnemy.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="IntroObject.h" />
     <ClInclude Include="InvisibleBlock.h" />

@@ -156,6 +156,9 @@
     <ClCompile Include="CardRandomBlock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="HammerEnemy.cpp">
+      <Filter>WorldMap</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -301,6 +304,9 @@
     </ClInclude>
     <ClInclude Include="CardRandomBlock.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HammerEnemy.h">
+      <Filter>WorldMap</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -20,6 +20,7 @@ P_Power.txt
 BreakBrickPiece.txt
 HUD.txt
 Grass.txt
+HammerEnemy.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -88,6 +89,8 @@ Grass.txt
 16	255	74
 16	255	90
 16	255	106
+#
+19	180	74
 # MARIO
 0	63	11
 

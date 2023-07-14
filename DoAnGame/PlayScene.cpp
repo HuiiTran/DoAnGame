@@ -26,6 +26,7 @@
 #include "PipeTeleport.h"
 #include "SampleKeyEventHandler.h"
 #include "CardRandomBlock.h"
+#include "HammerEnemy.h"
 #include "Mario.h"
 
 using namespace std;
@@ -156,6 +157,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BLOCKINGOBJECT: obj = new CBlockingObject(x, y); break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
 	case OBJECT_TYPE_KOOPA:	obj = new CKoopa(x, y); break;
+	case OBJECT_TYPE_HAMMER_ENEMIES:	obj = new CHammerEnemy(x, y); break;
 	case OBJECT_TYPE_CARD_BLOCK:	obj = new CCardRandomBlock(x, y); break;
 	case OBJECT_TYPE_GREEN_KOOPA: 
 	{

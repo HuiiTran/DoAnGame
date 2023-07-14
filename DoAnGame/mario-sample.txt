@@ -35,3 +35,4 @@ height	240
 180	textures\Score.png
 190	textures\introscreen.png
 200	textures\gameover.png
+210	textures\Map_flip.png
