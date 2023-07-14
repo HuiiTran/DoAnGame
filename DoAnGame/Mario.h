@@ -445,6 +445,11 @@ public:
 	int GetCard_1() { return this->card_1; }
 	int GetCard_2() { return this->card_2; }
 	int GetCard_3() { return this->card_3; }
+
+	void SetCard_1(int card) { this->card_1 = card; }
+	void SetCard_2(int card) { this->card_2 = card; }
+	void SetCard_3(int card) { this->card_3 = card; }
+
 	int GetDisplayCard() { return this->disPlaycard; }
 
 	void SetisUsingPipe(bool isUsingPipe) { this->isUsingPipe = isUsingPipe; }

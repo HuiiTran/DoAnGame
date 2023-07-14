@@ -89,6 +89,10 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 				mario->SetMScore(0);
 				mario->SetCoin(0);
 				mario->SetLevel(MARIO_LEVEL_SMALL);
+				mario->SetCard_1(0);
+				mario->SetCard_2(0);
+				mario->SetCard_3(0);
+				mario->SetState(MARIO_0_LIFE);
 				break;
 			}
 			default:

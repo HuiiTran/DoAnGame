@@ -1818,10 +1818,23 @@ void CMario::SetState(int state)
 			vx = 0.0f;
 			vy = -MARIO_WORLDMAP_SPEED;
 			break;
-		}case MARIO_GO_DOWN:
+		}
+		case MARIO_GO_DOWN:
 		{
 			vx = 0.0f;
 			vy = MARIO_WORLDMAP_SPEED;
+			break;
+		}
+		case MARIO_0_LIFE:
+		{
+			CData* dataGame = CGame::GetInstance()->GetCData();
+			dataGame->SetCoin(0);
+			dataGame->SetLife(4);
+			dataGame->SetLevel(MARIO_LEVEL_SMALL);
+			dataGame->SetScore(0);
+			dataGame->SetCard_1(0);
+			dataGame->SetCard_2(0);
+			dataGame->SetCard_3(0);
 			break;
 		}
 		default:
