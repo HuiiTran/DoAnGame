@@ -973,8 +973,57 @@ void CMario::OnCollisionWithCardRandomBlock(LPCOLLISIONEVENT e)
 	CCardRandomBlock* cardblock = dynamic_cast<CCardRandomBlock*>(e->obj);
 	if (e->ny > 0)
 	{
+		int cardState = cardblock->GetState();
 		SetState(MARIO_END_MAP_STATE);
 		cardblock->SetisHit(true);
+		if (card_1 == 0)
+		{
+			if (cardState == CARD_FLOWER_STATE)
+			{
+				card_1 = TYPE_CARD_FLOWER;
+			}
+			else if (cardState == CARD_MUSHROOM_STATE)
+			{
+				card_1 = TYPE_CARD_MUSHROOM;
+			}
+			else if (cardState == CARD_STAR_STATE)
+			{
+				card_1 = TYPE_CARD_STAR;
+			}
+			disPlaycard = card_1;
+		}
+		else if (card_2 == 0)
+		{
+			if (cardState == CARD_FLOWER_STATE)
+			{
+				card_2 = TYPE_CARD_FLOWER;
+			}
+			else if (cardState == CARD_MUSHROOM_STATE)
+			{
+				card_2 = TYPE_CARD_MUSHROOM;
+			}
+			else if (cardState == CARD_STAR_STATE)
+			{
+				card_2 = TYPE_CARD_STAR;
+			}
+			disPlaycard = card_2;
+		}
+		else if (card_3 == 0)
+		{
+			if (cardState == CARD_FLOWER_STATE)
+			{
+				card_3 = TYPE_CARD_FLOWER;
+			}
+			else if (cardState == CARD_MUSHROOM_STATE)
+			{
+				card_3 = TYPE_CARD_MUSHROOM;
+			}
+			else if (cardState == CARD_STAR_STATE)
+			{
+				card_3 = TYPE_CARD_STAR;
+			}
+			disPlaycard = card_3;
+		}
 	}
 }
 void CMario::OnCollisionWithBlockObject(LPCOLLISIONEVENT e)
