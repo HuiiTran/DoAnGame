@@ -106,4 +106,9 @@ void CHUD::Render()
 		PrintNumber(Timer / 10 % 10	, x + TIMER_OFFSET_X - TIMER_SPACE_OFFSET_X, y + TIMER_OFFSET_Y);
 		PrintNumber(Timer / 100		, x + TIMER_OFFSET_X - 2 * TIMER_SPACE_OFFSET_X, y + TIMER_OFFSET_Y);
 	}
+
+	if (mario->GetMLife() == 0)
+	{
+		CAnimations::GetInstance()->Get(ID_ANI_GAMEOVER)->Render(x , y - 110);
+	}
 }

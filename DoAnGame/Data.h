@@ -19,6 +19,6 @@ public:
 	int GetLife() { return this->Life; }
 	int GetCoin() { return this->Coin; }
 
-	
+	void ResetGame();
 };
 

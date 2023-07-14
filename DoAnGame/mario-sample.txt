@@ -34,3 +34,4 @@ height	240
 170	textures\goal.png
 180	textures\Score.png
 190	textures\introscreen.png
+200	textures\gameover.png

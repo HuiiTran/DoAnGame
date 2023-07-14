@@ -1603,6 +1603,13 @@ void CMario::SetState(int state)
 			ax = MARIO_ACCEL_WALK_X;
 			nx = 1;
 			isRunning = false;
+
+			CData* dataGame = CGame::GetInstance()->GetCData();
+			dataGame->SetCoin(coin);
+			dataGame->SetLife(MLife);
+			dataGame->SetLevel(level);
+			dataGame->SetScore(MScore);
+			
 			break;
 		}
 		case MARIO_STATE_RUNNING_RIGHT:

@@ -27,7 +27,8 @@
 #define ID_ANI_STAR_CARD		200021
 #define ID_ANI_FLOWER_CARD		200022
 
-
+//gameover
+#define ID_ANI_GAMEOVER	200024
 //offset
 #define HUD_OFFSET_Y 9
 
