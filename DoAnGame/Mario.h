@@ -68,6 +68,8 @@
 #define MARIO_INTRO_STATE	1104
 
 #define MARIO_END_MAP_STATE	1105
+
+#define MARIO_0_LIFE	1106
 //#define MARIO_STATE_HOLDING
 
 #pragma region ANIMATION_ID
@@ -228,6 +230,10 @@
 
 
 #define TIMER_CLOCK	300
+
+#define TYPE_CARD_FLOWER	1
+#define TYPE_CARD_STAR		2
+#define TYPE_CARD_MUSHROOM	3
 //scene id
 
 #define SCENE_INTRO		1
@@ -251,6 +257,10 @@ class CMario : public CGameObject
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
 
+	int card_1;
+	int card_2;
+	int card_3;
+	int disPlaycard;
 
 	int level; 
 	int untouchable; 
@@ -271,6 +281,7 @@ class CMario : public CGameObject
 	ULONGLONG start_die;
 	ULONGLONG start_usingPipe;
 	ULONGLONG start_tailattack;
+	ULONGLONG start_gameover;
 
 	ULONGLONG count_down_1_sec;
 	int coin; 
@@ -371,6 +382,13 @@ public:
 		count_down_1_sec = 0;
 
 		start_die = 0;
+
+		start_gameover = 0;
+
+		card_1 = 0;
+		card_2 = 0;
+		card_3 = 0;
+		disPlaycard = 0;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -402,6 +420,7 @@ public:
 	void SetMScore(int MScore) { this->MScore += MScore; }
 
 	int GetMLife() { return this->MLife; }
+	void SetMLife(int life) { this->MLife = life; }
 
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 	void StartWait() { wait = GetTickCount64(); }
@@ -421,6 +440,12 @@ public:
 	bool GetisOnPlatform() { return this->isOnPlatform; }
 
 	int GetCoin() { return this->coin; }
+	void SetCoin(int coin) { this->coin = coin; }
+
+	int GetCard_1() { return this->card_1; }
+	int GetCard_2() { return this->card_2; }
+	int GetCard_3() { return this->card_3; }
+	int GetDisplayCard() { return this->disPlaycard; }
 
 	void SetisUsingPipe(bool isUsingPipe) { this->isUsingPipe = isUsingPipe; }
 	int GetisUsingPipe() { return this->isUsingPipe; }

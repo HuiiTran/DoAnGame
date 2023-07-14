@@ -34,6 +34,16 @@ void CHUD::PrintNumber(int n, float x, float y)
 		CAnimations::GetInstance()->Get(ID_ANI_NUMBER_9)->Render(x, y);
 }
 
+void CHUD::PrintCard(int n, float x, float y)
+{
+	if(n == TYPE_CARD_MUSHROOM)
+		CAnimations::GetInstance()->Get(ID_ANI_MUSHROOM_CARD)->Render(x, y);
+	if(n == TYPE_CARD_STAR)
+		CAnimations::GetInstance()->Get(ID_ANI_STAR_CARD)->Render(x, y );
+	if(n == TYPE_CARD_FLOWER)
+		CAnimations::GetInstance()->Get(ID_ANI_FLOWER_CARD)->Render(x , y );
+}
+
 void CHUD::Render()
 {
 	int currentscene = CGame::GetInstance()->GetCurrentSceneNumber();
@@ -66,11 +76,19 @@ void CHUD::Render()
 	//NUMBER WORLD
 	CAnimations::GetInstance()->Get(ID_ANI_NUMBER_1)->Render(x - 75, y + 6);
 
-	//card test
-	CAnimations::GetInstance()->Get(ID_ANI_MUSHROOM_CARD)->Render(x + CARD_OFFSET_X_1, y + CARD_OFFSET_Y);
-	CAnimations::GetInstance()->Get(ID_ANI_STAR_CARD)->Render(x + CARD_OFFSET_X_2, y + CARD_OFFSET_Y);
-	CAnimations::GetInstance()->Get(ID_ANI_FLOWER_CARD)->Render(x + CARD_OFFSET_X_3, y + CARD_OFFSET_Y);
-
+	//card 
+	if (mario->GetCard_1() != 0)
+	{
+		PrintCard(mario->GetCard_1(), x + CARD_OFFSET_X_1, y + CARD_OFFSET_Y);
+	}
+	if (mario->GetCard_2() != 0)
+	{
+		PrintCard(mario->GetCard_2(), x + CARD_OFFSET_X_2, y + CARD_OFFSET_Y);
+	}
+	if (mario->GetCard_3() != 0)
+	{
+		PrintCard(mario->GetCard_3(), x + CARD_OFFSET_X_3, y + CARD_OFFSET_Y);
+	}
 
 	//Print coin
 	int coin = mario->GetCoin();
@@ -109,6 +127,13 @@ void CHUD::Render()
 
 	if (mario->GetMLife() == 0)
 	{
-		CAnimations::GetInstance()->Get(ID_ANI_GAMEOVER)->Render(x , y - 110);
+		if(currentscene == SCENE_WORLD_MAP)
+			CAnimations::GetInstance()->Get(ID_ANI_GAMEOVER)->Render(x, y - 110);
+	}
+
+	if (mario->GetState() == MARIO_END_MAP_STATE)
+	{
+		CAnimations::GetInstance()->Get(ID_ANI_END_GAME)->Render(x, y - 170);
+		PrintCard(mario->GetDisplayCard(), x + 60, y - 150);
 	}
 }

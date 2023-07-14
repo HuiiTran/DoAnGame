@@ -32,6 +32,9 @@
 
 #game over
 200024	10	9	127	66	200
+
+#end game state
+200025	4	348	251	420	170
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
 #hud
@@ -62,3 +65,5 @@
 200022	200022	100
 #gameover
 200024	200024	100
+#end game state
+200025	200025	100

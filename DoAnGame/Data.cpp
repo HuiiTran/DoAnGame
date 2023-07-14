@@ -7,9 +7,9 @@ CData::CData()
 
 void CData::ResetGame()
 {
-	Life = 4;
-	Score = 0;
-	Coin = 0;
-	Level = MARIO_LEVEL_SMALL;
+	this->Life = 4;
+	this->Score = 0;
+	this->Coin = 0;
+	this->Level = MARIO_LEVEL_SMALL;
 }
 

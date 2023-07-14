@@ -79,60 +79,80 @@ void CSampleKeyHandler::OnKeyDown(int KeyCode)
 	}
 	else if (currentscene == SCENE_WORLD_MAP)
 	{
-		switch (KeyCode)
+		if (mario->GetMLife() == 0)
 		{
-		case DIK_1:
-			mario->SetLevel(MARIO_LEVEL_SMALL);
-			break;
-		case DIK_2:
-			mario->SetLevel(MARIO_LEVEL_BIG);
-			break;
-		case DIK_3:
-			mario->SetLevel(MARIO_LEVEL_TANOOKI);
-			break;
-		case DIK_O:
-			CGame::GetInstance()->InitiateSwitchScene(2);
-			break;
-		case DIK_LEFT:
-		{
-			if (mario->GetisAllowLeft())
+			switch (KeyCode)
 			{
-				mario->SetState(MARIO_GO_LEFT);
-			}
-			break;
-		}
-		case DIK_RIGHT:
-		{
-			if (mario->GetisAllowRight())
+			case DIK_S:
 			{
-				mario->SetState(MARIO_GO_RIGHT);
+				mario->SetMLife(4);
+				mario->SetMScore(0);
+				mario->SetCoin(0);
+				mario->SetLevel(MARIO_LEVEL_SMALL);
+				break;
 			}
-			break;
+			default:
+				break;
+			}
+			return;
 		}
-		case DIK_UP:
+		else 
 		{
-			if (mario->GetisAllowUp())
+			switch (KeyCode)
 			{
-				mario->SetState(MARIO_GO_UP);
-			}
-			break;
-		}
-		case DIK_DOWN:
-		{
-			if (mario->GetisAllowDown())
+			case DIK_1:
+				mario->SetLevel(MARIO_LEVEL_SMALL);
+				break;
+			case DIK_2:
+				mario->SetLevel(MARIO_LEVEL_BIG);
+				break;
+			case DIK_3:
+				mario->SetLevel(MARIO_LEVEL_TANOOKI);
+				break;
+			case DIK_O:
+				CGame::GetInstance()->InitiateSwitchScene(2);
+				break;
+			case DIK_LEFT:
 			{
-				mario->SetState(MARIO_GO_DOWN);
+				if (mario->GetisAllowLeft())
+				{
+					mario->SetState(MARIO_GO_LEFT);
+				}
+				break;
 			}
-			break;
-		}
-		case DIK_S:
-		{
-			if(mario->GetState() == MARIO_SELECTSTAGE_STATE)
-				CGame::GetInstance()->InitiateSwitchScene(5);
-			break;
-		}
-		default:
-			break;
+			case DIK_RIGHT:
+			{
+				if (mario->GetisAllowRight())
+				{
+					mario->SetState(MARIO_GO_RIGHT);
+				}
+				break;
+			}
+			case DIK_UP:
+			{
+				if (mario->GetisAllowUp())
+				{
+					mario->SetState(MARIO_GO_UP);
+				}
+				break;
+			}
+			case DIK_DOWN:
+			{
+				if (mario->GetisAllowDown())
+				{
+					mario->SetState(MARIO_GO_DOWN);
+				}
+				break;
+			}
+			case DIK_S:
+			{
+				if (mario->GetState() == MARIO_SELECTSTAGE_STATE)
+					CGame::GetInstance()->InitiateSwitchScene(5);
+				break;
+			}
+			default:
+				break;
+			}
 		}
 	}
 	else if (currentscene == SCENE_INTRO)

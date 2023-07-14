@@ -29,6 +29,8 @@
 
 //gameover
 #define ID_ANI_GAMEOVER	200024
+//end game state
+#define ID_ANI_END_GAME	200025
 //offset
 #define HUD_OFFSET_Y 9
 
@@ -68,6 +70,7 @@ public:
 	CHUD(float x, float y);
 
 	void PrintNumber(int n, float x, float y);
+	void PrintCard(int n, float x, float y);
 
 	virtual void Render();
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) {}
