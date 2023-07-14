@@ -6,13 +6,13 @@ void CCardRandomBlock::Render()
 	switch (state)
 	{
 	case CARD_FLOWER_STATE:
-		sprite = ID_SPRITE_FLOWER;
+		sprite = ID_SPRITE_FLOWER_CARD;
 		break;
 	case CARD_STAR_STATE:
-		sprite = ID_SPRITE_STAR;
+		sprite = ID_SPRITE_STAR_CARD;
 		break;
 	case CARD_MUSHROOM_STATE:
-		sprite = ID_SPRITE_MUSHROOM;
+		sprite = ID_SPRITE_MUSHROOM_CARD;
 		break;
 	default:
 		break;

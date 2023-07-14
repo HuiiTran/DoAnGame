@@ -226,6 +226,8 @@
 
 #define ID_ANI_MARIO_INTRO	2999
 
+
+#define TIMER_CLOCK	300
 //scene id
 
 #define SCENE_INTRO		1
@@ -282,7 +284,7 @@ class CMario : public CGameObject
 	bool isAllowUp = 0;
 	bool isAllowDown = 0;
 
-	float startX, startY;
+	float startX = 0, startY = 0;
 	bool isGoingNodeX = false;
 	bool isGoingNodeY = false;
 	////////////
@@ -332,9 +334,9 @@ public:
 		isHolding = false;
 		holdingObject = NULL;
 		if (currentscene == SCENE_MAP_1_1)
-			Timer = 300;
+			Timer = TIMER_CLOCK;
 		else
-			Timer = 301;
+			Timer = TIMER_CLOCK;
 		level = dataGame->GetLevel();//MARIO_LEVEL_BIG;
 		untouchable = 0;
 		untouchable_start = -1;
@@ -353,6 +355,9 @@ public:
 
 		level_run = 0;
 		isRunning = false;
+		start_level_run = 0;
+		start_prepare_run = 0;
+		stop_level_run = 0;
 
 		isFlying = false;
 		start_fly = 0;
@@ -362,6 +367,10 @@ public:
 
 		isTailAttacking = false;
 		start_tailattack = 0;
+
+		count_down_1_sec = 0;
+
+		start_die = 0;
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
