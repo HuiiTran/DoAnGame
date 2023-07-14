@@ -153,6 +153,9 @@
     <ClCompile Include="IntroObject.cpp">
       <Filter>Intro</Filter>
     </ClCompile>
+    <ClCompile Include="CardRandomBlock.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -295,6 +298,9 @@
     </ClInclude>
     <ClInclude Include="IntroObject.h">
       <Filter>Intro</Filter>
+    </ClInclude>
+    <ClInclude Include="CardRandomBlock.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
