@@ -12,6 +12,8 @@
 #define ID_SPRITE_STAR		120031
 #define ID_SPRITE_MUSHROOM	120032
 
+#define SHOWING_TIME	200
+
 class CCardRandomBlock : public CGameObject
 {
 protected:
@@ -23,6 +25,7 @@ public:
 	{
 		isHit = false;
 		showing_start = 0;
+		SetState(CARD_FLOWER_STATE);
 	}
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

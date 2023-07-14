@@ -25,6 +25,7 @@
 #include "Node.h"
 #include "PipeTeleport.h"
 #include "SampleKeyEventHandler.h"
+#include "CardRandomBlock.h"
 #include "Mario.h"
 
 using namespace std;
@@ -155,6 +156,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BLOCKINGOBJECT: obj = new CBlockingObject(x, y); break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x,y); break;
 	case OBJECT_TYPE_KOOPA:	obj = new CKoopa(x, y); break;
+	case OBJECT_TYPE_CARD_BLOCK:	obj = new CCardRandomBlock(x, y); break;
 	case OBJECT_TYPE_GREEN_KOOPA: 
 	{
 		bool isHaveWing = (bool)atoi(tokens[3].c_str());

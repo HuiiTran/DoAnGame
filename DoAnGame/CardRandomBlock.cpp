@@ -17,23 +17,29 @@ void CCardRandomBlock::Render()
 	default:
 		break;
 	}
+	if(isHit == false)
+	{
+		CSprites* sprites = CSprites::GetInstance();
+		sprites->Get(sprite)->Draw(x, y);
+	}
+	
 }
 
 void CCardRandomBlock::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	if (state == CARD_FLOWER_STATE && GetTickCount64() - showing_start > 100)
+	if (state == CARD_FLOWER_STATE && GetTickCount64() - showing_start > SHOWING_TIME)
 	{
 		showing_start = 0;
 		SetState(CARD_MUSHROOM_STATE);
 		
 	}
-	if (state == CARD_STAR_STATE && GetTickCount64() - showing_start > 100)
+	if (state == CARD_STAR_STATE && GetTickCount64() - showing_start > SHOWING_TIME)
 	{
 		showing_start = 0;
 		SetState(CARD_FLOWER_STATE);
 		
 	}
-	if (state == CARD_MUSHROOM_STATE && GetTickCount64() - showing_start > 100)
+	if (state == CARD_MUSHROOM_STATE && GetTickCount64() - showing_start > SHOWING_TIME)
 	{
 		showing_start = 0;
 		SetState(CARD_STAR_STATE);
