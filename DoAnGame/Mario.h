@@ -304,6 +304,7 @@ class CMario : public CGameObject
 	void OnCollisionWithPipeTeleport(LPCOLLISIONEVENT e);
 	void OnCollisionWithBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithCardRandomBlock(LPCOLLISIONEVENT e);
+	void OnCollisionWithBlockObject(LPCOLLISIONEVENT e);
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdTanooki();

@@ -26,6 +26,7 @@
 #include "BreakBrickPiece.h"
 #include "PlayScene.h"
 #include "CardRandomBlock.h"
+#include "BlockingObject.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -340,11 +341,12 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 			if (e->ny < 0) isOnPlatform = true;
 		}
 		else
+		{
 			if (e->nx != 0 && e->obj->IsBlocking())
 			{
 				vx = 0;
 			}
-
+		}
 		if (dynamic_cast<CGoomba*>(e->obj))
 			OnCollisionWithGoomba(e);
 		else if (dynamic_cast<CCoin*>(e->obj))
@@ -379,6 +381,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 			OnCollisionWithBrick(e);
 		else if (dynamic_cast<CCardRandomBlock*>(e->obj))
 			OnCollisionWithCardRandomBlock(e);
+		else if (dynamic_cast<CBlockingObject*>(e->obj))
+			OnCollisionWithBlockObject(e);
 	}
 	else if (currentscene == SCENE_WORLD_MAP || currentscene == SCENE_INTRO)
 	{
@@ -966,10 +970,17 @@ void CMario::OnCollisionWithPipeTeleport(LPCOLLISIONEVENT e)
 
 void CMario::OnCollisionWithCardRandomBlock(LPCOLLISIONEVENT e)
 {
+	CCardRandomBlock* cardblock = dynamic_cast<CCardRandomBlock*>(e->obj);
 	if (e->ny > 0)
 	{
 		SetState(MARIO_END_MAP_STATE);
+		cardblock->SetisHit(true);
 	}
+}
+void CMario::OnCollisionWithBlockObject(LPCOLLISIONEVENT e)
+{
+	if (state == MARIO_END_MAP_STATE)
+		return;
 }
 
 void CMario::OnCollisionWithFireBall(LPCOLLISIONEVENT e)
