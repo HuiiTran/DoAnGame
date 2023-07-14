@@ -305,6 +305,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	//Timer
 	if (Timer > 0 && currentscene == SCENE_MAP_1_1)
 	{
+		if (GetState() == MARIO_END_MAP_STATE)
+		{
+			if (GetTickCount64() - count_down_1_sec > 10) // 1 second
+			{
+				Timer--;
+				count_down_1_sec = GetTickCount64();
+				MScore += 5;
+			}
+		}
 		if(!isChanging || state != MARIO_STATE_DIE)
 		{
 			if (GetTickCount64() - count_down_1_sec > 1000) // 1 second
@@ -652,7 +661,10 @@ void CMario::OnCollisionWithGreenKoopa(LPCOLLISIONEVENT e)
 			{
 				greenkoopa->SetState(GREEN_KOOPA_STATE_WALKING);
 				greenkoopa->SetIsHaveWing(false);
-				vy = -MARIO_JUMP_DEFLECT_SPEED;
+				if (isFlying)
+					vy = -MARIO_JUMP_DEFLECT_SPEED / 2;
+				else
+					vy = -MARIO_JUMP_DEFLECT_SPEED;
 			}
 			else
 			{
@@ -958,6 +970,17 @@ void CMario::OnCollisionWithBrick(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 {
 	CPortal* p = (CPortal*)e->obj;
+	
+	CData* dataGame = CGame::GetInstance()->GetCData();
+	dataGame->SetCoin(coin);
+	dataGame->SetLife(MLife);
+	dataGame->SetLevel(level);
+	dataGame->SetScore(MScore);
+
+	dataGame->SetCard_1(card_1);
+	dataGame->SetCard_2(card_2);
+	dataGame->SetCard_3(card_3);
+
 	CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
 }
 void CMario::OnCollisionWithPipeTeleport(LPCOLLISIONEVENT e)
@@ -1677,6 +1700,10 @@ void CMario::SetState(int state)
 			dataGame->SetLife(MLife);
 			dataGame->SetLevel(level);
 			dataGame->SetScore(MScore);
+
+			dataGame->SetCard_1(card_1);
+			dataGame->SetCard_2(card_2);
+			dataGame->SetCard_3(card_3);
 			
 			break;
 		}

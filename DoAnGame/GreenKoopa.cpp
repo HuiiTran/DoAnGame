@@ -28,6 +28,7 @@ CGreenKoopa::CGreenKoopa(float x, float y, bool isHaveWing ) : CGameObject(x,y)
 	isFlip = false;
 	beginX = x;
 	beginY = y;
+	beginIsHaveWing = isHaveWing;
 	if(!isHaveWing)
 		SetState(GREEN_KOOPA_STATE_WALKING);
 	else
@@ -288,6 +289,10 @@ void CGreenKoopa::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 void CGreenKoopa::OnCollisionWithInvisibleBlock(LPCOLLISIONEVENT e)
 {
 	this->SetPosition(beginX, beginY);
+	if (beginIsHaveWing == true)
+		SetState(GREEN_KOOPA_STATE_FLY_DOWN);
+	else
+		SetState(GREEN_KOOPA_STATE_WALKING);
 }
 
 void CGreenKoopa::OnCollisionWithVenusFireTrap(LPCOLLISIONEVENT e)
@@ -415,6 +420,7 @@ void CGreenKoopa::SetState(int state)
 	case GREEN_KOOPA_STATE_SHELL:
 		vx = 0;
 		vy = 0;
+		ay = GREEN_KOOPA_GRAVITY;
 		respawn_start = GetTickCount64();
 		break;
 	case GREEN_KOOPA_STATE_SHELL_FLIP:

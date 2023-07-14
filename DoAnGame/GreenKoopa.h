@@ -63,6 +63,7 @@ protected:
 	bool isHaveWing;
 
 	float beginX, beginY;
+	bool beginIsHaveWing;
 
 	int mario_level;
 	bool isRespawning;
