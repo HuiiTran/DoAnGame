@@ -81,9 +81,9 @@ void CKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 			OnCollisionWithKoopa(e);
 		}
 	}
-	/*if (dynamic_cast<CInvisibleBlock*>(e->obj) && state == KOOPA_STATE_WALKING) {
+	if (dynamic_cast<CInvisibleBlock*>(e->obj)) {
 		OnCollisionWithInvisibleBlock(e);
-	}*/
+	}
 
 	if (!e->obj->IsBlocking()) return;
 	
@@ -227,15 +227,12 @@ void CKoopa::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 	}
 }
 
-//void CKoopa::OnCollisionWithInvisibleBlock(LPCOLLISIONEVENT e)
-//{
-//	CInvisibleBlock* invisible = dynamic_cast<CInvisibleBlock*>(e->obj);
-//	if (this->state != KOOPA_STATE_SHELL || this->state != KOOPA_STATE_SHELL_SCROLL || this->state != KOOPA_STATE_SHELL_HOLD)
-//	{
-//		this->SetState(KOOPA_STATE_CHANGE_DIRECT);
-//	}
-//
-//}
+void CKoopa::OnCollisionWithInvisibleBlock(LPCOLLISIONEVENT e)
+{
+	CInvisibleBlock* invisible = dynamic_cast<CInvisibleBlock*>(e->obj);
+	this->isDeleted = true;
+
+}
 void CKoopa::OnCollisionWithVenusFireTrap(LPCOLLISIONEVENT e)
 {
 	float Tx, Ty;
@@ -383,7 +380,7 @@ void CKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CKoopa::Render()
 {
-	fallwarning->RenderBoundingBox();
+	//fallwarning->RenderBoundingBox();
 	int aniId = -1;
 
 	switch (state)

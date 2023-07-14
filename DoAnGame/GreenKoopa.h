@@ -62,6 +62,8 @@ protected:
 	bool isFlip;
 	bool isHaveWing;
 
+	float beginX, beginY;
+
 	int mario_level;
 	bool isRespawning;
 	bool isHolded;
@@ -84,7 +86,7 @@ protected:
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithFlyGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e);
-	//void OnCollisionWithInvisibleBlock(LPCOLLISIONEVENT e);
+	void OnCollisionWithInvisibleBlock(LPCOLLISIONEVENT e);
 	void OnCollisionWithVenusFireTrap(LPCOLLISIONEVENT e);
 	void OnCollisionWithPiranhaPlant(LPCOLLISIONEVENT e);
 	void OnCollisionWithBrick(LPCOLLISIONEVENT e);

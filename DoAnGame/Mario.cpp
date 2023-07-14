@@ -1650,7 +1650,7 @@ void CMario::Render()
 		animations->Get(aniId)->Render(x, y);
 	}
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 	
 
 }

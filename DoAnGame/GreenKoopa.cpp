@@ -26,6 +26,8 @@ CGreenKoopa::CGreenKoopa(float x, float y, bool isHaveWing ) : CGameObject(x,y)
 	isHolded = false;
 	mario_level = 1;
 	isFlip = false;
+	beginX = x;
+	beginY = y;
 	if(!isHaveWing)
 		SetState(GREEN_KOOPA_STATE_WALKING);
 	else
@@ -138,7 +140,9 @@ void CGreenKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 			OnCollisionWithGreenKoopa(e);
 		}
 	}
-	
+	if (dynamic_cast<CInvisibleBlock*>(e->obj)) {
+		OnCollisionWithInvisibleBlock(e);
+	}
 	if (!e->obj->IsBlocking()) return;
 
 	if (e->ny != 0)
@@ -279,6 +283,11 @@ void CGreenKoopa::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 			newbrick->SetPosition(questionbrick_x, questionbrick_y - QUESTIONBRICK_UP);
 		}
 	}
+}
+
+void CGreenKoopa::OnCollisionWithInvisibleBlock(LPCOLLISIONEVENT e)
+{
+	this->SetPosition(beginX, beginY);
 }
 
 void CGreenKoopa::OnCollisionWithVenusFireTrap(LPCOLLISIONEVENT e)
